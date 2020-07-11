@@ -12,7 +12,6 @@ import {
   FIREBASE_MEASUREMENT_ID,
 } from '@env';
 
-//TODO: Move this values to .env file
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
