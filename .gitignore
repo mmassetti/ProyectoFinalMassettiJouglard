@@ -60,3 +60,4 @@ buck-out/
 /ios/Pods/
 
 /android/openCVLibrary349
+.env*
