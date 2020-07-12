@@ -57,7 +57,6 @@ export class GalleryCamera extends Component {
   };
 
   async routeToImageView(originalImgModel) {
-    const now = Date.now();
     const {
       img,
       //TODO: Encapsulate percentages in one object
@@ -65,7 +64,6 @@ export class GalleryCamera extends Component {
       percentageYellow,
       percentageNaked,
     } = await this.imageProcessor.processImage(originalImgModel.uri);
-    console.log('Elapsed time: ', Date.now() - now, 'ms');
     this.setState({
       loading: false,
     });
