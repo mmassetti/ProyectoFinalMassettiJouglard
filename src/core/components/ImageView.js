@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import {options, switchConfig} from '../../configuration';
-import {ImageProcessor, ImageWithAdjustment} from '../../shared';
+import {
+  ImageProcessor,
+  ImageWithAdjustment,
+  FirebaseService,
+  CloudinaryService,
+} from '../../shared';
 import {Percentages} from './Percentages';
-import {CloudinaryService} from '../../shared/services/cloudinaryService';
 
 export class ImageView extends Component {
   imageProcessor;
@@ -20,6 +24,7 @@ export class ImageView extends Component {
     this.originalImage = this.state.originalImage.clone();
     this.imageProcessor = ImageProcessor.getInstance();
     this.cloudinaryService = CloudinaryService.getInstance();
+    this.firebaseService = FirebaseService.getInstance();
   }
 
   render() {
@@ -57,7 +62,7 @@ export class ImageView extends Component {
       'file://' + newUri,
     );
 
-    this.setState(prevState => {
+    this.setState(async prevState => {
       let newState = {
         ...prevState,
       };
@@ -67,9 +72,15 @@ export class ImageView extends Component {
       newState.percentageYellow = nativeReponse.percentageYellow;
       newState.percentageNaked = nativeReponse.percentageNaked;
 
-      this.cloudinaryService.uploadPhoto(
-        `data:image/png;base64,${newState.processedImage.getData()}`,
-      );
+      // // const uri = await this.cloudinaryService.uploadPhoto(
+      // //   `data:image/png;base64,${newState.processedImage.getData()}`,
+      // // );
+      // const uri = await this.cloudinaryService.uploadPhoto(
+      //   newState.originalImage.getUri(),
+      // );
+      // if (uri != null) {
+      //   this.firebaseService.uploadPhoto(uri);
+      // }
       return newState;
     });
   };
