@@ -4,10 +4,12 @@ import SwitchSelector from 'react-native-switch-selector';
 import {options, switchConfig} from '../../configuration';
 import {ImageProcessor, ImageWithAdjustment} from '../../shared';
 import {Percentages} from './Percentages';
+import {CloudinaryService} from '../../shared/services/cloudinaryService';
 
 export class ImageView extends Component {
   imageProcessor;
   originalImage;
+  cloudinaryService;
 
   constructor(props) {
     super(props);
@@ -17,6 +19,7 @@ export class ImageView extends Component {
     };
     this.originalImage = this.state.originalImage.clone();
     this.imageProcessor = ImageProcessor.getInstance();
+    this.cloudinaryService = CloudinaryService.getInstance();
   }
 
   render() {
@@ -64,6 +67,9 @@ export class ImageView extends Component {
       newState.percentageYellow = nativeReponse.percentageYellow;
       newState.percentageNaked = nativeReponse.percentageNaked;
 
+      // this.cloudinaryService.uploadPhoto(
+      //   `data:image/png;base64,${newState.processedImage.getData()}`,
+      // );
       return newState;
     });
   };
