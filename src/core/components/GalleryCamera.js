@@ -44,17 +44,16 @@ export class GalleryCamera extends Component {
   }
 
   launch = picker => async () => {
-    console.log('entro al launch');
-    // this.setState({loading: true});
-    // try {
-    //   const {uri, data, width, height} = await this.picker[
-    //     'getImageFrom' + picker
-    //   ]();
-    //   let imgModel = new ImageModel(data, height, width, uri);
-    //   this.routeToImageView(imgModel);
-    // } catch (error) {
-    //   this.setState({loading: false});
-    // }
+    this.setState({loading: true});
+    try {
+      const {uri, data, width, height} = await this.picker[
+        'getImageFrom' + picker
+      ]();
+      let imgModel = new ImageModel(data, height, width, uri);
+      this.routeToImageView(imgModel);
+    } catch (error) {
+      this.setState({loading: false});
+    }
   };
 
   async routeToImageView(originalImgModel) {
@@ -89,6 +88,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#20d2bb',
   },
 });
