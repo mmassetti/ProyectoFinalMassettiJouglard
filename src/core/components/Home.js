@@ -44,12 +44,7 @@ export class Home extends Component {
   }
 
   launch = picker => async () => {
-    // this.setState({loading: true});
-    try {
-      Alert.alert('Ir al componente: ', picker);
-    } catch (error) {
-      this.setState({loading: false});
-    }
+    this.props.navigation.navigate('GalleryCamera', {});
   };
 }
 

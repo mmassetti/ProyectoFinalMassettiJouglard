@@ -44,16 +44,17 @@ export class GalleryCamera extends Component {
   }
 
   launch = picker => async () => {
-    this.setState({loading: true});
-    try {
-      const {uri, data, width, height} = await this.picker[
-        'getImageFrom' + picker
-      ]();
-      let imgModel = new ImageModel(data, height, width, uri);
-      this.routeToImageView(imgModel);
-    } catch (error) {
-      this.setState({loading: false});
-    }
+    console.log('entro al launch');
+    // this.setState({loading: true});
+    // try {
+    //   const {uri, data, width, height} = await this.picker[
+    //     'getImageFrom' + picker
+    //   ]();
+    //   let imgModel = new ImageModel(data, height, width, uri);
+    //   this.routeToImageView(imgModel);
+    // } catch (error) {
+    //   this.setState({loading: false});
+    // }
   };
 
   async routeToImageView(originalImgModel) {

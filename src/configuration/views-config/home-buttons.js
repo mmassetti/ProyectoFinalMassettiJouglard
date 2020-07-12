@@ -5,7 +5,7 @@ export const homeButtons = [
       name: 'upload',
       type: 'AntDesign',
     },
-    type: 'CalculateImagePercentages',
+    type: 'SimpleImageProcessing',
   },
   {
     text: 'CREAR NUEVA SESION DE FOTOS',

@@ -8,6 +8,7 @@ import {ImageView} from './src/core/components/ImageView';
 import AsyncStorage from '@react-native-community/async-storage';
 import {mainThemeColor} from './src/configuration';
 import {StyleSheet, TouchableOpacity} from 'react-native';
+import {GalleryCamera} from './src/core/components/GalleryCamera';
 
 const Stack = createStackNavigator();
 class App extends PureComponent {
@@ -61,6 +62,13 @@ class App extends PureComponent {
               component={ImageView}
               options={{
                 title: 'Imagen',
+              }}
+            />
+            <Stack.Screen
+              name="GalleryCamera"
+              component={GalleryCamera}
+              options={{
+                title: 'Procesar imagen',
               }}
             />
           </Stack.Navigator>
