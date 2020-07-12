@@ -1,21 +1,7 @@
-import {
-  Container,
-  Content,
-  Spinner,
-  Header,
-  Card,
-  CardItem,
-  Text,
-  Icon,
-  Right,
-  Thumbnail,
-  Button,
-  Left,
-  Body,
-} from 'native-base';
+import {Container, Content, Spinner} from 'native-base';
 
 import React, {Component} from 'react';
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {mainThemeColor, homeButtons} from '../../configuration';
 import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
 
@@ -32,38 +18,15 @@ export class Home extends Component {
     };
   }
 
-  goToItem() {
-    alert('llevame a la vista de la sesion por favor');
-  }
-
   render() {
     return (
       <Container>
-        <Header />
-        <Content>
-          <Card>
-            <CardItem button onPress={this.goToItem}>
-              <Icon active name="logo-googleplus" />
-              <Text>Google Plus</Text>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem>
-              <Icon active name="logo-googleplus" />
-              <Text>Google Plus</Text>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem>
-              <Icon active name="logo-googleplus" />
-              <Text>Google Plus</Text>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-          </Card>
+        <Content contentContainerStyle={styles.container}>
+          {this.state.loading ? (
+            <Spinner color={mainThemeColor(1)} />
+          ) : (
+            <>{this.getHomeButtons()}</>
+          )}
         </Content>
       </Container>
     );
@@ -79,6 +42,15 @@ export class Home extends Component {
       />
     ));
   }
+
+  launch = picker => async () => {
+    // this.setState({loading: true});
+    try {
+      Alert.alert('Ir al componente: ', picker);
+    } catch (error) {
+      this.setState({loading: false});
+    }
+  };
 }
 
 const styles = StyleSheet.create({

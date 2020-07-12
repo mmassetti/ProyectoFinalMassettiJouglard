@@ -1,7 +1,7 @@
 import {Container, Content, Spinner} from 'native-base';
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import {mainThemeColor, homeButtons} from '../../configuration';
+import {mainThemeColor, galleryCameraButtons} from '../../configuration';
 import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
 import {ImageModel} from '../../shared/models/ImageModel.js';
 
@@ -25,15 +25,15 @@ export class GalleryCamera extends Component {
           {this.state.loading ? (
             <Spinner color={mainThemeColor(1)} />
           ) : (
-            <>{this.getHomeButtons()}</>
+            <>{this.getGalleryCameraButtons()}</>
           )}
         </Content>
       </Container>
     );
   }
 
-  getHomeButtons() {
-    return homeButtons.map((button, index) => (
+  getGalleryCameraButtons() {
+    return galleryCameraButtons.map((button, index) => (
       <HomeCard
         key={index}
         onPress={this.launch(button.type)}

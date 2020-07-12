@@ -1,18 +1,26 @@
 export const homeButtons = [
   {
-    text: 'SELECCIONAR UNA FOTO DE LA GALERÍA',
+    text: 'PROCESAR IMAGEN SIMPLE',
     icon: {
       name: 'upload',
       type: 'AntDesign',
     },
-    type: 'Gallery',
+    type: 'CalculateImagePercentages',
   },
   {
-    text: 'TOMAR UNA FOTO CON LA CÁMARA',
+    text: 'CREAR NUEVA SESION DE FOTOS',
     icon: {
       name: 'camera-retro',
       type: 'FontAwesome5',
     },
-    type: 'Camera',
+    type: 'NewSession',
+  },
+  {
+    text: 'VER SESIONES EXISTENTES',
+    icon: {
+      name: 'camera-retro',
+      type: 'FontAwesome5',
+    },
+    type: 'SessionsList',
   },
 ];
