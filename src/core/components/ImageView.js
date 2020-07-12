@@ -67,6 +67,9 @@ export class ImageView extends Component {
       newState.percentageYellow = nativeReponse.percentageYellow;
       newState.percentageNaked = nativeReponse.percentageNaked;
 
+      this.cloudinaryService.uploadPhoto(
+        `data:image/png;base64,${newState.processedImage.getData()}`,
+      );
       return newState;
     });
   };

@@ -25,11 +25,9 @@ export class CloudinaryService {
     fetch('https://api.cloudinary.com/v1_1/proyectointauns/image/upload', {
       method: 'POST',
       body: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-    }).then(console.log);
+    }).then(response => {
+      console.log('URL: ', response);
+    });
   }
 
   getSignature(timestamp, secret) {
