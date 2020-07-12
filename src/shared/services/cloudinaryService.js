@@ -25,9 +25,9 @@ export class CloudinaryService {
     fetch('https://api.cloudinary.com/v1_1/proyectointauns/image/upload', {
       method: 'POST',
       body: data,
-    }).then(response => {
-      console.log('URL: ', response);
-    });
+    })
+      .then(response => response.json())
+      .then(({secure_url}) => secure_url);
   }
 
   getSignature(timestamp, secret) {
