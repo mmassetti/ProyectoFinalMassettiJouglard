@@ -1,9 +1,9 @@
 import {Container, Content, Spinner} from 'native-base';
+
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {mainThemeColor, homeButtons} from '../../configuration';
 import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
-import {ImageModel} from '../../shared/models/ImageModel.js';
 
 export class Home extends Component {
   picker;
@@ -44,45 +44,8 @@ export class Home extends Component {
   }
 
   launch = picker => async () => {
-    this.setState({loading: true});
-    try {
-      const {uri, data, width, height} = await this.picker[
-        'getImageFrom' + picker
-      ]();
-      let imgModel = new ImageModel(data, height, width, uri);
-      this.routeToImageView(imgModel);
-    } catch (error) {
-      this.setState({loading: false});
-    }
+    this.props.navigation.navigate('GalleryCamera', {});
   };
-
-  async routeToImageView(originalImgModel) {
-    const now = Date.now();
-    const {
-      img,
-      //TODO: Encapsulate percentages in one object
-      percentageGreen,
-      percentageYellow,
-      percentageNaked,
-    } = await this.imageProcessor.processImage(originalImgModel.uri);
-    console.log('Elapsed time: ', Date.now() - now, 'ms');
-    this.setState({
-      loading: false,
-    });
-
-    this.props.navigation.navigate('Imagen', {
-      originalImage: originalImgModel,
-      processedImage: new ImageModel(
-        img,
-        originalImgModel.height,
-        originalImgModel.width,
-      ),
-      shouldRotate: originalImgModel.width < originalImgModel.height,
-      percentageGreen: percentageGreen,
-      percentageYellow: percentageYellow,
-      percentageNaked: percentageNaked,
-    });
-  }
 }
 
 const styles = StyleSheet.create({
