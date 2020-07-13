@@ -5,7 +5,7 @@ import {mainThemeColor, galleryCameraButtons} from '../../configuration';
 import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
 import {ImageModel} from '../../shared/models/ImageModel.js';
 
-export class GalleryCamera extends Component {
+export default class GalleryCamera extends Component {
   picker;
   imageProcessor;
 
