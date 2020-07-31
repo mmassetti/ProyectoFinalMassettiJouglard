@@ -5,12 +5,14 @@ import {options, switchConfig} from '../../configuration';
 import {
   ImageProcessor,
   ImageWithAdjustment,
-  FirebaseService,
-  CloudinaryService,
+  withCloudinary,
+  withFirebase,
 } from '../../shared';
 import {Percentages} from './Percentages';
 
-export class ImageView extends Component {
+export default withCloudinary(withFirebase(ImageView));
+
+class ImageView extends Component {
   imageProcessor;
   originalImage;
   cloudinaryService;
@@ -23,8 +25,7 @@ export class ImageView extends Component {
     };
     this.originalImage = this.state.originalImage.clone();
     this.imageProcessor = ImageProcessor.getInstance();
-    this.cloudinaryService = CloudinaryService.getInstance();
-    this.firebaseService = FirebaseService.getInstance();
+    this.cloudinaryService = props.cloudinaryService;
   }
 
   render() {

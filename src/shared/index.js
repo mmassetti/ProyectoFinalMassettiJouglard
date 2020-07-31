@@ -7,3 +7,5 @@ export {FirebaseService} from './services/firebaseService';
 export {CloudinaryService} from './services/cloudinaryService';
 export {CustomImage} from './components/CustomNativeImage';
 export {ImageWithAdjustment} from './components/ImageWithButton';
+export {withCloudinary} from './components/WithCloudinary';
+export {withFirebase} from './components/WithFirebase';
