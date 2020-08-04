@@ -10,12 +10,10 @@ import {
 } from '../../shared';
 import {Percentages} from './Percentages';
 
-export default withCloudinary(withFirebase(ImageView));
+export default withImageProcessing(withCloudinary(withFirebase(ImageView)));
 
 class ImageView extends Component {
-  imageProcessor;
   originalImage;
-  cloudinaryService;
 
   constructor(props) {
     super(props);
@@ -24,8 +22,6 @@ class ImageView extends Component {
       ...this.props.route.params,
     };
     this.originalImage = this.state.originalImage.clone();
-    this.imageProcessor = ImageProcessor.getInstance();
-    this.cloudinaryService = props.cloudinaryService;
   }
 
   render() {
@@ -59,7 +55,7 @@ class ImageView extends Component {
   }
 
   updateOriginalImage = async newUri => {
-    let nativeReponse = await this.imageProcessor.processImage(
+    let nativeReponse = await this.props.imageProcessor.processImage(
       'file://' + newUri,
     );
 
@@ -87,7 +83,7 @@ class ImageView extends Component {
   };
 
   getImage() {
-    let sourceOfImage = this.state.showOriginal
+    let sourceOfImage = props.state.showOriginal
       ? this.state.originalImage
       : this.state.processedImage;
     return sourceOfImage;
