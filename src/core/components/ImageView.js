@@ -7,6 +7,7 @@ import {
   ImageWithAdjustment,
   withCloudinary,
   withFirebase,
+  withImageProcessing,
 } from '../../shared';
 import {Percentages} from './Percentages';
 

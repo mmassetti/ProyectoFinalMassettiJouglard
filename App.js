@@ -20,9 +20,8 @@ function App() {
 
   useEffect(async () => {
     let oldUser = await AsyncStorage.getItem('@OldUser');
-    this.setState({
-      showRealApp: oldUser,
-    });
+    setShowApp(oldUser);
+    return null;
   }, []);
 
   const hideTour = show => () => {
@@ -30,7 +29,7 @@ function App() {
     AsyncStorage.setItem('@OldUser', 'true');
   };
 
-  if (this.state.showRealApp) {
+  if (showRealApp) {
     return (
       <StateContext.Provider value={{state, dispatcher}}>
         <Main />
@@ -77,10 +76,10 @@ function App() {
       //   </NavigationContainer>
     );
   } else {
-    if (this.state.showRealApp === false) {
+    if (showRealApp === false) {
       return null;
     } else {
-      return <Tour onDone={this.hideTour(true)} />;
+      return <Tour onDone={hideTour(true)} />;
     }
   }
 }

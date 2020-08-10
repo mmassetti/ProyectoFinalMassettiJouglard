@@ -1,10 +1,8 @@
 import {Container, Content, Spinner} from 'native-base';
-
 import React, {Component} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 import {mainThemeColor, homeButtons} from '../../configuration';
 import {HomeCard, withImageProcessing, withImagePicker} from '../../shared';
-import {withImageProcessing} from '../../shared/components/WithImageProcessing';
 
 class Home extends Component {
   constructor(props) {
