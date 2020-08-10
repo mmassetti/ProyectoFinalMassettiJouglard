@@ -8,14 +8,13 @@ function SessionsList({firebaseService}) {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(async () => {
-    const sessions = await firebaseService.getAllSessions();
-    console.log('SessionsList -> sessions', sessions);
+  useEffect(() => {
+    firebaseService.getAllSessions().then(sessions => {
+      setSessions(sessions.map(session => session.data()));
+    });
 
-    setSessions(sessions);
-
-    return null;
-  });
+    return () => {};
+  }, []);
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
