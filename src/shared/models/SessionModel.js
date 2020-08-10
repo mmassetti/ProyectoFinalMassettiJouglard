@@ -9,7 +9,7 @@ export class SessionModel {
     this.description = description;
   }
 
-  setCreatorUser(user) {
+  setUser(user) {
     this.user = user;
   }
 
