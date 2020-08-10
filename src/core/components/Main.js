@@ -1,4 +1,4 @@
-import SessionsList from './SessionsList';
+import SessionsList from './sessions/SessionsList';
 import NewSession from './NewSession';
 import GalleryCamera from './GalleryCamera';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
