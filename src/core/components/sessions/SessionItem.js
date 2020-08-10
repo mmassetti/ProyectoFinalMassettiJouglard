@@ -3,5 +3,11 @@ import {Text} from 'react-native';
 
 export default function SessionItem({item}) {
   console.log('Props', item);
-  return <Text>hola</Text>;
+  return (
+    <>
+      <Text>Descripcion: {item.description}</Text>
+      <Text>Usuario: {item.user}</Text>
+      <Text>Fecha: {item.date.toDate().toISOString()}</Text>
+    </>
+  );
 }

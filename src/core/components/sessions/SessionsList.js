@@ -12,8 +12,6 @@ function SessionsList({firebaseService}) {
     firebaseService.getAllSessions().then(sessions => {
       setSessions(sessions.map(session => session.data()));
     });
-
-    return () => {};
   }, []);
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
