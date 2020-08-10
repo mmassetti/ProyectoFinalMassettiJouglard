@@ -5,8 +5,6 @@ import {mainThemeColor, galleryCameraButtons} from '../../configuration';
 import {HomeCard, withImagePicker, withImageProcessing} from '../../shared';
 import {ImageModel} from '../../shared/models/ImageModel.js';
 
-export default withImagePicker(withImageProcessing(GalleryCamera));
-
 class GalleryCamera extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +78,7 @@ class GalleryCamera extends Component {
   }
 }
 
+export default withImagePicker(withImageProcessing(GalleryCamera));
 const styles = StyleSheet.create({
   container: {
     flex: 1,
