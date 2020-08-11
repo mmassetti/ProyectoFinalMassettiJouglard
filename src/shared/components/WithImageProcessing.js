@@ -5,8 +5,8 @@ export function withImageProcessing(WrappedComponent) {
   return function WithImageProcessing(props) {
     return (
       <WrappedComponent
-        imageProcessor={ImageProcessor.getInstance()}
         {...props}
+        imageProcessor={ImageProcessor.getInstance()}
       />
     );
   };

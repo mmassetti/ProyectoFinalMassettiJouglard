@@ -1,3 +1,4 @@
+import React from 'react';
 import {CloudinaryService} from '../services/cloudinaryService';
 
 export function withCloudinary(WrappedComponent) {

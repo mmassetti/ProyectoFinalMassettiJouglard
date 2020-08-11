@@ -3,15 +3,12 @@ import {StyleSheet, View} from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import {options, switchConfig} from '../../configuration';
 import {
-  ImageProcessor,
   ImageWithAdjustment,
   withCloudinary,
   withFirebase,
   withImageProcessing,
 } from '../../shared';
 import {Percentages} from './Percentages';
-
-export default withImageProcessing(withCloudinary(withFirebase(ImageView)));
 
 class ImageView extends Component {
   originalImage;
@@ -20,7 +17,7 @@ class ImageView extends Component {
     super(props);
     this.state = {
       showOriginal: false,
-      ...this.props.route.params,
+      ...this.props.navigation.state.params,
     };
     this.originalImage = this.state.originalImage.clone();
   }
@@ -43,7 +40,7 @@ class ImageView extends Component {
         <ImageWithAdjustment
           onImageAdjusted={this.updateOriginalImage}
           imageToEdit={this.originalImage}
-          shouldRotate={this.props.route.params.shouldRotate}
+          shouldRotate={this.props.navigation.state.params.shouldRotate}
           imageToShow={this.getImage()}
         />
         <Percentages
@@ -84,12 +81,14 @@ class ImageView extends Component {
   };
 
   getImage() {
-    let sourceOfImage = props.state.showOriginal
+    let sourceOfImage = this.state.showOriginal
       ? this.state.originalImage
       : this.state.processedImage;
     return sourceOfImage;
   }
 }
+
+export default withImageProcessing(withCloudinary(withFirebase(ImageView)));
 
 const styles = StyleSheet.create({
   container: {

@@ -28,46 +28,6 @@ function App() {
       <StateContext.Provider value={{state, dispatcher}}>
         <Main />
       </StateContext.Provider>
-      //   <NavigationContainer>
-      //     <Stack.Navigator
-      //       initialRouteName="Home"
-      //       screenOptions={{
-      //         headerStyle: {
-      //           elevation: 0,
-      //           backgroundColor: mainThemeColor(1),
-      //         },
-      //         headerTintColor: '#f5f7f7',
-      //         headerRight: () => (
-      //           <TouchableOpacity onPress={this.hideTour(null)}>
-      //             <Icon
-      //               style={styles.menuicon}
-      //               type="FontAwesome5"
-      //               name="question-circle"
-      //             />
-      //           </TouchableOpacity>
-      //         ),
-      //       }}>
-      //       <Stack.Screen
-      //         name="Home"
-      //         component={Home}
-      //         options={{title: 'Inicio'}}
-      //       />
-      //       <Stack.Screen
-      //         name="Imagen"
-      //         component={ImageView}
-      //         options={{
-      //           title: 'Imagen',
-      //         }}
-      //       />
-      //       <Stack.Screen
-      //         name="GalleryCamera"
-      //         component={GalleryCamera}
-      //         options={{
-      //           title: 'Procesar imagen',
-      //         }}
-      //       />
-      //     </Stack.Navigator>
-      //   </NavigationContainer>
     );
   } else {
     if (showRealApp === false) {
