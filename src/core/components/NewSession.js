@@ -1,18 +1,12 @@
 //@ts-check
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {Text} from 'react-native';
 
-export default class NewSession extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default function NewSession(props) {
+  useEffect(() => {}, []);
 
-  componentDidMount() {}
-
-  render() {
-    return <Text> Nueva sesion</Text>;
-  }
+  return <Text> Nueva sesion</Text>;
 }
 
 const styles = StyleSheet.create({});

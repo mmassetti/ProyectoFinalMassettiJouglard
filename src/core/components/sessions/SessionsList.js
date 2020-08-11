@@ -7,18 +7,23 @@ import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
 import {Icon} from 'native-base';
 
-function SessionsList({firebaseService}) {
+function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    firebaseService.getAllSessions().then(sessions => {
+    props.firebaseService.getAllSessions().then(sessions => {
       setSessions(sessions);
     });
   }, []);
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
+
+  function goToNewSession() {
+    props.navigation.navigate('NewSession', {});
+  }
+
   return (
     <>
       <SearchInput
@@ -32,7 +37,7 @@ function SessionsList({firebaseService}) {
         renderItem={SessionItem}
       />
       <TouchableOpacity
-        // onPress={this.showEditor(true)}
+        onPress={() => goToNewSession()}
         style={styles.adjustButton}>
         <Icon name="plus" type="Entypo" style={styles.icon} />
       </TouchableOpacity>

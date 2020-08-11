@@ -47,6 +47,9 @@ const HomeNavigator = createStackNavigator(
       },
       screen: tabNavigator,
     },
+    NewSession: {
+      screen: NewSession,
+    },
   },
   {
     initialRouteName: 'Main',
