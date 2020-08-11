@@ -10,7 +10,7 @@ function SessionsList({firebaseService}) {
 
   useEffect(() => {
     firebaseService.getAllSessions().then(sessions => {
-      setSessions(sessions.map(session => session.data()));
+      setSessions(sessions);
     });
   }, []);
   const filteredSession = sessions.filter(
@@ -23,7 +23,11 @@ function SessionsList({firebaseService}) {
         style={styles.searchInput}
         placeholder="Buscar por nombre, descripcion, mes ..."
       />
-      <FlatList data={filteredSession} renderItem={SessionItem} />
+      <FlatList
+        data={filteredSession}
+        key={({item: {id}}) => id}
+        renderItem={SessionItem}
+      />
     </>
   );
 }

@@ -2,12 +2,17 @@ import React from 'react';
 import {Text} from 'react-native';
 
 export default function SessionItem({item}) {
-  console.log('Props', item);
   return (
     <>
-      <Text>Descripcion: {item.description}</Text>
-      <Text>Usuario: {item.user}</Text>
-      <Text>Fecha: {item.date.toDate().toISOString()}</Text>
+      <Text>Descripcion: {item.data().description}</Text>
+      <Text>Usuario: {item.data().user}</Text>
+      <Text>
+        Fecha:
+        {item
+          .data()
+          .date.toDate()
+          .toISOString()}
+      </Text>
     </>
   );
 }
