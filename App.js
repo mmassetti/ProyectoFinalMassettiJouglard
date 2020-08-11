@@ -1,88 +1,79 @@
-import React, {PureComponent} from 'react';
-import {Tour} from './src/guided-tour/Tour';
-import {Icon} from 'native-base';
-import {Home} from './src/core/components/Home';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {ImageView} from './src/core/components/ImageView';
 import AsyncStorage from '@react-native-community/async-storage';
-import {mainThemeColor} from './src/configuration';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {GalleryCamera} from './src/core/components/GalleryCamera';
+import {createStackNavigator} from '@react-navigation/stack';
+import React, {useEffect, useReducer, useState} from 'react';
+import {StyleSheet} from 'react-native';
 import Main from './src/core/components/Main';
+import StateContext from './src/core/context/StateContext';
+import stateReducer from './src/core/reducers/stateReducer';
+import {Tour} from './src/guided-tour/Tour';
 
 const Stack = createStackNavigator();
-class App extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showRealApp: false,
-    };
-  }
-  async componentDidMount() {
-    let oldUser = await AsyncStorage.getItem('@OldUser');
-    this.setState({
-      showRealApp: oldUser,
-    });
-  }
+function App() {
+  const [state, dispatcher] = useReducer(stateReducer, {});
+  const [showRealApp, setShowApp] = useState(false);
 
-  hideTour = show => () => {
-    this.setState({showRealApp: show});
+  useEffect(async () => {
+    let oldUser = await AsyncStorage.getItem('@OldUser');
+    setShowApp(oldUser);
+    return null;
+  }, []);
+
+  const hideTour = show => () => {
+    setShowApp(show);
     AsyncStorage.setItem('@OldUser', 'true');
   };
 
-  render() {
-    if (this.state.showRealApp) {
-      return (
+  if (showRealApp) {
+    return (
+      <StateContext.Provider value={{state, dispatcher}}>
         <Main />
-
-        //   <NavigationContainer>
-        //     <Stack.Navigator
-        //       initialRouteName="Home"
-        //       screenOptions={{
-        //         headerStyle: {
-        //           elevation: 0,
-        //           backgroundColor: mainThemeColor(1),
-        //         },
-        //         headerTintColor: '#f5f7f7',
-        //         headerRight: () => (
-        //           <TouchableOpacity onPress={this.hideTour(null)}>
-        //             <Icon
-        //               style={styles.menuicon}
-        //               type="FontAwesome5"
-        //               name="question-circle"
-        //             />
-        //           </TouchableOpacity>
-        //         ),
-        //       }}>
-        //       <Stack.Screen
-        //         name="Home"
-        //         component={Home}
-        //         options={{title: 'Inicio'}}
-        //       />
-        //       <Stack.Screen
-        //         name="Imagen"
-        //         component={ImageView}
-        //         options={{
-        //           title: 'Imagen',
-        //         }}
-        //       />
-        //       <Stack.Screen
-        //         name="GalleryCamera"
-        //         component={GalleryCamera}
-        //         options={{
-        //           title: 'Procesar imagen',
-        //         }}
-        //       />
-        //     </Stack.Navigator>
-        //   </NavigationContainer>
-      );
+      </StateContext.Provider>
+      //   <NavigationContainer>
+      //     <Stack.Navigator
+      //       initialRouteName="Home"
+      //       screenOptions={{
+      //         headerStyle: {
+      //           elevation: 0,
+      //           backgroundColor: mainThemeColor(1),
+      //         },
+      //         headerTintColor: '#f5f7f7',
+      //         headerRight: () => (
+      //           <TouchableOpacity onPress={this.hideTour(null)}>
+      //             <Icon
+      //               style={styles.menuicon}
+      //               type="FontAwesome5"
+      //               name="question-circle"
+      //             />
+      //           </TouchableOpacity>
+      //         ),
+      //       }}>
+      //       <Stack.Screen
+      //         name="Home"
+      //         component={Home}
+      //         options={{title: 'Inicio'}}
+      //       />
+      //       <Stack.Screen
+      //         name="Imagen"
+      //         component={ImageView}
+      //         options={{
+      //           title: 'Imagen',
+      //         }}
+      //       />
+      //       <Stack.Screen
+      //         name="GalleryCamera"
+      //         component={GalleryCamera}
+      //         options={{
+      //           title: 'Procesar imagen',
+      //         }}
+      //       />
+      //     </Stack.Navigator>
+      //   </NavigationContainer>
+    );
+  } else {
+    if (showRealApp === false) {
+      return null;
     } else {
-      if (this.state.showRealApp === false) {
-        return null;
-      } else {
-        return <Tour onDone={this.hideTour(true)} />;
-      }
+      return <Tour onDone={hideTour(true)} />;
     }
   }
 }

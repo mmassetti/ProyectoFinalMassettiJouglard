@@ -15,4 +15,11 @@ export class FirebaseService {
         imageUri: photoUri,
       });
   }
+
+  getAllSessions() {
+    return firestore()
+      .collection('sessions')
+      .get()
+      .then(response => response.docs);
+  }
 }

@@ -2,17 +2,12 @@ import {Container, Content, Spinner} from 'native-base';
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {mainThemeColor, galleryCameraButtons} from '../../configuration';
-import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
+import {HomeCard, withImagePicker, withImageProcessing} from '../../shared';
 import {ImageModel} from '../../shared/models/ImageModel.js';
 
-export default class GalleryCamera extends Component {
-  picker;
-  imageProcessor;
-
+class GalleryCamera extends Component {
   constructor(props) {
     super(props);
-    this.picker = ImagePickerService.getInstance();
-    this.imageProcessor = ImageProcessor.getInstance();
     this.state = {
       loading: false,
     };
@@ -46,7 +41,7 @@ export default class GalleryCamera extends Component {
   launch = picker => async () => {
     this.setState({loading: true});
     try {
-      const {uri, data, width, height} = await this.picker[
+      const {uri, data, width, height} = await this.props.imagePicker[
         'getImageFrom' + picker
       ]();
       let imgModel = new ImageModel(data, height, width, uri);
@@ -63,7 +58,7 @@ export default class GalleryCamera extends Component {
       percentageGreen,
       percentageYellow,
       percentageNaked,
-    } = await this.imageProcessor.processImage(originalImgModel.uri);
+    } = await this.props.imageProcessor.processImage(originalImgModel.uri);
     this.setState({
       loading: false,
     });
@@ -83,6 +78,7 @@ export default class GalleryCamera extends Component {
   }
 }
 
+export default withImagePicker(withImageProcessing(GalleryCamera));
 const styles = StyleSheet.create({
   container: {
     flex: 1,

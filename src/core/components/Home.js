@@ -1,18 +1,12 @@
 import {Container, Content, Spinner} from 'native-base';
-
 import React, {Component} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 import {mainThemeColor, homeButtons} from '../../configuration';
-import {HomeCard, ImagePickerService, ImageProcessor} from '../../shared';
+import {HomeCard, withImageProcessing, withImagePicker} from '../../shared';
 
-export class Home extends Component {
-  picker;
-  imageProcessor;
-
+class Home extends Component {
   constructor(props) {
     super(props);
-    this.picker = ImagePickerService.getInstance();
-    this.imageProcessor = ImageProcessor.getInstance();
     this.state = {
       loading: false,
     };
@@ -56,3 +50,5 @@ const styles = StyleSheet.create({
     // backgroundColor: '#20d2bb',
   },
 });
+
+export default withImagePicker(withImageProcessing(Home));

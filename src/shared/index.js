@@ -9,3 +9,5 @@ export {CustomImage} from './components/CustomNativeImage';
 export {ImageWithAdjustment} from './components/ImageWithButton';
 export {withCloudinary} from './components/WithCloudinary';
 export {withFirebase} from './components/WithFirebase';
+export {withImagePicker} from './components/WithImagePicker';
+export {withImageProcessing} from './components/WithImageProcessing';
