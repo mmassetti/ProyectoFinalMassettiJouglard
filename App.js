@@ -1,17 +1,11 @@
-import stateReducer from './src/core/reducers/stateReducer';
-import React, {useState, useEffect, useReducer} from 'react';
-import {Tour} from './src/guided-tour/Tour';
-import {Icon} from 'native-base';
-import {Home} from './src/core/components/Home';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {ImageView} from './src/core/components/ImageView';
 import AsyncStorage from '@react-native-community/async-storage';
-import {mainThemeColor} from './src/configuration';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {GalleryCamera} from './src/core/components/GalleryCamera';
+import {createStackNavigator} from '@react-navigation/stack';
+import React, {useEffect, useReducer, useState} from 'react';
+import {StyleSheet} from 'react-native';
 import Main from './src/core/components/Main';
 import StateContext from './src/core/context/StateContext';
+import stateReducer from './src/core/reducers/stateReducer';
+import {Tour} from './src/guided-tour/Tour';
 
 const Stack = createStackNavigator();
 function App() {
