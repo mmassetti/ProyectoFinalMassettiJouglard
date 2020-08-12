@@ -1,39 +1,130 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet} from 'react-native';
-import {Container, Header, Content, DatePicker, Text} from 'native-base';
+
+import {StyleSheet, View, TextInput} from 'react-native';
+import {Button, Text} from 'native-base';
+import moment from 'moment';
+import DatePicker from 'react-native-datepicker';
+import 'moment/locale/es';
 
 export default function NewSession(props) {
-  let [chosenDate, setChosenDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [description, setDescription] = useState('');
 
-  useEffect(() => {}, [chosenDate]);
+  useEffect(() => {}, []);
 
-  function setDate(newDate) {
-    setChosenDate(newDate);
-  }
+  const showDatePicker = () => {
+    return (
+      <DatePicker
+        style={{width: 200}}
+        date={date}
+        mode="date"
+        locale={'es'}
+        placeholder="Elegir fecha"
+        format="DD-MM-YYYY"
+        // minDate="2016-05-01"
+        confirmBtnText="OK"
+        cancelBtnText="Cancelar"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0,
+          },
+          dateInput: {
+            marginLeft: 36,
+          },
+        }}
+        onDateChange={date => {
+          const stringToDate = moment(date, 'DD-MM-YYY').toDate();
+          setDate(stringToDate);
+        }}
+      />
+    );
+  };
+
+  const showDescription = () => {
+    return (
+      <View style={styles.textAreaContainer}>
+        <TextInput
+          // autoFocus
+          underlineColorAndroid="transparent"
+          placeholder="Escribir descripcion de la sesion..."
+          placeholderTextColor="grey"
+          style={styles.description}
+          onChangeText={text => setDescription(text)}
+          value={description}
+          multiline={true}
+          numberOfLines={10}
+        />
+      </View>
+    );
+  };
+
+  const showButtons = () => {
+    return (
+      <View style={styles.buttonsContainer}>
+        <Button style={styles.button} light>
+          <Text style={styles.buttonText}>Volver</Text>
+        </Button>
+        <Button style={styles.button} primary>
+          <Text style={styles.buttonText}>Crear sesion</Text>
+        </Button>
+      </View>
+    );
+  };
 
   return (
-    <Container>
-      <Content>
-        <DatePicker
-          defaultDate={new Date(2018, 4, 4)}
-          minimumDate={new Date(2018, 1, 1)}
-          // maximumDate={new Date(2018, 12, 31)}
-          locale={'es'}
-          timeZoneOffsetInMinutes={undefined}
-          modalTransparent={false}
-          animationType={'fade'}
-          androidMode={'default'}
-          placeHolderText="Seleccionar fecha"
-          textStyle={{color: 'green'}}
-          placeHolderTextStyle={{color: '#d3d3d3'}}
-          onDateChange={() => setDate}
-          disabled={false}
-        />
-        <Text>Date: {chosenDate.toString().substr(4, 12)}</Text>
-      </Content>
-    </Container>
+    <View style={styles.viewContainer}>
+      <View style={styles.inputContainer}>
+        <React.Fragment>
+          {showDatePicker()}
+          {showDescription()}
+        </React.Fragment>
+      </View>
+      {showButtons()}
+    </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  viewContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputContainer: {
+    flex: 5,
+    marginTop: 20,
+  },
+
+  textAreaContainer: {
+    marginTop: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
+    padding: 5,
+  },
+  description: {
+    height: 150,
+    justifyContent: 'flex-start',
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '90%',
+    justifyContent: 'space-evenly',
+  },
+  button: {
+    padding: 10,
+  },
+  buttonText: {
+    color: 'white',
+  },
+});

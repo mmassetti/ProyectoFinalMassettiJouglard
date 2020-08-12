@@ -49,6 +49,9 @@ const HomeNavigator = createStackNavigator(
     },
     NewSession: {
       screen: NewSession,
+      navigationOptions: {
+        title: 'Nueva sesión',
+      },
     },
   },
   {
