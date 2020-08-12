@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImagePickerService} from '../services/imagePickerService';
+import {ImagePickerService} from '../../services/imagePickerService';
 
 export function withImagePicker(WrappedComponent) {
   return function WithImagePicker(props) {

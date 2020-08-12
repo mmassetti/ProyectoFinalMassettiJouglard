@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {mainThemeColor} from '../../../configuration';
 
 import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {withFirebase, Separator} from '../../../shared';
+import {withFirebase, withSessionsService, Separator} from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
 import {Icon} from 'native-base';
@@ -13,9 +13,10 @@ function SessionsList(props) {
 
   useEffect(() => {
     props.firebaseService.getAllSessions().then(sessions => {
-      setSessions(sessions);
+      setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
     });
   }, []);
+  console.log(sessions);
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withFirebase(SessionsList);
+export default withSessionsService(withFirebase(SessionsList));

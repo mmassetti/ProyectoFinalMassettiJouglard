@@ -4,8 +4,8 @@ export class FirebaseService {
   static _instance;
 
   static getInstance() {
-    if (!this.instance) this.instance = new FirebaseService();
-    return this.instance;
+    if (!this._instance) this._instance = new FirebaseService();
+    return this._instance;
   }
 
   uploadPhoto(photoUri) {

@@ -1,14 +1,15 @@
 export {ImageEditor} from './components/ImageEditor';
 export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
-export {ImageProcessor} from './services/imageProcessor';
-export {ImagePickerService} from './services/imagePickerService';
-export {FirebaseService} from './services/firebaseService';
-export {CloudinaryService} from './services/cloudinaryService';
 export {CustomImage} from './components/CustomNativeImage';
 export {ImageWithAdjustment} from './components/ImageWithButton';
-export {withCloudinary} from './components/WithCloudinary';
-export {withFirebase} from './components/WithFirebase';
-export {withImagePicker} from './components/WithImagePicker';
-export {withImageProcessing} from './components/WithImageProcessing';
+export {withCloudinary} from './components/HOCForInjection/WithCloudinary';
+export {withFirebase} from './components/HOCForInjection/WithFirebase';
+export {withImagePicker} from './components/HOCForInjection/WithImagePicker';
+export {
+  withImageProcessing,
+} from './components/HOCForInjection/WithImageProcessing';
 export {Separator} from './components/ListSeparator';
+export {
+  withSessionsService,
+} from './components/HOCForInjection/WithSessionService';
