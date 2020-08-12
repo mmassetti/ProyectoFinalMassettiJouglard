@@ -11,3 +11,6 @@ export const yellowRange = [lowerYellow, upperYellow];
 export const mainThemeColor = opacity => `rgba(31, 47, 51, ${opacity})`;
 
 export const accentThemeColor = opacity => `rgba(31, 47, 51, ${opacity})`;
+
+export const lightGray = '#D6D6D2';
+export const warnThemeColor = '#ED1D1D';

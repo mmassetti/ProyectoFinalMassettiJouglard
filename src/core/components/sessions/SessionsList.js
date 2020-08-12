@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {mainThemeColor} from '../../../configuration';
 
 import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {withFirebase} from '../../../shared';
+import {withFirebase, Separator} from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
 import {Icon} from 'native-base';
