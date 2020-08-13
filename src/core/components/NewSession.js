@@ -37,7 +37,7 @@ export default function NewSession(props) {
           },
         }}
         onDateChange={date => {
-          const stringToDate = moment(date, 'DD-MM-YYY').toDate();
+          const stringToDate = moment(date, 'DD-MM-YYYY').toDate();
           setDate(stringToDate);
         }}
       />
