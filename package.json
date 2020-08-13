@@ -25,6 +25,7 @@
     "moment": "^2.27.0",
     "native-base": "^2.13.12",
     "react": "16.9.0",
+    "react-combine-reducers": "^1.0.4",
     "react-native": "^0.62.0",
     "react-native-app-intro-slider": "^3.0.0",
     "react-native-datepicker": "^1.7.2",
