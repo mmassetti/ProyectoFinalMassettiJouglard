@@ -1,13 +1,19 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Main from './src/core/components/Main';
-import StateContext from './src/core/context/StateContext';
-import stateReducer from './src/core/reducers/stateReducer';
 import {Tour} from './src/guided-tour/Tour';
+import {OurSpinner} from './src/core/components/Spinner';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 function App() {
-  const [state, dispatcher] = useReducer(stateReducer[0], stateReducer[1]);
   const [showRealApp, setShowApp] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+
+  store.subscribe(() => {
+    const {spinner} = store.getState();
+    setSpinner(spinner);
+  });
 
   useEffect(async () => {
     let oldUser = await AsyncStorage.getItem('@OldUser');
@@ -22,9 +28,10 @@ function App() {
 
   if (showRealApp) {
     return (
-      <StateContext.Provider value={{state, dispatcher}}>
+      <Provider store={store}>
         <Main />
-      </StateContext.Provider>
+        <OurSpinner show={spinner} />
+      </Provider>
     );
   } else {
     if (showRealApp === false) {
