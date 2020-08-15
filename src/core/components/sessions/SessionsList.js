@@ -5,7 +5,7 @@ import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {withFirebase, withSessionsService, Separator} from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
-import {Icon, Text} from 'native-base';
+import {Icon} from 'native-base';
 
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
@@ -31,6 +31,12 @@ function SessionsList(props) {
     });
   }
 
+  function goToSessionDetails() {
+    props.navigation.navigate('SessionDetails', {
+      onGoBack: () => refreshSessions(),
+    });
+  }
+
   return (
     <>
       <SearchInput
@@ -38,11 +44,13 @@ function SessionsList(props) {
         style={styles.searchInput}
         placeholder="Buscar por nombre, descripcion, mes ..."
       />
+
       <FlatList
         data={filteredSession}
         key={({item: {id}}) => id}
         renderItem={SessionItem}
       />
+
       <TouchableOpacity
         onPress={() => goToNewSession()}
         style={styles.adjustButton}>

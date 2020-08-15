@@ -8,6 +8,7 @@ import {Icon} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import ImageView from './ImageView';
+import SessionDetails from './sessions/SessionDetails';
 
 const iconForTab = icon => ({focused}) => {
   if (focused) {
@@ -51,6 +52,12 @@ const HomeNavigator = createStackNavigator(
       screen: NewSession,
       navigationOptions: {
         title: 'Nueva sesión',
+      },
+    },
+    SessionDetails: {
+      screen: SessionDetails,
+      navigationOptions: {
+        title: 'Detalles de la sesion',
       },
     },
   },

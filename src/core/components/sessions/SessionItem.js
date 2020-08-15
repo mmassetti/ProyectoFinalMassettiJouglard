@@ -1,33 +1,39 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, Dimensions} from 'react-native';
 import {lightGray, warnThemeColor} from '../../../configuration/colors';
+import {
+  TouchableOpacity,
+  TouchableNativeFeedback,
+} from 'react-native-gesture-handler';
 
 export default function SessionItem({item, index}) {
   const sessionData = item.data();
   return (
-    <View style={[styles.container, index % 2 ? styles.odd : styles.even]}>
-      <Image
-        source={require('../../../../captures/Default.jpg')}
-        style={styles.image}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.titleText}>
-          Descripcion: {sessionData.description}
-        </Text>
-        <Text>Usuario: {sessionData.user}</Text>
-        <Text>
-          Fecha:
-          {sessionData.date.toDate().toISOString()}
-        </Text>
-        <Text
-          style={[
-            styles.status,
-            sessionData.active ? styles.activeSession : styles.closedSession,
-          ]}>
-          {sessionData.active ? 'Activa' : 'Cerrada'}
-        </Text>
+    <TouchableOpacity onPress={() => props.onItemPressed(item)}>
+      <View style={[styles.container, index % 2 ? styles.odd : styles.even]}>
+        <Image
+          source={require('../../../../captures/Default.jpg')}
+          style={styles.image}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.titleText}>
+            Descripcion: {sessionData.description}
+          </Text>
+          <Text>Usuario: {sessionData.user}</Text>
+          <Text>
+            Fecha:
+            {sessionData.date.toDate().toISOString()}
+          </Text>
+          <Text
+            style={[
+              styles.status,
+              sessionData.active ? styles.activeSession : styles.closedSession,
+            ]}>
+            {sessionData.active ? 'Activa' : 'Cerrada'}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
