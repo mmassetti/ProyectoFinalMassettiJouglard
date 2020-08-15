@@ -6,6 +6,7 @@ import {Button, Text} from 'native-base';
 import {withFirebase} from '../../../shared';
 
 function SessionDetails(props) {
+  const {item, itemId, onGoBack} = props.navigation.state.params;
   useEffect(() => {}, []);
 
   function goBackToSessions() {
@@ -25,7 +26,17 @@ function SessionDetails(props) {
     );
   };
 
-  return <View style={styles.viewContainer}>{showButtons()}</View>;
+  return (
+    <View style={styles.viewContainer}>
+      <View style={styles.inputContainer}>
+        <React.Fragment>
+          <Text>Fecha: {item.date.toDate().toISOString()}</Text>
+          <Text>Description: {item.description}</Text>
+        </React.Fragment>
+      </View>
+      {showButtons()}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -52,6 +63,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+  },
+  inputContainer: {
+    flex: 5,
+    marginTop: 20,
   },
 });
 

@@ -31,11 +31,23 @@ function SessionsList(props) {
     });
   }
 
-  function goToSessionDetails() {
+  function goToSessionDetails(item) {
     props.navigation.navigate('SessionDetails', {
+      item: item.data(),
+      itemId: item.id,
       onGoBack: () => refreshSessions(),
     });
   }
+
+  const renderItem = ({item, index}) => {
+    return (
+      <SessionItem
+        item={item}
+        index={index}
+        onItemPressed={() => goToSessionDetails(item)}
+      />
+    );
+  };
 
   return (
     <>
@@ -48,7 +60,7 @@ function SessionsList(props) {
       <FlatList
         data={filteredSession}
         key={({item: {id}}) => id}
-        renderItem={SessionItem}
+        renderItem={renderItem}
       />
 
       <TouchableOpacity

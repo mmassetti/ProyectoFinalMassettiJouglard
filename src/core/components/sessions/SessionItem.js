@@ -6,7 +6,8 @@ import {
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
 
-export default function SessionItem({item, index}) {
+export default function SessionItem(props) {
+  const {item, index} = props;
   const sessionData = item.data();
   return (
     <TouchableOpacity onPress={() => props.onItemPressed(item)}>
