@@ -1,7 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
+import {SpinnerService} from './spinnerService';
 
 export class FirebaseService {
   static _instance;
+  spinnerService = SpinnerService.getInstance();
 
   static getInstance() {
     if (!this._instance) this._instance = new FirebaseService();
@@ -17,20 +19,23 @@ export class FirebaseService {
   }
 
   getAllSessions() {
-    return firestore()
-      .collection('sessions')
-      .get()
-      .then(response => response.docs);
+    const collection = firestore().collection('sessions');
+    return this.spinnerService
+      .callAsyncFunctionWithSpinner(collection.get.bind(collection))
+      .then(response => {
+        return response.docs;
+      });
   }
 
   createSession(sessionData) {
-    return firestore()
-      .collection('sessions')
-      .add({
+    const collection = firestore().collection('sessions');
+    return this.spinnerService.callAsyncFunctionWithSpinner(
+      collection.add.bind(collection, {
         active: sessionData.active,
         date: sessionData.date,
         description: sessionData.description,
         user: sessionData.user,
-      });
+      }),
+    );
   }
 }

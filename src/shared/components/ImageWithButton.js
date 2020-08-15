@@ -2,7 +2,7 @@ import {mainThemeColor} from '../../configuration';
 import {Icon} from 'native-base';
 import React, {Component} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ImageEditor} from '../../shared';
+import {ImageEditor} from '../../shared/components/ImageEditor';
 
 export class ImageWithAdjustment extends Component {
   constructor(props) {

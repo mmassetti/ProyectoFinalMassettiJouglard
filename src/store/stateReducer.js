@@ -1,6 +1,6 @@
-import combineReducers from 'react-combine-reducers';
+import {combineReducers} from 'redux';
 
-function spinner(state, action) {
+function spinner(state = false, action) {
   switch (action.type) {
     case 'SHOW_SPINNER':
       return true;
@@ -11,7 +11,7 @@ function spinner(state, action) {
   }
 }
 
-function showApp(state, action) {
+function showApp(state = true, action) {
   switch (action.type) {
     case 'SHOW_APP':
       return true;
@@ -22,6 +22,6 @@ function showApp(state, action) {
   }
 }
 export default combineReducers({
-  spinner: [spinner, false],
-  showApp: [showApp, false],
+  spinner,
+  showApp,
 });
