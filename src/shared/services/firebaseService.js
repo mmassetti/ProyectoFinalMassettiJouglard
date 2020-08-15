@@ -22,4 +22,15 @@ export class FirebaseService {
       .get()
       .then(response => response.docs);
   }
+
+  createSession(sessionData) {
+    return firestore()
+      .collection('sessions')
+      .add({
+        active: sessionData.active,
+        date: sessionData.date,
+        description: sessionData.description,
+        user: sessionData.user,
+      });
+  }
 }

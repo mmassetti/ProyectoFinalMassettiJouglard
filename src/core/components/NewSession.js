@@ -6,8 +6,9 @@ import {Button, Text} from 'native-base';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import 'moment/locale/es';
+import {withFirebase} from '../../shared';
 
-export default function NewSession(props) {
+function NewSession(props) {
   const [date, setDate] = useState(new Date());
   const [description, setDescription] = useState('');
 
@@ -62,13 +63,32 @@ export default function NewSession(props) {
     );
   };
 
+  function goBackToSessions() {
+    //TODO: si la accion fue Volver no deberia mandar el onGoBack para evitar que entre al use effect innecesariamente en sessions list
+    const {navigation} = props;
+    navigation.goBack();
+    navigation.state.params.onGoBack();
+  }
+
+  function createSession() {
+    const sessionData = {
+      active: true,
+      date: date,
+      description: description,
+      user: 'NombreUsuario',
+    };
+    props.firebaseService.createSession(sessionData).then(createdSession => {
+      goBackToSessions();
+    });
+  }
+
   const showButtons = () => {
     return (
       <View style={styles.buttonsContainer}>
-        <Button style={styles.button} light>
+        <Button style={styles.button} light onPress={() => goBackToSessions()}>
           <Text style={styles.buttonText}>Volver</Text>
         </Button>
-        <Button style={styles.button} primary>
+        <Button style={styles.button} primary onPress={() => createSession()}>
           <Text style={styles.buttonText}>Crear sesion</Text>
         </Button>
       </View>
@@ -128,3 +148,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+export default withFirebase(NewSession);

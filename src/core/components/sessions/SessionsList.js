@@ -5,24 +5,30 @@ import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {withFirebase, withSessionsService, Separator} from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
-import {Icon} from 'native-base';
+import {Icon, Text} from 'native-base';
 
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     props.firebaseService.getAllSessions().then(sessions => {
       setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
     });
-  }, []);
-  console.log(sessions);
+  }, [refresh]);
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
 
+  function refreshSessions() {
+    setRefresh(true);
+  }
+
   function goToNewSession() {
-    props.navigation.navigate('NewSession', {});
+    props.navigation.navigate('NewSession', {
+      onGoBack: () => refreshSessions(),
+    });
   }
 
   return (
