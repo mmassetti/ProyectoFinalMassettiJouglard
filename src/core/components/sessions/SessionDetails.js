@@ -4,6 +4,8 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text} from 'native-base';
 import {withFirebase} from '../../../shared';
+import moment from 'moment';
+import 'moment/locale/es';
 
 function SessionDetails(props) {
   const {item, itemId, onGoBack} = props.navigation.state.params;
@@ -30,7 +32,7 @@ function SessionDetails(props) {
     <View style={styles.viewContainer}>
       <View style={styles.inputContainer}>
         <React.Fragment>
-          <Text>Fecha: {item.date.toDate().toISOString()}</Text>
+          <Text>Fecha: {moment(item.date.toDate()).format('LL')}</Text>
           <Text>Description: {item.description}</Text>
         </React.Fragment>
       </View>

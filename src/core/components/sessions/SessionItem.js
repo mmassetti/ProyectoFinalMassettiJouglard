@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
+import moment from 'moment';
+import 'moment/locale/es';
 
 export default function SessionItem(props) {
   const {item, index} = props;
@@ -23,7 +25,7 @@ export default function SessionItem(props) {
           <Text>Usuario: {sessionData.user}</Text>
           <Text>
             Fecha:
-            {sessionData.date.toDate().toISOString()}
+            {moment(sessionData.date.toDate()).format('LL')}
           </Text>
           <Text
             style={[
