@@ -1,9 +1,11 @@
 import {CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME} from '@env';
 import {sha1} from 'react-native-sha256';
 import ImgToBase64 from 'react-native-image-base64';
+import {SpinnerService} from './spinnerService';
 
 export class CloudinaryService {
   static _instance;
+  spinnerService = SpinnerService.getInstance();
 
   static getInstance() {
     if (!this.instance) this.instance = new CloudinaryService();
@@ -26,24 +28,27 @@ export class CloudinaryService {
       'signature',
       await this.getSignature(timestamp, CLOUDINARY_API_SECRET),
     );
-
-    return fetch(
-      'https://api.cloudinary.com/v1_1/proyectointauns/image/upload',
-      {
-        method: 'POST',
-        body: data,
-      },
-    )
-      .then()
+    return this.spinnerService
+      .callAsyncFunctionWithSpinner(
+        fetch.bind(
+          null,
+          'https://api.cloudinary.com/v1_1/proyectointauns/image/upload',
+          {
+            method: 'POST',
+            body: data,
+          },
+        ),
+      )
       .then(response => response.json())
       .then(({secure_url}) => secure_url);
   }
 
-  getSignature(timestamp, secret) {
+  async getSignature(timestamp, secret) {
     const plainText = `timestamp=${timestamp}${secret}`;
     return sha1(plainText);
   }
 
+  //TODO: This might not be needed
   getImageByID(id) {
     fetch('https://api.cloudinary.com/v1_1/proyectointauns/resources/images', {
       method: 'GET',

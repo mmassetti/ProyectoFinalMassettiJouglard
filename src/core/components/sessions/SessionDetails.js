@@ -1,14 +1,20 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-
 import {StyleSheet, View} from 'react-native';
 import {Button, Text} from 'native-base';
-import {withFirebase} from '../../../shared';
 import moment from 'moment';
 import 'moment/locale/es';
+import {
+  AddLote,
+  withAlertService,
+  withFirebase,
+  LoteSquare,
+} from '../../../shared';
+import {FlatGrid} from 'react-native-super-grid';
 
 function SessionDetails(props) {
   const {item, itemId, onGoBack} = props.navigation.state.params;
+  const [lotes, setLotes] = useState(item.lotes || []);
   useEffect(() => {}, []);
 
   function goBackToSessions() {
@@ -18,25 +24,44 @@ function SessionDetails(props) {
     navigation.state.params.onGoBack();
   }
 
-  const showButtons = () => {
-    return (
-      <View style={styles.buttonsContainer}>
-        <Button style={styles.button} light onPress={() => goBackToSessions()}>
-          <Text style={styles.buttonText}>Volver</Text>
-        </Button>
-      </View>
-    );
+  const onDelete = () => {
+    props.alertService.showConfirmDialog();
+  };
+  const onPress = () => {
+    props.alertService
+      .showPromptDialog(
+        `Lote ${lotes.length + 1}`,
+        'Nombre/Identificador del lote',
+      )
+      .then(loteName => {
+        setLotes(prevLotes => [{description: loteName}].concat(prevLotes));
+      });
   };
 
   return (
     <View style={styles.viewContainer}>
       <View style={styles.inputContainer}>
-        <React.Fragment>
+        <>
           <Text>Fecha: {moment(item.date.toDate()).format('LL')}</Text>
+          <Text>Creador/a: {item.user}</Text>
           <Text>Description: {item.description}</Text>
-        </React.Fragment>
+        </>
       </View>
-      {showButtons()}
+      <View style={styles.lotesContainer}>
+        <Text style={styles.lotesTitle}>Lotes</Text>
+        <FlatGrid
+          contentContainerStyle={styles.grid}
+          itemDimension={140}
+          data={[{addLote: true}].concat(lotes)}
+          renderItem={({item}) =>
+            item.addLote ? (
+              <AddLote onPress={onPress} />
+            ) : (
+              <LoteSquare item={item} onDelete={onDelete} />
+            )
+          }
+        />
+      </View>
     </View>
   );
 }
@@ -46,7 +71,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  grid: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  lotesContainer: {
+    flex: 2,
+    width: '100%',
+    alignItems: 'center',
+  },
+  lotesTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   viewContainer: {
     flex: 1,
     width: '100%',
@@ -67,9 +104,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   inputContainer: {
-    flex: 5,
     marginTop: 20,
   },
 });
 
-export default withFirebase(SessionDetails);
+export default withAlertService(withFirebase(SessionDetails));

@@ -1,6 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, Dimensions} from 'react-native';
-import {lightGray, warnThemeColor} from '../../../configuration/colors';
+import {
+  lightGray,
+  warnThemeColor,
+  successThemeColor,
+} from '../../../configuration/colors';
 import {
   TouchableOpacity,
   TouchableNativeFeedback,
@@ -27,14 +31,14 @@ export default function SessionItem(props) {
             Fecha:
             {moment(sessionData.date.toDate()).format('LL')}
           </Text>
-          <Text
-            style={[
-              styles.status,
-              sessionData.active ? styles.activeSession : styles.closedSession,
-            ]}>
-            {sessionData.active ? 'Activa' : 'Cerrada'}
-          </Text>
         </View>
+        <Text
+          style={[
+            styles.status,
+            sessionData.active ? styles.activeSession : styles.closedSession,
+          ]}>
+          {sessionData.active ? 'Activa' : 'Cerrada'}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -42,19 +46,20 @@ export default function SessionItem(props) {
 
 const styles = StyleSheet.create({
   status: {
-    padding: 2,
-    borderRadius: 3,
+    padding: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
     fontWeight: 'bold',
-    bottom: 5,
-    right: 0,
-    alignSelf: 'flex-end',
+    top: '-2.1%',
+    right: '-2.1%',
+    alignSelf: 'flex-start',
   },
   activeSession: {
-    backgroundColor: 'green',
+    backgroundColor: successThemeColor(1),
     color: 'white',
   },
   closedSession: {
-    backgroundColor: warnThemeColor,
+    backgroundColor: warnThemeColor(1),
     color: 'white',
   },
   container: {
@@ -63,8 +68,6 @@ const styles = StyleSheet.create({
   },
   even: {},
   image: {
-    // borderColor: 'black',
-    // borderWidth: 5,
     flex: 1,
     maxWidth: '15%',
     maxHeight: Dimensions.get('window').height * 0.1,

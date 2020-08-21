@@ -2,13 +2,10 @@ import {store} from '../../store/';
 import {showSpinner, hideSpinner} from '../../store/actions';
 
 export class SpinnerService {
-  _instance;
+  static _instance;
 
   static getInstance() {
-    if (!this._instance) {
-      this._instance = new SpinnerService();
-    }
-
+    if (!this._instance) this._instance = new SpinnerService();
     return this._instance;
   }
 

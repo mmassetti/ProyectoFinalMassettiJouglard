@@ -1,4 +1,5 @@
 export {ImageEditor} from './components/ImageEditor';
+export {LoteSquare} from './components/LoteSquare';
 export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
 export {CustomImage} from './components/CustomNativeImage';
@@ -13,3 +14,5 @@ export {Separator} from './components/ListSeparator';
 export {
   withSessionsService,
 } from './components/HOCForInjection/WithSessionService';
+export {withAlertService} from './components/HOCForInjection/WithAlertService';
+export {AddLote} from './components/AddLote';

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import {percentages, mainThemeColor} from '../../configuration';
 import {Percentage} from '../../shared';
 
@@ -14,6 +14,7 @@ export class Percentages extends Component {
               <Percentage
                 key={index}
                 color={percentage.color}
+                size={Dimensions.get('window').width * 0.2}
                 percentage={this.props['percentage' + percentage.type]}
                 title={percentage.title}
               />
