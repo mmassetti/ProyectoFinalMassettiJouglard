@@ -21,6 +21,17 @@ function showApp(state = true, action) {
       return state;
   }
 }
+
+function networkStatus(state = true, action) {
+  switch (action.type) {
+    case 'OFFLINE':
+      return false;
+    case 'ONLINE':
+      return true;
+    default:
+      return true;
+  }
+}
 export default combineReducers({
   spinner,
   showApp,

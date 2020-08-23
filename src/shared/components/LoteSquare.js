@@ -7,7 +7,9 @@ import {successThemeColor, warnThemeColor} from '../../configuration/colors';
 export function LoteSquare({onDelete, item}) {
   return (
     <TouchableOpacity style={styles.container}>
-      <TouchableOpacity style={styles.cross} onPress={onDelete}>
+      <TouchableOpacity
+        style={styles.cross}
+        onPress={onDelete.bind(null, item.id)}>
         <Icon style={styles.crossIcon} name="squared-cross" type="Entypo" />
       </TouchableOpacity>
       <Text style={styles.text}>{item.description}</Text>

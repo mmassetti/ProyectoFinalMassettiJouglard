@@ -16,3 +16,5 @@ export {
 } from './components/HOCForInjection/WithSessionService';
 export {withAlertService} from './components/HOCForInjection/WithAlertService';
 export {AddLote} from './components/AddLote';
+export {uuidv4 as uniqueId} from './services/uuidService';
+export {NetStatusBar} from './components/NetStatusBar';

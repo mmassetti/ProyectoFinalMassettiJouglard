@@ -26,6 +26,9 @@ const firebaseConfig = {
 export function configureFirebase() {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-    firebase.firestore().settings({});
+    firestore().settings({
+      persistence: true,
+      cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED,
+    });
   }
 }

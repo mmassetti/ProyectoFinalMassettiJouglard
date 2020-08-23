@@ -5,10 +5,17 @@ import {Tour} from './src/guided-tour/Tour';
 import {OurSpinner} from './src/core/components/Spinner';
 import {Provider} from 'react-redux';
 import {store} from './src/store';
+import NetInfo from '@react-native-community/netinfo';
+import {NetStatusBar} from './src/shared';
 
 function App() {
   const [showRealApp, setShowApp] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const [netStatus, setNetStatus] = useState(true);
+
+  NetInfo.addEventListener(state => {
+    if (netStatus !== state.isConnected) setNetStatus(state.isConnected);
+  });
 
   store.subscribe(() => {
     const {spinner} = store.getState();
@@ -29,6 +36,7 @@ function App() {
   if (showRealApp) {
     return (
       <Provider store={store}>
+        {!netStatus ? <NetStatusBar /> : null}
         <Main />
         <OurSpinner show={spinner} />
       </Provider>

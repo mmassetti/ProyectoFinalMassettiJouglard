@@ -1,31 +1,34 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Text} from 'native-base';
-import moment from 'moment';
-import 'moment/locale/es';
+import {Text} from 'native-base';
 import {
   AddLote,
   withAlertService,
   withFirebase,
   LoteSquare,
+  uniqueId,
 } from '../../../shared';
 import {FlatGrid} from 'react-native-super-grid';
+import {SessionHeader} from './SessionHeader';
 
 function SessionDetails(props) {
-  const {item, itemId, onGoBack} = props.navigation.state.params;
-  const [lotes, setLotes] = useState(item.lotes || []);
-  useEffect(() => {}, []);
+  const {item, itemId} = props.navigation.state.params;
+  const [lotes, setLotes] = useState([]);
 
-  function goBackToSessions() {
-    //TODO: si la accion fue Volver no deberia mandar el onGoBack para evitar que entre al use effect innecesariamente en sessions list
-    const {navigation} = props;
-    navigation.goBack();
-    navigation.state.params.onGoBack();
-  }
+  useEffect(() => {
+    props.firebaseService.getSessionById(itemId).then(session => {
+      setLotes(session?.lotes.reverse() || []);
+    });
+  }, [itemId]);
 
-  const onDelete = () => {
-    props.alertService.showConfirmDialog();
+  const onDelete = loteId => {
+    props.alertService
+      .showConfirmDialog('Esta seguro/a que quiere borrar este lote?')
+      .then(() => {
+        setLotes(lotes.filter(lote => lote.id !== loteId));
+        props.firebaseService.removeLoteFromSession(itemId, loteId);
+      });
   };
   const onPress = () => {
     props.alertService
@@ -34,24 +37,20 @@ function SessionDetails(props) {
         'Nombre/Identificador del lote',
       )
       .then(loteName => {
-        setLotes(prevLotes => [{description: loteName}].concat(prevLotes));
+        const newLote = {id: uniqueId(), description: loteName};
+        setLotes(prevLotes => [newLote].concat(prevLotes));
+        props.firebaseService.addNewLoteToSession(itemId, newLote);
       });
   };
 
   return (
     <View style={styles.viewContainer}>
-      <View style={styles.inputContainer}>
-        <>
-          <Text>Fecha: {moment(item.date.toDate()).format('LL')}</Text>
-          <Text>Creador/a: {item.user}</Text>
-          <Text>Description: {item.description}</Text>
-        </>
-      </View>
+      <SessionHeader item={item} />
       <View style={styles.lotesContainer}>
         <Text style={styles.lotesTitle}>Lotes</Text>
         <FlatGrid
-          contentContainerStyle={styles.grid}
-          itemDimension={140}
+          style={styles.grid}
+          itemDimension={130}
           data={[{addLote: true}].concat(lotes)}
           renderItem={({item}) =>
             item.addLote ? (
@@ -72,8 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   grid: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
   },
   lotesContainer: {
     flex: 2,

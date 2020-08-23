@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View, Dimensions, ActivityIndicator} from 'react-native';
 
 export function OurSpinner({show}) {
-  console.log('Show', show);
   return show ? (
     <View style={styles.spinnerContainer}>
       <ActivityIndicator size="large" />

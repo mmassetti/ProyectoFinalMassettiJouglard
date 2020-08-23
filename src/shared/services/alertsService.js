@@ -11,7 +11,12 @@ export class AlertService {
   }
 
   showConfirmDialog(message) {
-    return Alert.alert('Confirmar', message);
+    return new Promise(resolve => {
+      Alert.alert('Confirmar', message, [
+        {text: 'Cancelar'},
+        {text: 'Confirmar', onPress: resolve},
+      ]);
+    });
   }
 
   showPromptDialog(defaultValue, message) {
