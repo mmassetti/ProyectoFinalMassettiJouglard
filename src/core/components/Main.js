@@ -6,31 +6,48 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import {Icon} from 'native-base';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
 import SessionDetails from './sessions/SessionDetails';
+import {tabBarIcons} from '../../configuration';
 
 const iconForTab = icon => ({focused}) => {
-  if (focused) {
-    return (
-      <Icon style={styles.menuiconFocused} type="FontAwesome5" name={icon} />
-    );
-  } else {
-    return <Icon style={styles.menuicon} type="FontAwesome5" name={icon} />;
-  }
+  return (
+    <Icon
+      style={focused ? styles.menuIconFocused : styles.menuIcon}
+      {...icon}
+    />
+  );
 };
 
+const showTitle = title => ({focused}) => {
+  if (focused) {
+    return <Text style={{textAlign: 'center', fontSize: 13}}>{title}</Text>;
+  } else {
+    return <Text style={{display: 'none'}} />;
+  }
+};
 const tabNavigator = createBottomTabNavigator({
   SessionsList: {
     navigationOptions: {
-      tabBarIcon: iconForTab('list'),
+      tabBarIcon: iconForTab(tabBarIcons['sessions']),
       title: 'Sesiones',
+      tabBarLabel: showTitle('Sesiones'),
+    },
+    screen: SessionsList,
+  },
+  Recent: {
+    navigationOptions: {
+      tabBarIcon: iconForTab(tabBarIcons['recent']),
+      title: 'Reciente',
+      tabBarLabel: showTitle('Reciente'),
     },
     screen: SessionsList,
   },
   GalleryCamera: {
     navigationOptions: {
-      tabBarIcon: iconForTab('camera'),
+      tabBarIcon: iconForTab(tabBarIcons['fastProcess']),
+      tabBarLabel: showTitle('Proceso rapido'),
       title: 'Proceso rápido',
     },
     screen: GalleryCamera,
@@ -67,12 +84,12 @@ const HomeNavigator = createStackNavigator(
 );
 
 const styles = StyleSheet.create({
-  menuiconFocused: {
+  menuIconFocused: {
     // color: 'black',
     color: '#464646',
     fontSize: 30,
   },
-  menuiconNotFocused: {
+  menuIcon: {
     // color: 'black',
     color: '#C6C6C5',
     fontSize: 30,
