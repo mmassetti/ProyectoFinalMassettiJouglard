@@ -87,12 +87,13 @@ const styles = StyleSheet.create({
   menuIconFocused: {
     // color: 'black',
     color: '#464646',
-    fontSize: 30,
+    fontSize: 27,
+    marginTop: 10,
   },
   menuIcon: {
     // color: 'black',
     color: '#C6C6C5',
-    fontSize: 30,
+    fontSize: 27,
   },
 });
 
