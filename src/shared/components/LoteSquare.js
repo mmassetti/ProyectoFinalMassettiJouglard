@@ -16,7 +16,7 @@ export function LoteSquare({onDelete, item}) {
       <View style={styles.percentagesContainer}>
         {percentages.map((percentage, index) => {
           return (
-            <Text style={{color: percentage.color, ...styles.text}}>
+            <Text key={index} style={{color: percentage.color, ...styles.text}}>
               {item['percentage' + percentage.type] || '-'}
             </Text>
           );
