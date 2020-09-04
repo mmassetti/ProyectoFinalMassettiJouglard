@@ -1,3 +1,5 @@
+import {safeExec, prop} from '../utils';
+
 export class SessionsService {
   _instance;
 
@@ -7,15 +9,15 @@ export class SessionsService {
   }
 
   compareSessionsByDate(session1, session2) {
-    return (
-      session2
-        .data()
-        .date.toDate()
-        .getTime() -
-      session1
-        .data()
-        .date.toDate()
-        .getTime()
+    const extractTime = compose(
+      safeExec('getTime'),
+      safeExec('toDate'),
+      prop('date'),
+      safeExec('data'),
     );
+    const session1Time = extractTime(session1);
+    const session2Time = extractTime(session2);
+
+    return session1Time - session2Time;
   }
 }

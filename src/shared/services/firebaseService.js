@@ -1,6 +1,15 @@
 //@ts-check
 import firestore from '@react-native-firebase/firestore';
 import {SpinnerService} from './spinnerService';
+import {
+  compose,
+  extractDataFromDoc,
+  extractDocs,
+  prop,
+  filter,
+  getIndex,
+  safeExec,
+} from '../utils';
 
 export class FirebaseService {
   static _instance;
@@ -23,7 +32,7 @@ export class FirebaseService {
     const collection = firestore().collection('sessions');
     return this.spinnerService
       .callAsyncFunctionWithSpinner(collection.get.bind(collection))
-      .then(this.map('docs'));
+      .then(prop('docs'));
   }
 
   getSessionById(sessionId) {
@@ -32,9 +41,14 @@ export class FirebaseService {
       .where('sessionId', '==', sessionId);
 
     const getter = collectionWithWhere.get.bind(collectionWithWhere);
-    return this.spinnerService
-      .callAsyncFunctionWithSpinner(getter)
-      .then(doc => doc.docs[0]?.data());
+
+    return this.spinnerService.callAsyncFunctionWithSpinner(getter).then(
+      compose(
+        safeExec('data'),
+        getIndex(0),
+        extractDocs,
+      ),
+    );
   }
 
   async addSessionToBothCollections(sessionData) {
@@ -92,12 +106,13 @@ export class FirebaseService {
     const docRef = await this.getSessionDetailDocRef(sessionId);
     return firestore().runTransaction(transaction => {
       return transaction.get(docRef).then(doc => {
-        const lotes = doc.data().lotes;
-        const lotesUpdated = lotes.filter(lote => lote.id !== loteId);
+        const lotesUpdated = compose(
+          filter(lote => lote.id !== loteId),
+          prop('lotes'),
+          extractDataFromDoc,
+        )(doc);
         return transaction.update(docRef, 'lotes', lotesUpdated);
       });
     });
   }
-
-  map = property => obj => obj[property];
 }
