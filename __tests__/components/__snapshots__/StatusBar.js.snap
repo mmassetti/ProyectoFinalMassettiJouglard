@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetStatus component Renders correctly 1`] = `
+<Text
+  style={
+    Object {
+      "backgroundColor": "rgba(237,29,29, 0.9)",
+      "color": "white",
+      "fontWeight": "bold",
+      "textAlign": "center",
+    }
+  }
+>
+  Trabajando sin conexion
+</Text>
+`;
