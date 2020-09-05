@@ -1,15 +1,8 @@
 import {Alert} from 'react-native';
 import prompt from 'react-native-prompt-android';
+import {Singleton} from './singletonService';
 
-export class AlertService {
-  _instance;
-
-  static getInstance() {
-    if (!this._instance) this._instance = new AlertService();
-
-    return this._instance;
-  }
-
+class InnerAlertService {
   showConfirmDialog(message) {
     return new Promise(resolve => {
       Alert.alert('Confirmar', message, [
@@ -32,3 +25,5 @@ export class AlertService {
     });
   }
 }
+
+export const AlertService = new Singleton(InnerAlertService);

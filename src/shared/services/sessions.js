@@ -1,13 +1,7 @@
-import {safeExec, prop} from '../utils';
+import {compose, safeExec, prop} from '../utils';
+import {Singleton} from './singletonService';
 
-export class SessionsService {
-  _instance;
-
-  static getInstance() {
-    if (!this._instance) this._instance = new SessionsService();
-    return this._instance;
-  }
-
+class InnerSessionsService {
   compareSessionsByDate(session1, session2) {
     const extractTime = compose(
       safeExec('getTime'),
@@ -21,3 +15,5 @@ export class SessionsService {
     return session1Time - session2Time;
   }
 }
+
+export const SessionsService = new Singleton(InnerSessionsService);

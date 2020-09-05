@@ -10,15 +10,10 @@ import {
   getIndex,
   safeExec,
 } from '../utils';
+import {Singleton} from './singletonService';
 
-export class FirebaseService {
-  static _instance;
+class InnerFirebaseService {
   spinnerService = SpinnerService.getInstance();
-
-  static getInstance() {
-    if (!this._instance) this._instance = new FirebaseService();
-    return this._instance;
-  }
 
   uploadPhoto(photoUri) {
     return firestore()
@@ -116,3 +111,5 @@ export class FirebaseService {
     });
   }
 }
+
+export const FirebaseService = new Singleton(InnerFirebaseService);

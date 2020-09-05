@@ -2,15 +2,10 @@ import {CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME} from '@env';
 import {sha1} from 'react-native-sha256';
 import ImgToBase64 from 'react-native-image-base64';
 import {SpinnerService} from './spinnerService';
+import {Singleton} from './singletonService';
 
-export class CloudinaryService {
-  static _instance;
+class InnerCloudinaryService {
   spinnerService = SpinnerService.getInstance();
-
-  static getInstance() {
-    if (!this.instance) this.instance = new CloudinaryService();
-    return this.instance;
-  }
 
   async uploadPhoto(photo) {
     const data = new FormData();
@@ -59,3 +54,5 @@ export class CloudinaryService {
     }).then(console.log);
   }
 }
+
+export const CloudinaryService = new Singleton(InnerCloudinaryService);

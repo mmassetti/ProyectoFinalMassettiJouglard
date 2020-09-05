@@ -1,14 +1,8 @@
 import {store} from '../../store/';
 import {showSpinner, hideSpinner} from '../../store/actions';
+import {Singleton} from './singletonService';
 
-export class SpinnerService {
-  static _instance;
-
-  static getInstance() {
-    if (!this._instance) this._instance = new SpinnerService();
-    return this._instance;
-  }
-
+class InnerSpinnerService {
   callAsyncFunctionWithSpinner(fn) {
     store.dispatch(showSpinner());
     return fn().then(response => {
@@ -17,3 +11,4 @@ export class SpinnerService {
     });
   }
 }
+export const SpinnerService = new Singleton(InnerSpinnerService);
