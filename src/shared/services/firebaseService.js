@@ -9,7 +9,7 @@ import {
   filter,
   getIndex,
   safeExec,
-} from '../utils';
+} from '../../utils';
 import {Singleton} from './singletonService';
 
 class InnerFirebaseService {

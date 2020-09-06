@@ -13,11 +13,14 @@ class InnerAlertService {
   }
 
   showPromptDialog(defaultValue, message) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       prompt(
         message,
         '',
-        [{text: 'Cancel'}, {text: 'Confirmar', onPress: resolve}],
+        [
+          {text: 'Cancel', onPress: reject},
+          {text: 'Confirmar', onPress: resolve},
+        ],
         {
           defaultValue: defaultValue,
         },

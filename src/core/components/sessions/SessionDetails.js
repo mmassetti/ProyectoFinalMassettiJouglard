@@ -1,7 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Text} from 'native-base';
+import {Text, StyleSheet, View} from 'react-native';
 import {
   AddLote,
   withAlertService,
@@ -11,6 +10,7 @@ import {
 } from '../../../shared';
 import {FlatGrid} from 'react-native-super-grid';
 import {SessionHeader} from './SessionHeader';
+import {compose, prop, reverse} from '../../../utils';
 
 function SessionDetails(props) {
   const {item, itemId} = props.navigation.state.params;
@@ -20,6 +20,13 @@ function SessionDetails(props) {
     props.firebaseService.getSessionById(itemId).then(session => {
       setLotes(session?.lotes.reverse() || []);
     });
+    // .then(
+    //   compose(
+    //     setLotes,
+    //     reverse,
+    //     prop('lotes'),
+    //   ),
+    // );
   }, [itemId]);
 
   const onDelete = loteId => {

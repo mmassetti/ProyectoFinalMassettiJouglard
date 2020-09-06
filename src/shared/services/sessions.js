@@ -1,4 +1,4 @@
-import {compose, safeExec, prop} from '../utils';
+import {compose, safeExec, prop} from '../../utils';
 import {Singleton} from './singletonService';
 
 class InnerSessionsService {
