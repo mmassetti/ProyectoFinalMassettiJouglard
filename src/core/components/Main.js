@@ -1,5 +1,5 @@
 import SessionsList from './sessions/SessionsList';
-import NewSession from './NewSession';
+import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';

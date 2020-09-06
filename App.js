@@ -25,7 +25,7 @@ function App() {
   useEffect(async () => {
     let oldUser = await AsyncStorage.getItem('@OldUser');
     setShowApp(oldUser);
-    return null;
+    return;
   }, []);
 
   const hideTour = show => () => {

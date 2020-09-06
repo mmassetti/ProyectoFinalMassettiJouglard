@@ -6,7 +6,7 @@ import {Button, Text} from 'native-base';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import 'moment/locale/es';
-import {withFirebase} from '../../shared';
+import {withFirebase} from '../../../shared';
 
 function NewSession(props) {
   const [date, setDate] = useState(new Date());
