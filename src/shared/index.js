@@ -4,6 +4,7 @@ export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
 export {CustomImage} from './components/CustomNativeImage';
 export {ImageWithAdjustment} from './components/ImageWithButton';
+export {BottomRightButton} from './components/BottomRightButton';
 export {
   withFirebase,
   withCloudinary,

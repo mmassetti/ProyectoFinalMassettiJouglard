@@ -2,81 +2,104 @@
 import firestore from '@react-native-firebase/firestore';
 import {SpinnerService} from './spinnerService';
 import {
+  add,
   compose,
-  extractDataFromDoc,
-  extractDocs,
   prop,
   filter,
   getIndex,
   safeExec,
+  collection,
+  where,
+  get,
+  doc,
+  runTransaction,
 } from '../../utils';
 import {Singleton} from './singletonService';
 
 class InnerFirebaseService {
   spinnerService = SpinnerService.getInstance();
 
+  callAsyncFunctionWithSpinner = this.spinnerService
+    .callAsyncFunctionWithSpinner;
+
   uploadPhoto(photoUri) {
-    return firestore()
-      .collection('imagenes')
-      .add({
-        imageUri: photoUri,
-      });
+    return collection('imagenes').add({
+      imageUri: photoUri,
+    });
   }
 
   getAllSessions() {
     const collection = firestore().collection('sessions');
-    return this.spinnerService
-      .callAsyncFunctionWithSpinner(collection.get.bind(collection))
-      .then(prop('docs'));
+    return this.callAsyncFunctionWithSpinner(
+      collection.get.bind(collection),
+    ).then(prop('docs'));
   }
 
   getSessionById(sessionId) {
-    const collectionWithWhere = firestore()
-      .collection('sessionsDetails')
-      .where('sessionId', '==', sessionId);
+    const collectionWithWhere = compose(
+      where('sessionId', '==', sessionId),
+      collection,
+    )('sessionsDetails');
 
     const getter = collectionWithWhere.get.bind(collectionWithWhere);
 
-    return this.spinnerService.callAsyncFunctionWithSpinner(getter).then(
+    return this.callAsyncFunctionWithSpinner(getter).then(
       compose(
         safeExec('data'),
         getIndex(0),
-        extractDocs,
+        prop('docs'),
       ),
     );
   }
 
   async addSessionToBothCollections(sessionData) {
-    const collection = firestore().collection('sessions');
-    const collectionDetails = firestore().collection('sessionsDetails');
     const objToAdd = {
       active: sessionData.active,
       date: sessionData.date,
       description: sessionData.description,
       user: sessionData.user,
     };
-    return collection
-      .add(objToAdd)
-      .then(docRef =>
-        collectionDetails.add({...objToAdd, sessionId: docRef.id}),
+
+    const collectionSimple = compose(
+      add(objToAdd),
+      collection,
+    )('sessions');
+    return collectionSimple.then(docRef => {
+      const collectionAdder = compose(
+        add({...objToAdd, sessionId: docRef.id}),
+        collection,
       );
+      return collectionAdder('sessionsDetails');
+    });
   }
 
   createSession(sessionData) {
-    return this.spinnerService.callAsyncFunctionWithSpinner(
+    return this.callAsyncFunctionWithSpinner(
       this.addSessionToBothCollections.bind(this, sessionData),
     );
   }
 
-  updateFileWithTransaction(collection, docId, transformFn) {
-    const docRef = firestore()
-      .collection(collection)
-      .doc(docId);
-    return firestore().runTransaction(async transaction => {
+  updateFileWithTransaction(collectionName, docId, transformFn) {
+    const docRef = compose(
+      doc(docId),
+      collection,
+    )(collectionName);
+    return runTransaction(async transaction => {
       return transaction.get(docRef).then(doc => transformFn(doc, transaction));
     });
   }
 
+  async getSessionDetailDocRef(sessionId) {
+    const getterById = compose(
+      get,
+      where('sessionId', '==', sessionId),
+      collection,
+    );
+    const {
+      docs: [doc],
+    } = await getterById('sessionsDetails');
+    return collection('sessionsDetails').doc(doc.id);
+  }
   async addNewLoteToSession(sessionId, newLote) {
     const docRef = await this.getSessionDetailDocRef(sessionId);
     return docRef.update({
@@ -84,29 +107,16 @@ class InnerFirebaseService {
     });
   }
 
-  async getSessionDetailDocRef(sessionId) {
-    const {
-      docs: [doc],
-    } = await firestore()
-      .collection('sessionsDetails')
-      .where('sessionId', '==', sessionId)
-      .get();
-    const docRef = firestore()
-      .collection('sessionsDetails')
-      .doc(doc.id);
-    return docRef;
-  }
-
   async removeLoteFromSession(sessionId, loteId) {
     const docRef = await this.getSessionDetailDocRef(sessionId);
-    return firestore().runTransaction(transaction => {
+    return runTransaction(transaction => {
       return transaction.get(docRef).then(doc => {
-        const lotesUpdated = compose(
+        const removeLote = compose(
           filter(lote => lote.id !== loteId),
           prop('lotes'),
-          extractDataFromDoc,
-        )(doc);
-        return transaction.update(docRef, 'lotes', lotesUpdated);
+          safeExec('data'),
+        );
+        return transaction.update(docRef, 'lotes', removeLote(doc));
       });
     });
   }

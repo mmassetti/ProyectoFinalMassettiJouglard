@@ -14,19 +14,24 @@ export const InjectorService = (Service, serviceName) => Component => {
 };
 
 export const withFirebase = InjectorService(FirebaseService, 'firebaseService');
+
 export const withCloudinary = InjectorService(
   CloudinaryService,
   'cloudinaryService',
 );
+
 export const withImageProcessing = InjectorService(
   ImageProcessor,
   'imageProcessor',
 );
+
 export const withImagePicker = InjectorService(
   ImagePickerService,
   'imagePicker',
 );
+
 export const withAlertService = InjectorService(AlertService, 'alertService');
+
 export const withSessionsService = InjectorService(
   SessionsService,
   'sessionsService',
