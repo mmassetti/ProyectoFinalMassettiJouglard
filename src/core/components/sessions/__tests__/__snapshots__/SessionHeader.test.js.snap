@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionDetail component Renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "marginTop": 20,
+    }
+  }
+>
+  <Text>
+    Fecha: 
+    8 de septiembre de 2020
+  </Text>
+  <Text>
+    Creador/a: 
+    Juan
+  </Text>
+  <Text>
+    Description: 
+    
+  </Text>
+</View>
+`;

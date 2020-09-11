@@ -1,8 +1,8 @@
 import {mainThemeColor} from '../../configuration';
-import {Icon} from 'native-base';
 import React, {Component} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ImageEditor} from '../../shared';
+import {Image, StyleSheet, View} from 'react-native';
+import {ImageEditor} from '../../shared/components/ImageEditor';
+import {BottomRightButton} from './BottomRightButton';
 
 export class ImageWithAdjustment extends Component {
   constructor(props) {
@@ -19,11 +19,11 @@ export class ImageWithAdjustment extends Component {
           style={this.shouldRotate()}
           source={{uri: this.props.imageToShow.getSource()}}
         />
-        <TouchableOpacity
+        <BottomRightButton
+          name="edit"
+          type="Entypo"
           onPress={this.showEditor(true)}
-          style={styles.adjustButton}>
-          <Icon name="edit" type="Entypo" style={styles.icon} />
-        </TouchableOpacity>
+        />
         <ImageEditor
           image={this.props.imageToEdit}
           showOver={this.state.showEditor}
@@ -53,23 +53,9 @@ export class ImageWithAdjustment extends Component {
 }
 
 const styles = StyleSheet.create({
-  adjustButton: {
-    position: 'absolute',
-    right: 0,
-    bottom: 10,
-    backgroundColor: mainThemeColor(1),
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 60,
-    width: 60,
-  },
   center: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  icon: {
-    color: 'white',
   },
   imageContainer: {
     flex: 6,

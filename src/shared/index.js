@@ -1,13 +1,19 @@
 export {ImageEditor} from './components/ImageEditor';
+export {LoteSquare} from './components/LoteSquare';
 export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
-export {ImageProcessor} from './services/imageProcessor';
-export {ImagePickerService} from './services/imagePickerService';
-export {FirebaseService} from './services/firebaseService';
-export {CloudinaryService} from './services/cloudinaryService';
 export {CustomImage} from './components/CustomNativeImage';
 export {ImageWithAdjustment} from './components/ImageWithButton';
-export {withCloudinary} from './components/WithCloudinary';
-export {withFirebase} from './components/WithFirebase';
-export {withImagePicker} from './components/WithImagePicker';
-export {withImageProcessing} from './components/WithImageProcessing';
+export {BottomRightButton} from './components/BottomRightButton';
+export {
+  withFirebase,
+  withCloudinary,
+  withAlertService,
+  withSessionsService,
+  withImageProcessing,
+  withImagePicker,
+} from './components/HOCForInjection/WithService';
+export {Separator} from './components/ListSeparator';
+export {AddLote} from './components/AddLote';
+export {uuidv4 as uniqueId} from './services/uuidService';
+export {NetStatusBar} from './components/NetStatusBar';

@@ -1,16 +1,8 @@
 import {NativeModules} from 'react-native';
 import * as colorsRange from '../../configuration/colors';
+import {Singleton} from './singletonService';
 
-export class ImageProcessor {
-  instance;
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new ImageProcessor();
-    }
-    return this.instance;
-  }
-
+class InnerImageProcessor {
   async processImage(uriImage) {
     return NativeModules.NativeOpenCV.processImage(
       uriImage,
@@ -27,3 +19,4 @@ export class ImageProcessor {
     );
   }
 }
+export const ImageProcessor = new Singleton(InnerImageProcessor);

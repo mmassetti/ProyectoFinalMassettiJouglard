@@ -1,17 +1,12 @@
-import {Button, Icon} from 'native-base';
+import {Button} from 'native-base';
 import React, {Component} from 'react';
 import {mainThemeColor} from '../../configuration';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import Popover from 'react-native-popover-view';
 import {imageAdjusts} from '../../configuration';
 import CustomImage from './CustomNativeImage';
 import {Sliders} from './Sliders';
+import {BottomRightButton} from './BottomRightButton';
 
 export class ImageEditor extends Component {
   constructor(props) {
@@ -32,15 +27,11 @@ export class ImageEditor extends Component {
         popoverStyle={styles.popover}
         isVisible={this.props.showOver}>
         <View style={styles.imageContainer}>
-          <TouchableOpacity
+          <BottomRightButton
+            type="Ionicons"
+            name="refresh"
             onPress={this.resetAdjustment}
-            style={styles.resetButton}>
-            <Icon
-              type="Ionicons"
-              name="refresh"
-              style={{color: 'white', fontSize: 32}}
-            />
-          </TouchableOpacity>
+          />
           <CustomImage
             onSave={this.save}
             saveImage={this.state.saveImg}
@@ -104,7 +95,6 @@ export class ImageEditor extends Component {
   };
 
   resetAdjustment = () => {
-    console.log('Entra reset');
     this.setState({
       brightness: imageAdjusts[0].defaultValue,
       saturation: imageAdjusts[1].defaultValue,

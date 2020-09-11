@@ -1,81 +1,81 @@
 import SessionsList from './sessions/SessionsList';
-import NewSession from './NewSession';
+import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import {Icon} from 'native-base';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
+import ImageView from './ImageView';
+import SessionDetails from './sessions/SessionDetails';
+import {tabBarIcons} from '../../configuration';
 
 const iconForTab = icon => ({focused}) => {
-  console.log('icon', icon);
-  if (focused) {
-    return (
-      <Icon style={styles.menuiconFocused} type="FontAwesome5" name={icon} />
-    );
-    // return <FontAwesomeIcon color="#464646" icon={icon} size={30} />;
-  } else {
-    return <Icon style={styles.menuicon} type="FontAwesome5" name={icon} />;
-
-    // return <FontAwesomeIcon color="#C6C6C5" icon={icon} size={30} />;
-  }
+  return (
+    <Icon
+      style={focused ? styles.menuIconFocused : styles.menuIcon}
+      {...icon}
+    />
+  );
 };
 
-const tabNavigator = createBottomTabNavigator(
-  {
-    SessionsList: {
-      navigationOptions: {
-        tabBarIcon: iconForTab('list'),
-        title: 'Sesiones',
-      },
-      screen: SessionsList,
+const showTitle = title => ({focused}) => {
+  if (focused) {
+    return <Text style={{textAlign: 'center', fontSize: 13}}>{title}</Text>;
+  } else {
+    return <Text style={{display: 'none'}} />;
+  }
+};
+const tabNavigator = createBottomTabNavigator({
+  SessionsList: {
+    navigationOptions: {
+      tabBarIcon: iconForTab(tabBarIcons['sessions']),
+      title: 'Sesiones',
+      tabBarLabel: showTitle('Sesiones'),
     },
-    GalleryCamera: {
-      navigationOptions: {
-        tabBarIcon: iconForTab('camera'),
-        title: 'Proceso rápido',
-      },
-      screen: GalleryCamera,
-    },
-    NewSession: {
-      navigationOptions: {
-        tabBarIcon: iconForTab('plus-circle'),
-        title: 'Nueva sesión',
-      },
-      screen: NewSession,
-    },
+    screen: SessionsList,
   },
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: ({horizontal, tintColor}) => {
-        const {routeName} = navigation.state;
-        let iconName;
-        if (routeName === 'SessionsList') {
-          iconName = 'list';
-        } else if (routeName === 'GalleryCamera') {
-          iconName = 'camera';
-        } else if (routeName === 'NewSession') {
-          iconName = 'plus-circle';
-        }
-        return (
-          <Icon style={styles.menuicon} type="FontAwesome5" name={iconName} />
-        );
-      },
-    }),
+  Recent: {
+    navigationOptions: {
+      tabBarIcon: iconForTab(tabBarIcons['recent']),
+      title: 'Reciente',
+      tabBarLabel: showTitle('Reciente'),
+    },
+    screen: SessionsList,
   },
-);
+  GalleryCamera: {
+    navigationOptions: {
+      tabBarIcon: iconForTab(tabBarIcons['fastProcess']),
+      tabBarLabel: showTitle('Proceso rapido'),
+      title: 'Proceso rápido',
+    },
+    screen: GalleryCamera,
+  },
+});
 
 const HomeNavigator = createStackNavigator(
   {
-    // Local: {
-    //   screen: LocalDetail,
-    // },
+    Imagen: {
+      screen: ImageView,
+    },
     Main: {
       navigationOptions: {
         headerShown: false,
       },
       screen: tabNavigator,
+    },
+    NewSession: {
+      screen: NewSession,
+      navigationOptions: {
+        title: 'Nueva sesión',
+      },
+    },
+    SessionDetails: {
+      screen: SessionDetails,
+      navigationOptions: {
+        title: 'Detalles de la sesion',
+      },
     },
   },
   {
@@ -84,15 +84,16 @@ const HomeNavigator = createStackNavigator(
 );
 
 const styles = StyleSheet.create({
-  menuiconFocused: {
+  menuIconFocused: {
     // color: 'black',
     color: '#464646',
-    fontSize: 30,
+    fontSize: 27,
+    marginTop: 10,
   },
-  menuiconNotFocused: {
+  menuIcon: {
     // color: 'black',
     color: '#C6C6C5',
-    fontSize: 30,
+    fontSize: 27,
   },
 });
 

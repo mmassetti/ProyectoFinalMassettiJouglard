@@ -1,8 +1,7 @@
 import ImagePicker from 'react-native-image-picker';
+import {Singleton} from './singletonService';
 
-export class ImagePickerService {
-  instance;
-
+class InnerImagePickerService {
   options = {
     mediaType: 'photo',
     cameraType: 'back',
@@ -11,13 +10,6 @@ export class ImagePickerService {
     maxWidth: 1080,
     maxHeigth: 1080,
   };
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new ImagePickerService();
-    }
-    return this.instance;
-  }
 
   resolveResponse = (resolve, reject) => response => {
     if (response.didCancel) {
@@ -54,3 +46,4 @@ export class ImagePickerService {
     return result;
   }
 }
+export const ImagePickerService = new Singleton(InnerImagePickerService);

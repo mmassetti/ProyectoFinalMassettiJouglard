@@ -1,0 +1,501 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageEditor component renders correctly 1`] = `
+<Modal
+  hardwareAccelerated={true}
+  onDismiss={[Function]}
+  onRequestClose={[Function]}
+  onShow={[Function]}
+  supportedOrientations={
+    Array [
+      "portrait",
+      "portrait-upside-down",
+      "landscape",
+    ]
+  }
+  transparent={true}
+  visible={false}
+>
+  <View
+    pointerEvents="box-none"
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": -2668,
+        },
+        Object {
+          "left": 0,
+        },
+      ]
+    }
+  >
+    <View
+      forwardedRef={[Function]}
+      onLayout={[Function]}
+      pointerEvents="none"
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 20,
+          "position": "absolute",
+          "right": 0,
+          "top": 2668,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onLayout={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      />
+    </View>
+    <View
+      pointerEvents="box-none"
+      style={
+        Object {
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": -2668,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "rgba(0, 0, 0, 0.5)",
+            "bottom": 2668,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "transform": Array [
+              Object {
+                "translateY": 0,
+              },
+            ],
+          }
+        }
+      />
+      <View
+        pointerEvents="box-none"
+        style={
+          Object {
+            "left": 0,
+            "top": 0,
+          }
+        }
+      >
+        <View
+          forwardedRef={[Function]}
+          onLayout={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "white",
+              "borderBottomColor": "#333438",
+              "borderRadius": 3,
+              "height": 1200.6000000000001,
+              "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "overflow": "hidden",
+              "position": "absolute",
+              "shadowColor": "black",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 0.8,
+              "shadowRadius": 2,
+              "transform": Array [
+                Object {
+                  "translateX": 0,
+                },
+                Object {
+                  "translateY": 0,
+                },
+                Object {
+                  "scale": 0,
+                },
+                Object {
+                  "perspective": 1000,
+                },
+              ],
+              "width": 675,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 3,
+                "paddingHorizontal": 5,
+                "paddingTop": 5,
+                "position": "relative",
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(31, 47, 51, 1)",
+                  "borderRadius": 30,
+                  "bottom": 10,
+                  "height": 60,
+                  "justifyContent": "center",
+                  "opacity": 1,
+                  "position": "absolute",
+                  "right": 10,
+                  "width": 60,
+                  "zIndex": 99,
+                }
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": undefined,
+                      "fontSize": 12,
+                    },
+                    Array [
+                      Object {
+                        "color": "#000",
+                        "fontSize": 30,
+                      },
+                      Object {
+                        "color": "#000",
+                        "fontSize": 30,
+                      },
+                      Object {
+                        "color": "white",
+                        "fontSize": 32,
+                      },
+                    ],
+                    Object {
+                      "fontFamily": "Ionicons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+                type="Ionicons"
+              >
+                
+              </Text>
+            </View>
+            <CustomImage
+              brightness={0}
+              contrast={1}
+              onSave={[Function]}
+              resizeMode="contain"
+              saturation={1}
+              saveImage={false}
+              src={
+                Object {
+                  "height": 0,
+                  "source": Array [
+                    Object {
+                      "uri": "",
+                    },
+                  ],
+                  "width": 0,
+                }
+              }
+              style={
+                Object {
+                  "height": "100%",
+                  "resizeMode": "contain",
+                  "width": "100%",
+                }
+              }
+            />
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 3,
+                "justifyContent": "center",
+                "marginTop": 10,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <Text>
+                Brillo
+              </Text>
+              <RNCSlider
+                disabled={false}
+                enabled={true}
+                inverted={false}
+                maximumValue={100}
+                minimumTrackTintColor="rgba(31, 47, 51, 1)"
+                minimumValue={-100}
+                onChange={[Function]}
+                onRNCSliderSlidingComplete={null}
+                onRNCSliderSlidingStart={null}
+                onRNCSliderValueChange={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                step={0}
+                style={
+                  Array [
+                    Object {
+                      "height": 40,
+                    },
+                    Object {
+                      "height": 50,
+                      "width": 300,
+                    },
+                  ]
+                }
+                thumbImage={null}
+                thumbTintColor="rgba(31, 47, 51, 1)"
+                value={0}
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <Text>
+                Saturación
+              </Text>
+              <RNCSlider
+                disabled={false}
+                enabled={true}
+                inverted={false}
+                maximumValue={2}
+                minimumTrackTintColor="rgba(31, 47, 51, 1)"
+                minimumValue={0}
+                onChange={[Function]}
+                onRNCSliderSlidingComplete={null}
+                onRNCSliderSlidingStart={null}
+                onRNCSliderValueChange={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                step={0}
+                style={
+                  Array [
+                    Object {
+                      "height": 40,
+                    },
+                    Object {
+                      "height": 50,
+                      "width": 300,
+                    },
+                  ]
+                }
+                thumbImage={null}
+                thumbTintColor="rgba(31, 47, 51, 1)"
+                value={1}
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <Text>
+                Contraste
+              </Text>
+              <RNCSlider
+                disabled={false}
+                enabled={true}
+                inverted={false}
+                maximumValue={1.5}
+                minimumTrackTintColor="rgba(31, 47, 51, 1)"
+                minimumValue={0.5}
+                onChange={[Function]}
+                onRNCSliderSlidingComplete={null}
+                onRNCSliderSlidingStart={null}
+                onRNCSliderValueChange={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                step={0}
+                style={
+                  Array [
+                    Object {
+                      "height": 40,
+                    },
+                    Object {
+                      "height": 50,
+                      "width": 300,
+                    },
+                  ]
+                }
+                thumbImage={null}
+                thumbTintColor="rgba(31, 47, 51, 1)"
+                value={1}
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+                "justifyContent": "space-evenly",
+                "width": "90%",
+              }
+            }
+          >
+            <View
+              accessible={true}
+              focusable={false}
+              forwardedRef={[Function]}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#a9a9a9",
+                  "borderBottomWidth": null,
+                  "borderColor": "#007aff",
+                  "borderLeftWidth": null,
+                  "borderRadius": 5,
+                  "borderRightWidth": null,
+                  "borderTopWidth": null,
+                  "borderWidth": undefined,
+                  "elevation": 2,
+                  "flexDirection": "row",
+                  "height": 45,
+                  "justifyContent": "space-between",
+                  "opacity": 1,
+                  "padding": 10,
+                  "paddingBottom": 6,
+                  "paddingTop": 6,
+                  "shadowColor": undefined,
+                  "shadowOffset": undefined,
+                  "shadowOpacity": undefined,
+                  "shadowRadius": undefined,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                  }
+                }
+              >
+                Cancelar
+              </Text>
+            </View>
+            <View
+              accessible={true}
+              focusable={true}
+              forwardedRef={[Function]}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#007aff",
+                  "borderBottomWidth": null,
+                  "borderColor": "#007aff",
+                  "borderLeftWidth": null,
+                  "borderRadius": 5,
+                  "borderRightWidth": null,
+                  "borderTopWidth": null,
+                  "borderWidth": undefined,
+                  "elevation": 2,
+                  "flexDirection": "row",
+                  "height": 45,
+                  "justifyContent": "space-between",
+                  "opacity": 1,
+                  "padding": 10,
+                  "paddingBottom": 6,
+                  "paddingTop": 6,
+                  "shadowColor": undefined,
+                  "shadowOffset": undefined,
+                  "shadowOpacity": undefined,
+                  "shadowRadius": undefined,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                  }
+                }
+              >
+                Confirmar
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

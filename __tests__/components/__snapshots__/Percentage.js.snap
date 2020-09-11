@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Percentage component Renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontSize": 16,
+        "marginBottom": 10,
+      }
+    }
+  />
+  <View
+    indeterminateAnimationDuration={1000}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <ARTSurfaceView
+      style={
+        Array [
+          Object {
+            "transform": Array [
+              Object {
+                "rotate": "0deg",
+              },
+            ],
+          },
+          Object {
+            "height": 150,
+            "width": 150,
+          },
+        ]
+      }
+    >
+      <ARTShape
+        d={
+          Array [
+            0,
+            75,
+            4.5,
+            2,
+            NaN,
+            NaN,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke="#007aff"
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={7}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+      <ARTShape
+        d={
+          Array [
+            0,
+            75,
+            0.5,
+            4,
+            75,
+            75,
+            74.5,
+            -1.5707963267948966,
+            1.5707963267948966,
+            1,
+            4,
+            75,
+            75,
+            74.5,
+            1.5707963267948966,
+            -1.5707963267948966,
+            1,
+            1,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke="#007aff"
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={1}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+    </ARTSurfaceView>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderRadius": 67,
+          "height": 134,
+          "justifyContent": "center",
+          "left": 8,
+          "position": "absolute",
+          "top": 8,
+          "width": 134,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={true}
+        style={
+          Array [
+            Object {
+              "color": "rgba(0, 122, 255, 1)",
+              "fontSize": 29.77777777777778,
+              "fontWeight": "300",
+            },
+            undefined,
+          ]
+        }
+      >
+        undefined%
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Percentage component Renders with props 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontSize": 16,
+        "marginBottom": 10,
+      }
+    }
+  />
+  <View
+    indeterminateAnimationDuration={1000}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <ARTSurfaceView
+      style={
+        Array [
+          Object {
+            "transform": Array [
+              Object {
+                "rotate": "0deg",
+              },
+            ],
+          },
+          Object {
+            "height": 150,
+            "width": 150,
+          },
+        ]
+      }
+    >
+      <ARTShape
+        d={
+          Array [
+            0,
+            75,
+            4.5,
+            3,
+            108.84208239100113,
+            4.5,
+            137.90987728962835,
+            28.546971250916165,
+            144.25125117637253,
+            61.78961732170642,
+            3,
+            150.59262506311674,
+            95.03226339249669,
+            132.41835340491548,
+            128.09114081301644,
+            100.95278096426978,
+            140.54924225512173,
+            3,
+            69.48720852362408,
+            153.00734369722704,
+            33.60837579509318,
+            141.3496042658815,
+            15.47488125210792,
+            112.77578904601924,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke="#008000"
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={7}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+      <ARTShape
+        d={
+          Array [
+            0,
+            75,
+            0.5,
+            4,
+            75,
+            75,
+            74.5,
+            -1.5707963267948966,
+            1.5707963267948966,
+            1,
+            4,
+            75,
+            75,
+            74.5,
+            1.5707963267948966,
+            -1.5707963267948966,
+            1,
+            1,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke="#008000"
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={1}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+    </ARTSurfaceView>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderRadius": 67,
+          "height": 134,
+          "justifyContent": "center",
+          "left": 8,
+          "position": "absolute",
+          "top": 8,
+          "width": 134,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={true}
+        style={
+          Array [
+            Object {
+              "color": "green",
+              "fontSize": 29.77777777777778,
+              "fontWeight": "300",
+            },
+            undefined,
+          ]
+        }
+      >
+        66%
+      </Text>
+    </View>
+  </View>
+</View>
+`;
