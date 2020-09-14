@@ -94,7 +94,7 @@ function NewSession(props) {
       date: date,
       description: description,
       user: 'NombreUsuario',
-      visibility: switchValue ? 'publica' : 'privada',
+      visibility: switchValue ? 'Pública' : 'Privada',
     };
     props.firebaseService.createSession(sessionData).then(createdSession => {
       goBackToSessions();
