@@ -9,7 +9,7 @@ export function SessionHeader({item: {date, user, description}}) {
       <>
         <Text>Fecha: {moment(date.toDate()).format('LL')}</Text>
         <Text>Creador/a: {user}</Text>
-        <Text>Description: {description}</Text>
+        <Text>Descripción: {description}</Text>
       </>
     </View>
   );

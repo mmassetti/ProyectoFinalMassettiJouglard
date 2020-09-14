@@ -1,7 +1,7 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
 
-import {StyleSheet, View, TextInput} from 'react-native';
+import {StyleSheet, View, TextInput, Switch} from 'react-native';
 import {Button, Text} from 'native-base';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
@@ -12,12 +12,18 @@ function NewSession(props) {
   const [date, setDate] = useState(new Date());
   const [description, setDescription] = useState('');
 
+  const [switchValue, setSwitchValue] = useState(true);
+
+  const toggleSwitch = value => {
+    setSwitchValue(value);
+  };
+
   useEffect(() => {}, []);
 
   const showDatePicker = () => {
     return (
       <DatePicker
-        style={{width: 200}}
+        style={{width: 200, marginBottom: 15}}
         date={date}
         mode="date"
         locale={'es'}
@@ -42,6 +48,18 @@ function NewSession(props) {
           setDate(stringToDate);
         }}
       />
+    );
+  };
+
+  const showVisibility = () => {
+    return (
+      <View style={{flexDirection: 'row', marginBottom: 15}}>
+        <Text>
+          {switchValue ? 'Visibilidad PÚBLICA' : 'Visibilidad PRIVADA'}
+        </Text>
+
+        <Switch onValueChange={toggleSwitch} value={switchValue} />
+      </View>
     );
   };
 
@@ -99,6 +117,7 @@ function NewSession(props) {
     <View style={styles.viewContainer}>
       <View style={styles.inputContainer}>
         <React.Fragment>
+          {showVisibility()}
           {showDatePicker()}
           {showDescription()}
         </React.Fragment>
