@@ -103,9 +103,6 @@ function NewSession(props) {
   const showButtons = () => {
     return (
       <View style={styles.buttonsContainer}>
-        <Button style={styles.button} light onPress={() => goBackToSessions()}>
-          <Text style={styles.buttonText}>Volver</Text>
-        </Button>
         <Button style={styles.button} primary onPress={() => createSession()}>
           <Text style={styles.buttonText}>Crear sesion</Text>
         </Button>
