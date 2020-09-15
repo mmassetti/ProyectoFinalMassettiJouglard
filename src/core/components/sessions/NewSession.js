@@ -53,7 +53,7 @@ function NewSession(props) {
 
   const showVisibility = () => {
     return (
-      <View style={{flexDirection: 'row', marginBottom: 15}}>
+      <View style={styles.visibility}>
         <Text>
           {switchValue ? 'Visibilidad PÚBLICA' : 'Visibilidad PRIVADA'}
         </Text>
@@ -69,7 +69,7 @@ function NewSession(props) {
         <TextInput
           // autoFocus
           underlineColorAndroid="transparent"
-          placeholder="Escribir descripcion de la sesion..."
+          placeholder="Escribir una breve descripción de la sesión..."
           placeholderTextColor="grey"
           style={styles.description}
           onChangeText={text => setDescription(text)}
@@ -105,7 +105,7 @@ function NewSession(props) {
     return (
       <View style={styles.buttonsContainer}>
         <Button style={styles.button} primary onPress={() => createSession()}>
-          <Text style={styles.buttonText}>Crear sesion</Text>
+          <Text style={styles.buttonText}>Crear sesión</Text>
         </Button>
       </View>
     );
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
 
   textAreaContainer: {
     marginTop: 10,
-    borderColor: 'grey',
     borderWidth: 1,
     padding: 5,
   },
@@ -163,6 +162,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+  },
+  visibility: {
+    flexDirection: 'row',
+    marginBottom: 15,
   },
 });
 

@@ -58,6 +58,7 @@ class InnerFirebaseService {
       date: sessionData.date,
       description: sessionData.description,
       user: sessionData.user,
+      visibility: sessionData.visibility,
     };
 
     const collectionSimple = compose(

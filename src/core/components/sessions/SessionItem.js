@@ -27,10 +27,7 @@ export default function SessionItem(props) {
             Descripcion: {sessionData.description}
           </Text>
           <Text>Usuario: {sessionData.user}</Text>
-          <Text>
-            Fecha:
-            {moment(sessionData.date.toDate()).format('LL')}
-          </Text>
+          <Text>Fecha: {moment(sessionData.date.toDate()).format('L')}</Text>
         </View>
         <Text
           style={[
