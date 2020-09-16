@@ -73,9 +73,10 @@ const HomeNavigator = createStackNavigator(
     },
     SessionDetails: {
       screen: SessionDetails,
-      navigationOptions: {
-        title: 'Detalles de la sesion',
-      },
+      navigationOptions: SessionDetails.navigationOptions,
+      // navigationOptions: {
+      //   title: 'Detalles de la sesion',
+      // },
     },
   },
   {
