@@ -5,12 +5,10 @@ import {
   warnThemeColor,
   successThemeColor,
 } from '../../../configuration/colors';
-import {
-  TouchableOpacity,
-  TouchableNativeFeedback,
-} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import moment from 'moment';
 import 'moment/locale/es';
+import {ReadMoreText} from '../../../shared/components/ReadMoreText';
 
 export default function SessionItem(props) {
   const {item, index} = props;
@@ -23,9 +21,14 @@ export default function SessionItem(props) {
           style={styles.image}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.titleText}>
+          <ReadMoreText
+            text={sessionData.description}
+            style={styles.titleText}
+          />
+
+          {/* <Text style={styles.titleText}>
             Descripcion: {sessionData.description}
-          </Text>
+          </Text> */}
           <Text>Usuario: {sessionData.user}</Text>
           <Text>Fecha: {moment(sessionData.date.toDate()).format('L')}</Text>
         </View>

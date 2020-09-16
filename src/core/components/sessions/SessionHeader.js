@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/es';
 import {
@@ -14,8 +14,8 @@ import {
   Icon,
   Left,
   Body,
-  Text,
 } from 'native-base';
+import {ReadMoreText} from '../../../shared/components/ReadMoreText';
 
 export function SessionHeader({item: {date, user, description, visibility}}) {
   const dataArray = [{title: 'Detalles', content: 'lorem ipsum'}];
@@ -69,10 +69,11 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
         <Text>
           <Text style={styles.boldText}>Visibilidad: </Text> {visibility}
         </Text>
-        <Text>
-          {' '}
+        {/* <Text>
           <Text style={styles.boldText}>Descripción: </Text> {description}
-        </Text>
+        </Text> */}
+
+        <ReadMoreText text={description} style={styles.titleText} />
       </>
     </View>
   );
