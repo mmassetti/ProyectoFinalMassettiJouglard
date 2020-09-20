@@ -2,13 +2,11 @@
 import React, {useState, useEffect} from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import {
-  AddLote,
   withAlertService,
   withFirebase,
-  LoteSquare,
   uniqueId,
+  GridWithNewButton,
 } from '../../../shared';
-import {FlatGrid} from 'react-native-super-grid';
 import {SessionHeader} from './SessionHeader';
 import {compose, prop, reverse} from '../../../utils';
 
@@ -37,7 +35,7 @@ function SessionDetails(props) {
         props.firebaseService.removeLoteFromSession(itemId, loteId);
       });
   };
-  const onPress = () => {
+  const onNewPress = () => {
     props.alertService
       .showPromptDialog(
         `Lote ${lotes.length + 1}`,
@@ -50,24 +48,22 @@ function SessionDetails(props) {
       });
   };
 
+  const routeToLote = item => {
+    props.navigation.navigate('LoteDetails', {
+      item: item,
+    });
+  };
+
   return (
     <View style={styles.viewContainer}>
       <SessionHeader item={item} />
-      <View style={styles.lotesContainer}>
-        <Text style={styles.lotesTitle}>Lotes</Text>
-        <FlatGrid
-          style={styles.grid}
-          itemDimension={130}
-          data={[{addLote: true}].concat(lotes)}
-          renderItem={({item}) =>
-            item.addLote ? (
-              <AddLote onPress={onPress} />
-            ) : (
-              <LoteSquare item={item} onDelete={onDelete} />
-            )
-          }
-        />
-      </View>
+      <GridWithNewButton
+        title="Lotes"
+        data={lotes}
+        onDeleteEntry={onDelete}
+        onNewClick={onNewPress}
+        onEntryClick={routeToLote}
+      />
     </View>
   );
 }
