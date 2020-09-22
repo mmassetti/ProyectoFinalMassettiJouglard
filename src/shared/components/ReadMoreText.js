@@ -14,21 +14,16 @@ export function ReadMoreText({text, style}) {
   const renderRevealedFooter = handlePress => {
     return (
       <Text style={{color: 'dodgerblue', marginTop: 1}} onPress={handlePress}>
-        Mostrar menos
+        Leer menos
       </Text>
     );
-  };
-
-  const handleTextReady = () => {
-    // ...
   };
 
   return (
     <ReadMore
       numberOfLines={3}
       renderTruncatedFooter={renderTruncatedFooter}
-      renderRevealedFooter={renderRevealedFooter}
-      onReady={handleTextReady}>
+      renderRevealedFooter={renderRevealedFooter}>
       <Text style={style ? style : ''}>{text}</Text>
     </ReadMore>
   );

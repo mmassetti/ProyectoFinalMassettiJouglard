@@ -8,7 +8,6 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import moment from 'moment';
 import 'moment/locale/es';
-import {ReadMoreText} from '../../../shared/components/ReadMoreText';
 
 export default function SessionItem(props) {
   const {item, index} = props;
@@ -21,14 +20,10 @@ export default function SessionItem(props) {
           style={styles.image}
         />
         <View style={styles.textContainer}>
-          <ReadMoreText
-            text={sessionData.description}
-            style={styles.titleText}
-          />
+          <Text numberOfLines={3} style={styles.titleText}>
+            {sessionData.description}
+          </Text>
 
-          {/* <Text style={styles.titleText}>
-            Descripcion: {sessionData.description}
-          </Text> */}
           <Text>Usuario: {sessionData.user}</Text>
           <Text>Fecha: {moment(sessionData.date.toDate()).format('L')}</Text>
         </View>
