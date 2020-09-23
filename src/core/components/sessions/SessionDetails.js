@@ -64,10 +64,6 @@ function SessionDetails(props) {
   );
 }
 
-SessionDetails.navigationOptions = {
-  headerTitle: 'Your custom label...',
-};
-
 const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',

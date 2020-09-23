@@ -4,12 +4,14 @@ import GalleryCamera from './GalleryCamera';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
-import {Icon} from 'native-base';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
+import {Icon} from 'native-base';
+import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
+import alertService from '../../shared/services/alertsService';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -54,6 +56,20 @@ const tabNavigator = createBottomTabNavigator({
   },
 });
 
+function onDeleteSession(sessionId) {
+  console.log('onDeleteSession -> sessionId', sessionId);
+  alert('Eliminar ');
+  /*props.alertService
+    .showConfirmDialog(
+      '¡Atención! Se eliminará esta sesion y toda la información asociada a ella. ',
+    )
+    .then(() => {
+      //TODO: eliminar sesion y lotes asociados
+      // setLotes(lotes.filter(lote => lote.id !== loteId));
+      // props.firebaseService.removeLoteFromSession(itemId, loteId);
+    });*/
+}
+
 const HomeNavigator = createStackNavigator(
   {
     Imagen: {
@@ -73,9 +89,18 @@ const HomeNavigator = createStackNavigator(
     },
     SessionDetails: {
       screen: SessionDetails,
-      // navigationOptions: {
-      //   title: 'Detalles de la sesion',
-      // },
+      navigationOptions: ({navigation}) => {
+        return {
+          title: 'Detalles de la sesión',
+          headerRight: () => (
+            <NavDeleteButton
+              onPress={() => {
+                onDeleteSession(navigation.state.params.itemId);
+              }}
+            />
+          ),
+        };
+      },
     },
   },
   {
@@ -85,13 +110,11 @@ const HomeNavigator = createStackNavigator(
 
 const styles = StyleSheet.create({
   menuIconFocused: {
-    // color: 'black',
     color: '#464646',
     fontSize: 27,
     marginTop: 10,
   },
   menuIcon: {
-    // color: 'black',
     color: '#C6C6C5',
     fontSize: 27,
   },
