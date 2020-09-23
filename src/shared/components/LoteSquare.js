@@ -10,7 +10,7 @@ export function LoteSquare({onDelete, item}) {
       <TouchableOpacity
         style={styles.cross}
         onPress={onDelete.bind(null, item.id)}>
-        <Icon style={styles.crossIcon} name="squared-cross" type="Entypo" />
+        <Icon style={styles.crossIcon} name="trash-o" type="FontAwesome" />
       </TouchableOpacity>
       <Text style={styles.text}>{item.description}</Text>
       <View style={styles.percentagesContainer}>
@@ -41,10 +41,8 @@ const styles = StyleSheet.create({
   },
   cross: {
     position: 'absolute',
-    right: 0,
-    top: 0,
-    paddingBottom: 15,
-    paddingLeft: 15,
+    right: 3,
+    top: 3,
   },
   crossIcon: {
     color: warnThemeColor(0.7),
