@@ -18,7 +18,7 @@ class InnerAlertService {
         message,
         '',
         [
-          {text: 'Cancel', onPress: reject},
+          {text: 'Cancelar', onPress: reject},
           {text: 'Confirmar', onPress: resolve},
         ],
         {

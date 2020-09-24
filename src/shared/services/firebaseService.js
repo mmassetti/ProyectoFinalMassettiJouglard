@@ -80,6 +80,19 @@ class InnerFirebaseService {
     );
   }
 
+  removeSession(sessionId) {
+    firestore()
+      .collection('sessions')
+      .doc(sessionId)
+      .delete()
+      .then(() => {
+        console.log('Eliminado correctamente');
+      })
+      .catch(error => {
+        console.log('Error al eliminar la sesión ' + error);
+      });
+  }
+
   updateFileWithTransaction(collectionName, docId, transformFn) {
     const docRef = compose(
       doc(docId),

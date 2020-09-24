@@ -11,7 +11,8 @@ import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
 import {Icon} from 'native-base';
 import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
-import alertService from '../../shared/services/alertsService';
+import {AlertService} from '../../shared/services/alertsService';
+import {FirebaseService} from '../../shared/services/firebaseService';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -57,17 +58,16 @@ const tabNavigator = createBottomTabNavigator({
 });
 
 function onDeleteSession(sessionId) {
-  console.log('onDeleteSession -> sessionId', sessionId);
-  alert('Eliminar ');
-  /*props.alertService
+  AlertService.getInstance()
     .showConfirmDialog(
-      '¡Atención! Se eliminará esta sesion y toda la información asociada a ella. ',
+      '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
     )
     .then(() => {
-      //TODO: eliminar sesion y lotes asociados
+      FirebaseService.getInstance().removeSession(sessionId);
+      //TODO: eliminar lotes asociados
       // setLotes(lotes.filter(lote => lote.id !== loteId));
       // props.firebaseService.removeLoteFromSession(itemId, loteId);
-    });*/
+    });
 }
 
 const HomeNavigator = createStackNavigator(
