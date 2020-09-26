@@ -1,21 +1,21 @@
 import {useRef} from 'react';
 import {Animated, Dimensions} from 'react-native';
 
-export function useAnimation(initialValue, dest, duration) {
+export function useAnimation(initialValue, duration) {
   const animation = useRef(new Animated.Value(initialValue)).current;
-  const trigger = () => {
+  const trigger = (dest, callback) => {
     Animated.timing(animation, {
       toValue: dest,
       duration,
       useNativeDriver: true,
-    }).start();
+    }).start(callback);
   };
-  const reset = () => {
+  const reset = callback => {
     Animated.timing(animation, {
       toValue: initialValue,
       duration,
       useNativeDriver: true,
-    }).start();
+    }).start(callback);
   };
 
   return [animation, trigger, reset];

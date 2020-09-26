@@ -10,9 +10,6 @@ import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
-import LotesDetail from './lotes/LotesDetail';
-import {sessionInjector} from './lotes/InjectLotes';
-import {withFirebase} from '../../shared';
 import ItemDetails from './ItemDetails';
 import {Animation} from '../../shared/components/Animation';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TouchableOpacity, Text} from 'react-native-gesture-handler';
 import {Icon} from 'native-base';
 import {StyleSheet} from 'react-native';

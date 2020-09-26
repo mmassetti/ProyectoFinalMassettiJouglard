@@ -20,9 +20,13 @@ export class ImageWithAdjustment extends Component {
           source={{uri: this.props.imageToShow.getSource()}}
         />
         <BottomRightButton
-          name="edit"
-          type="Entypo"
-          onPress={this.showEditor(true)}
+          buttons={[
+            {
+              name: 'edit',
+              type: 'Entypo',
+              onPress: this.showEditor(true),
+            },
+          ]}
         />
         <ImageEditor
           image={this.props.imageToEdit}
@@ -42,7 +46,7 @@ export class ImageWithAdjustment extends Component {
 
   shouldRotate() {
     let imageStyles = styles.image;
-    if (this.props.imageToShow.shouldRotate) {
+    if (this.props.shouldRotate) {
       imageStyles = {
         ...imageStyles,
         transform: [{rotate: '90deg'}],

@@ -28,9 +28,13 @@ export class ImageEditor extends Component {
         isVisible={this.props.showOver}>
         <View style={styles.imageContainer}>
           <BottomRightButton
-            type="Ionicons"
-            name="refresh"
-            onPress={this.resetAdjustment}
+            buttons={[
+              {
+                type: 'Ionicons',
+                name: 'refresh',
+                onPress: this.resetAdjustment,
+              },
+            ]}
           />
           <CustomImage
             onSave={this.save}

@@ -7,7 +7,10 @@ export function BottomRightButton({buttons}) {
   return (
     <View style={styles.buttonsContainer}>
       {buttons.map(({type, name, onPress}) => (
-        <TouchableOpacity onPress={onPress} style={styles.resetButton}>
+        <TouchableOpacity
+          key={name}
+          onPress={onPress}
+          style={styles.resetButton}>
           <Icon
             type={type}
             name={name}

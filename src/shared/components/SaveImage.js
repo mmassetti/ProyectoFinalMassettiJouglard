@@ -1,18 +1,12 @@
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native-gesture-handler';
+import {TouchableOpacity, Text} from 'react-native';
 import {withCloudinary, withFirebase} from './HOCForInjection/WithService';
+import {Button} from 'native-base';
 
-export const SaveImage = withCloudinary(
-  withFirebase(function Inner({
-    onSave,
-    image,
-    cloudinaryService,
-    firebaseService,
-  }) {
-    return (
-      <TouchableOpacity onPress={onSave}>
-        <Text>Guardar</Text>
-      </TouchableOpacity>
-    );
-  }),
-);
+export function SaveImage({onSave}) {
+  return (
+    <Button onPress={onSave} primary>
+      <Text>Guardar</Text>
+    </Button>
+  );
+}

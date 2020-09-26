@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor} from '../../configuration/colors';
 
-export function AddLote({onPress}) {
+export function AddEntry({onPress}) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Icon name="squared-plus" style={styles.addIcon} type="Entypo" />

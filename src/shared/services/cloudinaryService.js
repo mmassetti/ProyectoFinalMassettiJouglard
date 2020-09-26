@@ -11,9 +11,7 @@ class InnerCloudinaryService {
     const data = new FormData();
     const timestamp = Date.now();
 
-    // const img = await ImgToBase64.getBase64String(
-    //   'file:///storage/emulated/0/Pictures/IntaApp/1594590442784.jpeg',
-    // );
+    const img = await ImgToBase64.getBase64String(photo);
 
     data.append('file', `data:image/png;base64,${img}`);
     data.append('cloud_name', CLOUDINARY_NAME);

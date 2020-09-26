@@ -1,5 +1,5 @@
 export {ImageEditor} from './components/ImageEditor';
-export {LoteSquare} from './components/LoteSquare';
+export {EntrySquare} from './components/GridOfEntries/EntrySquare';
 export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
 export {CustomImage} from './components/CustomNativeImage';
@@ -12,8 +12,14 @@ export {
   withSessionsService,
   withImageProcessing,
   withImagePicker,
+  withImageHandler,
 } from './components/HOCForInjection/WithService';
 export {Separator} from './components/ListSeparator';
-export {AddLote} from './components/AddLote';
+export {AddEntry} from './components/GridOfEntries/AddEntry';
 export {uuidv4 as uniqueId} from './services/uuidService';
 export {NetStatusBar} from './components/NetStatusBar';
+export {GridWithNewButton} from './components/GridOfEntries/GridWithNewButton';
+export {FirebaseCollection} from './services/firebaseCollection';
+export {ImagesTaken} from './components/ListOfImages/ImagesTaken';
+export {Info} from './components/Info';
+export {SaveImage} from './components//SaveImage';

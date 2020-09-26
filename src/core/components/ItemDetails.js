@@ -8,39 +8,55 @@ import {
   GridWithNewButton,
   ImagesTaken,
   BottomRightButton,
+  Info,
+  withImageHandler,
 } from '../../shared/';
 
 function ItemDetails({
   firebaseService: firebase,
   alertService: alerts,
   navigation,
+  imageHandler,
 }) {
   const [images, setImages] = useState([]);
   const [pasturas, setPasturas] = useState([]);
+  const [itemDetail, setItemDetail] = useState();
   const {item} = navigation.state.params;
   useEffect(() => {
     firebase
       .getDataFromInnerId('lotesDetails')(item.id)
       .then(item => {
+        setItemDetail(item);
         setImages(item.images);
         setPasturas(item.pasturas);
       });
   }, [item.id]);
+  const handleImage = imageHandler.pickImage({
+    collectionName: 'lotesDetails',
+    itemId: item.id,
+  });
   return (
     <View style={styles.detailsContainer}>
-      <ImagesTaken images={images} />
+      {/* <Info item={itemDetail} /> */}
+      <ImagesTaken images={images} loteId={item.id} />
       {/* <GridWithNewButton title="Pasturas" data={pasturas} /> */}
       <BottomRightButton
         buttons={[
           {
             name: 'upload',
             type: 'FontAwesome5',
-            onPress: () => {},
+            onPress: async () => {
+              const imageResponse = await handleImage('Gallery');
+              navigation.navigate('Imagen', imageResponse);
+            },
           },
           {
             name: 'camera-retro',
             type: 'FontAwesome5',
-            onPress: () => {},
+            onPress: async () => {
+              const imageResponse = await handleImage('Camera');
+              navigation.navigate('Imagen', imageResponse);
+            },
           },
         ]}
       />
@@ -58,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAlertService(withFirebase(ItemDetails));
+export default withImageHandler(withAlertService(withFirebase(ItemDetails)));

@@ -22,10 +22,12 @@ function App() {
     setSpinner(spinner);
   });
 
-  useEffect(async () => {
-    let oldUser = await AsyncStorage.getItem('@OldUser');
-    setShowApp(oldUser);
-    return;
+  useEffect(() => {
+    async function isOldUser() {
+      let oldUser = await AsyncStorage.getItem('@OldUser');
+      setShowApp(oldUser);
+    }
+    isOldUser();
   }, []);
 
   const hideTour = show => () => {
