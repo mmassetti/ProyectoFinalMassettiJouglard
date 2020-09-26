@@ -1,9 +1,9 @@
-export {ImageEditor} from './components/ImageEditor';
+export {ImageEditor} from './components/ImageEditor/ImageEditor';
 export {EntrySquare} from './components/GridOfEntries/EntrySquare';
 export {HomeCard} from './components/HomeCard';
 export {Percentage} from './components/PercentageCircle';
 export {CustomImage} from './components/CustomNativeImage';
-export {ImageWithAdjustment} from './components/ImageWithButton';
+export {ImageWithAdjustment} from './components/ImageEditor/ImageWithButton';
 export {BottomRightButton} from './components/BottomRightButton';
 export {
   withFirebase,
