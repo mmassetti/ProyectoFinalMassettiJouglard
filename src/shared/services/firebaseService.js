@@ -80,16 +80,61 @@ class InnerFirebaseService {
     );
   }
 
-  removeSession(sessionId) {
+  async removeSession(sessionId) {
+    const docRef = await this.getSessionDetailDocRef(sessionId);
+
+    //Remove lotes
+    firestore()
+      .collection('sessionsDetails')
+      .doc(docRef.id)
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          let lotesObj = doc.data().lotes;
+          if (lotesObj) {
+            let lotes = Object.values(lotesObj);
+            lotes.map(lote => {
+              firestore()
+                .collection('lotesDetails')
+                .where('loteId', '==', lote.id)
+                .get()
+                .then(querySnapshot => {
+                  querySnapshot.forEach(doc => {
+                    doc.ref.delete();
+                  });
+                })
+                .catch(error => {
+                  console.error('Error al Eliminar Lote: ', error);
+                });
+            });
+          }
+        }
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+
+    //Remove SessionDetail
+    firestore()
+      .collection('sessionsDetails')
+      .doc(docRef.id)
+      .delete()
+      .catch(error => {
+        console.log('Error al eliminar el SessionDetail ' + error);
+      });
+
+    //Remove session
     firestore()
       .collection('sessions')
       .doc(sessionId)
       .delete()
       .then(() => {
-        console.log('Eliminado correctamente');
+        console.log('Session Eliminado correctamente');
       })
       .catch(error => {
-        console.log('Error al eliminar la sesión ' + error);
+        console.log('Error al eliminar la Session ' + error);
       });
   }
 
@@ -114,6 +159,7 @@ class InnerFirebaseService {
     } = await getterById('sessionsDetails');
     return collection('sessionsDetails').doc(doc.id);
   }
+
   async addNewLoteToSession(sessionId, newLote) {
     const docRef = await this.getSessionDetailDocRef(sessionId);
     return docRef.update({
