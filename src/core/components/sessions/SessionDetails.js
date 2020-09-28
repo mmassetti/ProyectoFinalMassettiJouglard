@@ -8,7 +8,6 @@ import {
   GridWithNewButton,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
-import {compose, prop, reverse} from '../../../utils';
 
 function SessionDetails(props) {
   const {item, itemId} = props.navigation.state.params;
@@ -18,18 +17,11 @@ function SessionDetails(props) {
     props.firebaseService.getSessionById(itemId).then(session => {
       setLotes(session?.lotes.reverse() || []);
     });
-    // .then(
-    //   compose(
-    //     setLotes,
-    //     reverse,
-    //     prop('lotes'),
-    //   ),
-    // );
   }, [itemId]);
 
   const onDelete = loteId => {
     props.alertService
-      .showConfirmDialog('Esta seguro/a que quiere borrar este lote?')
+      .showConfirmDialog('¡Atención! Se eliminará este lote. ')
       .then(() => {
         setLotes(lotes.filter(lote => lote.id !== loteId));
         props.firebaseService.removeLoteFromSession(itemId, loteId);
@@ -67,10 +59,6 @@ function SessionDetails(props) {
     </View>
   );
 }
-
-SessionDetails.navigationOptions = {
-  headerTitle: 'Your custom label...',
-};
 
 const styles = StyleSheet.create({
   center: {

@@ -4,7 +4,6 @@ import GalleryCamera from './GalleryCamera';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
-import {Icon} from 'native-base';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
@@ -12,6 +11,10 @@ import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
 import ItemDetails from './ItemDetails';
 import {Animation} from '../../shared/components/Animation';
+import {Icon} from 'native-base';
+import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
+import {AlertService} from '../../shared/services/alertsService';
+import {FirebaseService} from '../../shared/services/firebaseService';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -56,6 +59,17 @@ const tabNavigator = createBottomTabNavigator({
   },
 });
 
+function onDeleteSession(sessionId) {
+  AlertService.getInstance()
+    .showConfirmDialog(
+      '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
+    )
+    .then(() => {
+      FirebaseService.getInstance().removeSession(sessionId);
+      //TODO: Refrescar vista
+    });
+}
+
 const HomeNavigator = createStackNavigator(
   {
     Imagen: {
@@ -75,9 +89,18 @@ const HomeNavigator = createStackNavigator(
     },
     SessionDetails: {
       screen: SessionDetails,
-      // navigationOptions: {
-      //   title: 'Detalles de la sesion',
-      // },
+      navigationOptions: ({navigation}) => {
+        return {
+          title: 'Detalles de la sesión',
+          headerRight: () => (
+            <NavDeleteButton
+              onPress={() => {
+                onDeleteSession(navigation.state.params.itemId);
+              }}
+            />
+          ),
+        };
+      },
     },
     LoteDetails: {
       screen: ItemDetails,
@@ -93,13 +116,11 @@ const HomeNavigator = createStackNavigator(
 
 const styles = StyleSheet.create({
   menuIconFocused: {
-    // color: 'black',
     color: '#464646',
     fontSize: 27,
     marginTop: 10,
   },
   menuIcon: {
-    // color: 'black',
     color: '#C6C6C5',
     fontSize: 27,
   },
