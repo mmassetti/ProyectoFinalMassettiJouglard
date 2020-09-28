@@ -1,21 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {mainThemeColor} from '../../../configuration';
 
-import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {StyleSheet, FlatList, RefreshControl} from 'react-native';
 import {
   withFirebase,
   withSessionsService,
-  Separator,
   BottomRightButton,
 } from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
-import {Icon} from 'native-base';
 
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     props.firebaseService.getAll('sessions').then(sessions => {
@@ -54,6 +53,14 @@ function SessionsList(props) {
     );
   };
 
+  function onRefresh() {
+    setRefreshing(true);
+    props.firebaseService.getAllSessions().then(sessions => {
+      setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
+      setRefreshing(false);
+    });
+  }
+
   return (
     <>
       <SearchInput
@@ -66,6 +73,9 @@ function SessionsList(props) {
         data={filteredSession}
         key={({item: {id}}) => id}
         renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
 
       <BottomRightButton

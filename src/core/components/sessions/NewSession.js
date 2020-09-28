@@ -1,7 +1,7 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
 
-import {StyleSheet, View, TextInput} from 'react-native';
+import {StyleSheet, View, TextInput, Switch} from 'react-native';
 import {Button, Text} from 'native-base';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
@@ -12,12 +12,18 @@ function NewSession(props) {
   const [date, setDate] = useState(new Date());
   const [description, setDescription] = useState('');
 
+  const [switchValue, setSwitchValue] = useState(true);
+
+  const toggleSwitch = value => {
+    setSwitchValue(value);
+  };
+
   useEffect(() => {}, []);
 
   const showDatePicker = () => {
     return (
       <DatePicker
-        style={{width: 200}}
+        style={{width: 200, marginBottom: 15}}
         date={date}
         mode="date"
         locale={'es'}
@@ -45,13 +51,25 @@ function NewSession(props) {
     );
   };
 
+  const showVisibility = () => {
+    return (
+      <View style={styles.visibility}>
+        <Text>
+          {switchValue ? 'Visibilidad PÚBLICA' : 'Visibilidad PRIVADA'}
+        </Text>
+
+        <Switch onValueChange={toggleSwitch} value={switchValue} />
+      </View>
+    );
+  };
+
   const showDescription = () => {
     return (
       <View style={styles.textAreaContainer}>
         <TextInput
           // autoFocus
           underlineColorAndroid="transparent"
-          placeholder="Escribir descripcion de la sesion..."
+          placeholder="Escribir una breve descripción de la sesión..."
           placeholderTextColor="grey"
           style={styles.description}
           onChangeText={text => setDescription(text)}
@@ -76,6 +94,7 @@ function NewSession(props) {
       date: date,
       description: description,
       user: 'NombreUsuario',
+      visibility: switchValue ? 'Pública' : 'Privada',
     };
     props.firebaseService.createSession(sessionData).then(createdSession => {
       goBackToSessions();
@@ -85,11 +104,8 @@ function NewSession(props) {
   const showButtons = () => {
     return (
       <View style={styles.buttonsContainer}>
-        <Button style={styles.button} light onPress={() => goBackToSessions()}>
-          <Text style={styles.buttonText}>Volver</Text>
-        </Button>
         <Button style={styles.button} primary onPress={() => createSession()}>
-          <Text style={styles.buttonText}>Crear sesion</Text>
+          <Text style={styles.buttonText}>Crear sesión</Text>
         </Button>
       </View>
     );
@@ -99,6 +115,7 @@ function NewSession(props) {
     <View style={styles.viewContainer}>
       <View style={styles.inputContainer}>
         <React.Fragment>
+          {showVisibility()}
           {showDatePicker()}
           {showDescription()}
         </React.Fragment>
@@ -127,7 +144,6 @@ const styles = StyleSheet.create({
 
   textAreaContainer: {
     marginTop: 10,
-    borderColor: 'grey',
     borderWidth: 1,
     padding: 5,
   },
@@ -146,6 +162,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+  },
+  visibility: {
+    flexDirection: 'row',
+    marginBottom: 15,
   },
 });
 

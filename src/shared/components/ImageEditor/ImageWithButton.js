@@ -1,8 +1,9 @@
 import {mainThemeColor} from '../../../configuration';
 import React, {Component} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {ImageEditor} from './ImageEditor';
-import {BottomRightButton} from '../BottomRightButton';
+import {Image, StyleSheet, View, Dimensions} from 'react-native';
+import {ImageEditor} from '../../shared/components/ImageEditor';
+import {BottomRightButton} from './BottomRightButton';
+import ImageZoom from 'react-native-image-pan-zoom';
 
 export class ImageWithAdjustment extends Component {
   constructor(props) {
@@ -15,10 +16,18 @@ export class ImageWithAdjustment extends Component {
   render() {
     return (
       <View style={styles.imageContainer}>
-        <Image
-          style={this.shouldRotate()}
-          source={{uri: this.props.imageToShow.getSource()}}
-        />
+        <ImageZoom
+          cropWidth={Dimensions.get('window').width}
+          cropHeight={Dimensions.get('window').height}
+          // style={this.shouldRotate()}
+          imageWidth={280}
+          imageHeight={280}>
+          <Image
+            style={this.shouldRotate()}
+            source={{uri: this.props.imageToShow.getSource()}}
+          />
+        </ImageZoom>
+
         <BottomRightButton
           buttons={[
             {
