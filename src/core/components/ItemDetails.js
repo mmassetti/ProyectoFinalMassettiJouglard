@@ -55,6 +55,7 @@ function ItemDetails({
         SecondScreen={() => <ImagesTaken images={images} loteId={item.id} />}
       />
       <BottomRightButton
+        withBackground={true}
         buttons={[
           {
             name: 'upload',

@@ -3,9 +3,13 @@ import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor} from '../../configuration/colors';
 
-export function BottomRightButton({buttons}) {
+export function BottomRightButton({buttons, withBackground = false}) {
   return (
-    <View style={styles.buttonsContainer}>
+    <View
+      style={[
+        styles.buttonsContainer,
+        withBackground ? {backgroundColor: 'rgba(255,255,255,0.8)'} : {},
+      ]}>
       {buttons.map(({type, name, onPress}) => (
         <TouchableOpacity
           key={name}
@@ -29,7 +33,6 @@ const styles = StyleSheet.create({
     bottom: 10,
     flexDirection: 'row',
     zIndex: 7,
-    backgroundColor: 'rgba(255,255,255,0.8)',
     padding: 10,
     borderRadius: 10,
   },
