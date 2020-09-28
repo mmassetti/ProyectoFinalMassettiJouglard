@@ -64,9 +64,7 @@ function onDeleteSession(sessionId) {
     )
     .then(() => {
       FirebaseService.getInstance().removeSession(sessionId);
-      //TODO: eliminar lotes asociados
-      // setLotes(lotes.filter(lote => lote.id !== loteId));
-      // props.firebaseService.removeLoteFromSession(itemId, loteId);
+      //TODO: Refrescar vista
     });
 }
 
