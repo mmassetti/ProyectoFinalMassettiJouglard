@@ -36,7 +36,7 @@ export function OurImage({onPress, reference, image, style, text}) {
       <View style={styles.container}>
         <ImageWithPopUp
           imageId={image.id}
-          source={image.url}
+          source={image.uri}
           style={styles.image}
         />
         <TouchableNativeFeedback
