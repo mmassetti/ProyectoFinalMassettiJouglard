@@ -5,6 +5,7 @@ import {ImagePickerService} from '../../services/imagePickerService';
 import {ImageProcessor} from '../../services/imageProcessor';
 import {AlertService} from '../../services/alertsService';
 import {SessionsService} from '../../services/sessions';
+import {ImageHandler} from '../../services/imageHandler';
 
 export const InjectorService = (Service, serviceName) => Component => {
   return function WrappedComponent(props) {
@@ -36,3 +37,4 @@ export const withSessionsService = InjectorService(
   SessionsService,
   'sessionsService',
 );
+export const withImageHandler = InjectorService(ImageHandler, 'imageHandler');

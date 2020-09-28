@@ -1,4 +1,4 @@
-import {mainThemeColor} from '../../configuration';
+import {mainThemeColor} from '../../../configuration';
 import React, {Component} from 'react';
 import {Image, StyleSheet, View, Dimensions} from 'react-native';
 import {ImageEditor} from '../../shared/components/ImageEditor';
@@ -29,9 +29,13 @@ export class ImageWithAdjustment extends Component {
         </ImageZoom>
 
         <BottomRightButton
-          name="edit"
-          type="Entypo"
-          onPress={this.showEditor(true)}
+          buttons={[
+            {
+              name: 'edit',
+              type: 'Entypo',
+              onPress: this.showEditor(true),
+            },
+          ]}
         />
         <ImageEditor
           image={this.props.imageToEdit}
@@ -51,7 +55,7 @@ export class ImageWithAdjustment extends Component {
 
   shouldRotate() {
     let imageStyles = styles.image;
-    if (this.props.imageToShow.shouldRotate) {
+    if (this.props.shouldRotate) {
       imageStyles = {
         ...imageStyles,
         transform: [{rotate: '90deg'}],

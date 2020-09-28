@@ -10,6 +10,8 @@ import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
+import ItemDetails from './ItemDetails';
+import {Animation} from '../../shared/components/Animation';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -42,7 +44,7 @@ const tabNavigator = createBottomTabNavigator({
       title: 'Reciente',
       tabBarLabel: showTitle('Reciente'),
     },
-    screen: SessionsList,
+    screen: Animation,
   },
   GalleryCamera: {
     navigationOptions: {
@@ -76,6 +78,12 @@ const HomeNavigator = createStackNavigator(
       // navigationOptions: {
       //   title: 'Detalles de la sesion',
       // },
+    },
+    LoteDetails: {
+      screen: ItemDetails,
+      navigationOptions: {
+        title: 'Detalles del lote',
+      },
     },
   },
   {

@@ -17,7 +17,7 @@ function SessionsList(props) {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    props.firebaseService.getAllSessions().then(sessions => {
+    props.firebaseService.getAll('sessions').then(sessions => {
       setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
     });
   }, [refresh]);
@@ -79,9 +79,13 @@ function SessionsList(props) {
       />
 
       <BottomRightButton
-        name="plus"
-        type="Entypo"
-        onPress={() => goToNewSession()}
+        buttons={[
+          {
+            name: 'plus',
+            type: 'Entypo',
+            onPress: goToNewSession,
+          },
+        ]}
       />
     </>
   );

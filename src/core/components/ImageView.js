@@ -7,11 +7,13 @@ import {
   withCloudinary,
   withFirebase,
   withImageProcessing,
+  SaveImage,
 } from '../../shared';
 import {Percentages} from './Percentages';
 
 class ImageView extends Component {
   originalImage;
+  onSave;
 
   constructor(props) {
     super(props);
@@ -20,6 +22,7 @@ class ImageView extends Component {
       ...this.props.navigation.state.params,
     };
     this.originalImage = this.state.originalImage.clone();
+    this.onSave = this.props.navigation.state.params.onSave;
   }
 
   render() {
@@ -43,11 +46,13 @@ class ImageView extends Component {
           shouldRotate={this.props.navigation.state.params.shouldRotate}
           imageToShow={this.getImage()}
         />
-        <Percentages
-          percentageGreen={this.state.percentageGreen}
-          percentageYellow={this.state.percentageYellow}
-          percentageNaked={this.state.percentageNaked}
-        />
+        <Percentages percentages={this.state.percentages} />
+        {this.onSave ? (
+          <SaveImage
+            image={this.originalImage}
+            onSave={this.props.navigation.state.params.onSave}
+          />
+        ) : null}
       </View>
     );
   }

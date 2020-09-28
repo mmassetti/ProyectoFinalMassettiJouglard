@@ -2,7 +2,12 @@ import {Container, Content, Spinner} from 'native-base';
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {mainThemeColor, galleryCameraButtons} from '../../configuration';
-import {HomeCard, withImagePicker, withImageProcessing} from '../../shared';
+import {
+  HomeCard,
+  withImagePicker,
+  withImageProcessing,
+  withImageHandler,
+} from '../../shared';
 import {ImageModel} from '../../shared/models/ImageModel.js';
 
 class GalleryCamera extends Component {
@@ -39,46 +44,17 @@ class GalleryCamera extends Component {
   }
 
   launch = picker => async () => {
-    this.setState({loading: true});
     try {
-      const {uri, data, width, height} = await this.props.imagePicker[
-        'getImageFrom' + picker
-      ]();
-      let imgModel = new ImageModel(data, height, width, uri);
-      this.routeToImageView(imgModel);
-    } catch (error) {
+      this.setState({loading: true});
+      const imageResponse = await this.props.imageHandler.pickImage()(picker);
+      this.props.navigation.navigate('Imagen', imageResponse);
+    } finally {
       this.setState({loading: false});
     }
   };
-
-  async routeToImageView(originalImgModel) {
-    const {
-      img,
-      //TODO: Encapsulate percentages in one object
-      percentageGreen,
-      percentageYellow,
-      percentageNaked,
-    } = await this.props.imageProcessor.processImage(originalImgModel.uri);
-    this.setState({
-      loading: false,
-    });
-
-    this.props.navigation.navigate('Imagen', {
-      originalImage: originalImgModel,
-      processedImage: new ImageModel(
-        img,
-        originalImgModel.height,
-        originalImgModel.width,
-      ),
-      shouldRotate: originalImgModel.width < originalImgModel.height,
-      percentageGreen: percentageGreen,
-      percentageYellow: percentageYellow,
-      percentageNaked: percentageNaked,
-    });
-  }
 }
 
-export default withImagePicker(withImageProcessing(GalleryCamera));
+export default withImageHandler(GalleryCamera);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

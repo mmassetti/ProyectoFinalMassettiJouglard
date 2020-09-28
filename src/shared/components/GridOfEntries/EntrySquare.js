@@ -1,12 +1,14 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {Icon} from 'native-base';
-import {percentages, mainThemeColor} from '../../configuration';
-import {successThemeColor, warnThemeColor} from '../../configuration/colors';
+import {percentages, mainThemeColor} from '../../../configuration';
+import {successThemeColor, warnThemeColor} from '../../../configuration/colors';
 
-export function LoteSquare({onDelete, item}) {
+export function EntrySquare({onDelete, item, onPress}) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress.bind(null, item)}>
       <TouchableOpacity
         style={styles.cross}
         onPress={onDelete.bind(null, item.id)}>
@@ -34,8 +36,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
     borderRadius: 4,
     backgroundColor: successThemeColor(0.2),
   },

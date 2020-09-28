@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import {SpinnerService} from './spinnerService';
 import {
   add,
+  map,
   compose,
   prop,
   filter,
@@ -22,14 +23,106 @@ class InnerFirebaseService {
   callAsyncFunctionWithSpinner = this.spinnerService
     .callAsyncFunctionWithSpinner;
 
-  uploadPhoto(photoUri) {
-    return collection('imagenes').add({
-      imageUri: photoUri,
-    });
+  async uploadPhoto(
+    {collectionName, itemId, beforeId},
+    newImageId,
+    percentages,
+    uri,
+  ) {
+    console.log(itemId);
+    const docRef = await this.getDocRefFromInnerId(collectionName)(itemId);
+    const objToSave = {id: newImageId, uri, percentages};
+    if (!beforeId) {
+      return docRef.update({
+        images: firestore.FieldValue.arrayUnion({
+          before: objToSave,
+        }),
+      });
+    } else {
+      firestore().runTransaction(transaction => {
+        return transaction.get(docRef).then(doc => {
+          const addAfterImage = compose(
+            map(image => {
+              return image.before.id == beforeId
+                ? {...image, after: objToSave}
+                : image;
+            }),
+            prop('images'),
+            safeExec('data'),
+          );
+          return transaction.update(docRef, 'images', addAfterImage(doc));
+        });
+      });
+    }
   }
 
-  getAllSessions() {
-    const collection = firestore().collection('sessions');
+  addToArray = (collectionName, id, attr) => async objToAdd => {
+    const docRef = await this.getDocRefFromInnerId(collectionName)(id);
+    return docRef.update({
+      [attr]: firestore.FieldValue.arrayUnion(objToAdd),
+    });
+  };
+
+  removeFromArray = (collectionName, id, attr) => async idToRemove => {
+    const docRef = await this.getDocRefFromInnerId(collectionName)(id);
+    return runTransaction(transaction => {
+      return transaction.get(docRef).then(doc => {
+        const removeLote = compose(
+          filter(obj => obj.id !== idToRemove),
+          prop(attr),
+          safeExec('data'),
+        );
+        return transaction.update(docRef, 'lotes', removeLote(doc));
+      });
+    });
+  };
+
+  saveImage = (collectionName, attr, which) => url => {};
+
+  getDocRefFromId = collectionName => id => {
+    return compose(
+      get,
+      doc(id),
+      collection,
+    )(collectionName);
+  };
+
+  getDocRefFromInnerId = collectionName => async innerId => {
+    const {
+      docs: [{id}],
+    } = await firestore()
+      .collection(collectionName)
+      .where('id', '==', innerId)
+      .get();
+    return firestore()
+      .collection(collectionName)
+      .doc(id);
+  };
+
+  addToCollection = collectionName => objToAdd => {
+    return compose(
+      add(objToAdd),
+      collection,
+    )(collectionName);
+  };
+
+  getDataFromInnerId = collectionName => async id => {
+    const getterById = compose(
+      get,
+      where('id', '==', id),
+      collection,
+    );
+    return getterById(collectionName).then(
+      compose(
+        safeExec('data'),
+        getIndex(0),
+        prop('docs'),
+      ),
+    );
+  };
+
+  getAll(collectionName) {
+    const collection = firestore().collection(collectionName);
     return this.callAsyncFunctionWithSpinner(
       collection.get.bind(collection),
     ).then(prop('docs'));
@@ -52,7 +145,7 @@ class InnerFirebaseService {
     );
   }
 
-  async addSessionToBothCollections(sessionData) {
+  async addToBothCollections(sessionData) {
     const objToAdd = {
       active: sessionData.active,
       date: sessionData.date,
@@ -76,7 +169,7 @@ class InnerFirebaseService {
 
   createSession(sessionData) {
     return this.callAsyncFunctionWithSpinner(
-      this.addSessionToBothCollections.bind(this, sessionData),
+      this.addToBothCollections.bind(this, sessionData),
     );
   }
 
@@ -102,10 +195,15 @@ class InnerFirebaseService {
     return collection('sessionsDetails').doc(doc.id);
   }
   async addNewLoteToSession(sessionId, newLote) {
+    console.log(newLote);
     const docRef = await this.getSessionDetailDocRef(sessionId);
-    return docRef.update({
+    const firstAdd = docRef.update({
       lotes: firestore.FieldValue.arrayUnion(newLote),
     });
+    const secondAdd = firestore()
+      .collection('lotesDetails')
+      .add({...newLote, images: [], pasturas: []});
+    return Promise.all([firstAdd, secondAdd]);
   }
 
   async removeLoteFromSession(sessionId, loteId) {
@@ -120,6 +218,25 @@ class InnerFirebaseService {
         return transaction.update(docRef, 'lotes', removeLote(doc));
       });
     });
+  }
+
+  async getPasturasFromLote(loteId) {
+    const getter = compose(
+      get,
+      where('loteId', '==', loteId),
+      collection,
+    );
+    return this.callAsyncFunctionWithSpinner(getter).then(
+      compose(
+        map(
+          compose(
+            prop('pasturas'),
+            safeExec('data'),
+          ),
+        ),
+        prop('docs'),
+      ),
+    );
   }
 }
 

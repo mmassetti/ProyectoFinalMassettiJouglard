@@ -15,7 +15,9 @@ export class Percentages extends Component {
                 key={index}
                 color={percentage.color}
                 size={Dimensions.get('window').width * 0.2}
-                percentage={this.props['percentage' + percentage.type]}
+                percentage={
+                  this.props.percentages['percentage' + percentage.type]
+                }
                 title={percentage.title}
               />
             );
