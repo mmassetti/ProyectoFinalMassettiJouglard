@@ -1,8 +1,8 @@
 import {mainThemeColor} from '../../../configuration';
 import React, {Component} from 'react';
 import {Image, StyleSheet, View, Dimensions} from 'react-native';
-import {ImageEditor} from '../../shared/components/ImageEditor';
-import {BottomRightButton} from './BottomRightButton';
+import {ImageEditor} from '../../components/ImageEditor/ImageEditor';
+import {BottomRightButton} from '../BottomRightButton';
 import ImageZoom from 'react-native-image-pan-zoom';
 
 export class ImageWithAdjustment extends Component {
