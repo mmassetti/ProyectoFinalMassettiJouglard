@@ -1,8 +1,8 @@
-import {mainThemeColor} from '../../configuration';
+import {mainThemeColor} from '../../../configuration';
 import React, {Component} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {ImageEditor} from '../../shared/components/ImageEditor';
-import {BottomRightButton} from './BottomRightButton';
+import {ImageEditor} from './ImageEditor';
+import {BottomRightButton} from '../BottomRightButton';
 
 export class ImageWithAdjustment extends Component {
   constructor(props) {

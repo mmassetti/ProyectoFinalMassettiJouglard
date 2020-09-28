@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {Icon} from 'native-base';
-import {percentages, mainThemeColor} from '../../configuration';
-import {successThemeColor, warnThemeColor} from '../../configuration/colors';
+import {percentages, mainThemeColor} from '../../../configuration';
+import {successThemeColor, warnThemeColor} from '../../../configuration/colors';
 
 export function EntrySquare({onDelete, item, onPress}) {
   return (

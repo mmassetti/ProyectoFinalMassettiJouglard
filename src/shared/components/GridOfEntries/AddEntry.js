@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
-import {mainThemeColor} from '../../configuration/colors';
+import {mainThemeColor} from '../../../configuration/colors';
 
 export function AddEntry({onPress}) {
   return (

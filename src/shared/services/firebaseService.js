@@ -194,10 +194,15 @@ class InnerFirebaseService {
     return collection('sessionsDetails').doc(doc.id);
   }
   async addNewLoteToSession(sessionId, newLote) {
+    console.log(newLote);
     const docRef = await this.getSessionDetailDocRef(sessionId);
-    return docRef.update({
+    const firstAdd = docRef.update({
       lotes: firestore.FieldValue.arrayUnion(newLote),
     });
+    const secondAdd = firestore()
+      .collection('lotesDetails')
+      .add({...newLote, images: [], pasturas: []});
+    return Promise.all([firstAdd, secondAdd]);
   }
 
   async removeLoteFromSession(sessionId, loteId) {

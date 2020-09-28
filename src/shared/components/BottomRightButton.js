@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
     right: 10,
     bottom: 10,
     flexDirection: 'row',
+    zIndex: 7,
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    padding: 10,
+    borderRadius: 10,
   },
   resetButton: {
     backgroundColor: mainThemeColor(1),

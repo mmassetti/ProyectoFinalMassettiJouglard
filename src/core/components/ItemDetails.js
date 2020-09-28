@@ -4,6 +4,7 @@ import {Text, StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
+  Tabs,
   uniqueId,
   GridWithNewButton,
   ImagesTaken,
@@ -35,11 +36,24 @@ function ItemDetails({
     collectionName: 'lotesDetails',
     itemId: item.id,
   });
+  const noop = () => {};
   return (
     <View style={styles.detailsContainer}>
-      {/* <Info item={itemDetail} /> */}
-      <ImagesTaken images={images} loteId={item.id} />
-      {/* <GridWithNewButton title="Pasturas" data={pasturas} /> */}
+      <Info item={itemDetail} />
+      <Tabs
+        firstTitle="Pasturas"
+        secondTitle="Imagenes"
+        FirstScreen={() => (
+          <GridWithNewButton
+            title=""
+            data={pasturas}
+            onEntryClick={noop}
+            onNewClick={noop}
+            onDeleteEntry={noop}
+          />
+        )}
+        SecondScreen={() => <ImagesTaken images={images} loteId={item.id} />}
+      />
       <BottomRightButton
         buttons={[
           {

@@ -1,8 +1,8 @@
 import React, {useRef, useEffect} from 'react';
 import {StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
-import {mainThemeColor, galleryCameraButtons} from '../../configuration';
-import {withImageHandler} from '../components/HOCForInjection/WithService';
+import {mainThemeColor, galleryCameraButtons} from '../../../configuration';
+import {withImageHandler} from '../HOCForInjection/WithService';
 import {withNavigation} from 'react-navigation';
 
 function NewImage({

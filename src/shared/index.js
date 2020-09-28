@@ -23,3 +23,4 @@ export {FirebaseCollection} from './services/firebaseCollection';
 export {ImagesTaken} from './components/ListOfImages/ImagesTaken';
 export {Info} from './components/Info';
 export {SaveImage} from './components//SaveImage';
+export {Tabs} from './components/Tabs';

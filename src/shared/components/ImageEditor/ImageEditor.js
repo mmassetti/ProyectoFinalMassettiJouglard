@@ -1,12 +1,12 @@
 import {Button} from 'native-base';
 import React, {Component} from 'react';
-import {mainThemeColor} from '../../configuration';
+import {mainThemeColor} from '../../../configuration';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import Popover from 'react-native-popover-view';
-import {imageAdjusts} from '../../configuration';
-import CustomImage from './CustomNativeImage';
+import {imageAdjusts} from '../../../configuration';
+import CustomImage from '../CustomNativeImage';
 import {Sliders} from './Sliders';
-import {BottomRightButton} from './BottomRightButton';
+import {BottomRightButton} from '../BottomRightButton';
 
 export class ImageEditor extends Component {
   constructor(props) {

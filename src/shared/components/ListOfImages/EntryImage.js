@@ -9,9 +9,9 @@ import {
   View,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress/Circle';
-import {mainThemeColor, percentages} from '../../configuration';
+import {mainThemeColor, percentages} from '../../../configuration';
 import {ImageWithPopUp} from './ImageWithPopUp';
-import {useAnimation} from '../services/animations';
+import {useAnimation} from '../../services/animations';
 
 export function OurImage({onPress, reference, image, style, text}) {
   const formatText = progress => () => {

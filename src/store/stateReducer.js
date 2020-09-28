@@ -21,8 +21,19 @@ function showApp(state = true, action) {
       return state;
   }
 }
+function background(state = true, {type, onPress}) {
+  switch (type) {
+    case 'SHOW_BACK':
+      return {show: true, onPress: onPress};
+    case 'HIDE_BACK':
+      return {show: false, onPress: onPress};
+    default:
+      return state;
+  }
+}
 
 export default combineReducers({
   spinner,
   showApp,
+  background,
 });

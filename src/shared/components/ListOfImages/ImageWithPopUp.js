@@ -34,7 +34,9 @@ export function ImageWithPopUp({style, imageId, source}) {
             height: Dimensions.get('window').height * 0.9,
           }}>
           <Image
-            source={src ? {uri: src} : require('../../../captures/Default.jpg')}
+            source={
+              src ? {uri: src} : require('../../../../captures/Default.jpg')
+            }
             style={{resizeMode: 'contain', flex: 1}}
           />
           <Button style={styles.button} onPress={triggerPopUp(false)} primary>

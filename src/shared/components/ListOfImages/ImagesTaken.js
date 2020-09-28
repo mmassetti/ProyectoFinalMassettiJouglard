@@ -6,18 +6,16 @@ import {
   View,
   TouchableOpacity,
   Animated,
+  ScrollView,
 } from 'react-native';
 import {OverlappingEntries} from './OverlappingImages';
-import {useAnimation} from '../services/animations';
-import {NewAfterImage} from './NewAfterImage';
-import {GridWithNewButton} from './GridWithNewButton';
+import {useAnimation} from '../../services/animations';
 
 export function ImagesTaken({images, loteId}) {
   const [somethingOpened, setOpened] = useState(false);
   const [opacity, triggerOpacity, resetOpacity] = useAnimation(0, 200);
   return (
-    <>
-      <Text style={styles.imageTitle}>Imagenes</Text>
+    <ScrollView style={{minHeight: '100%'}} fadingEdgeLength={250}>
       {somethingOpened ? (
         <TouchableOpacity
           onPress={() => {
@@ -33,7 +31,7 @@ export function ImagesTaken({images, loteId}) {
       ) : null}
       <View
         style={{
-          height: '50%',
+          minHeight: Dimensions.get('screen').height * 0.7,
         }}>
         {images.map((item, key) => {
           return (
@@ -50,7 +48,8 @@ export function ImagesTaken({images, loteId}) {
           );
         })}
       </View>
-    </>
+      <View style={{height: 90}} />
+    </ScrollView>
   );
 }
 

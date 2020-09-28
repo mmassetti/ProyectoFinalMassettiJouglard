@@ -4,7 +4,7 @@ import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   calculateOffsetToMiddleOfTheScreen,
   useAnimation,
-} from '../services/animations';
+} from '../../services/animations';
 import {OurImage} from './EntryImage';
 import {NewAfterImage} from './NewAfterImage';
 

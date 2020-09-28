@@ -1,8 +1,8 @@
 //@ts-check
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {AddEntry} from '../components/AddEntry';
-import {EntrySquare} from '../components/EntrySquare';
+import {AddEntry} from './AddEntry';
+import {EntrySquare} from './EntrySquare';
 import {FlatGrid} from 'react-native-super-grid';
 
 export function GridWithNewButton({

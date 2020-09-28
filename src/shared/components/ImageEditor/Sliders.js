@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Slider from '@react-native-community/slider';
-import {mainThemeColor, imageAdjusts} from '../../configuration';
+import {mainThemeColor, imageAdjusts} from '../../../configuration';
 
 import {StyleSheet, View, Text} from 'react-native';
 
