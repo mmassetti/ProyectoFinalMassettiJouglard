@@ -16,6 +16,8 @@ function SessionsList(props) {
   const [refresh, setRefresh] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
+  //TODO: onFocus habria que actualizar lista de sesiones
+
   useEffect(() => {
     props.firebaseService.getAll('sessions').then(sessions => {
       setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));

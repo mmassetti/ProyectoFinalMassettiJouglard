@@ -59,14 +59,15 @@ const tabNavigator = createBottomTabNavigator({
   },
 });
 
-function onDeleteSession(sessionId) {
+function onDeleteSession(sessionId, navigation) {
   AlertService.getInstance()
     .showConfirmDialog(
       '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
     )
     .then(() => {
       FirebaseService.getInstance().removeSession(sessionId);
-      //TODO: Refrescar vista
+      navigation.navigate('Main');
+      //TODO: actualizar lista de sesiones
     });
 }
 
@@ -95,7 +96,7 @@ const HomeNavigator = createStackNavigator(
           headerRight: () => (
             <NavDeleteButton
               onPress={() => {
-                onDeleteSession(navigation.state.params.itemId);
+                onDeleteSession(navigation.state.params.itemId, navigation);
               }}
             />
           ),
