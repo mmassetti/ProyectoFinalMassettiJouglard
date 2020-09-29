@@ -33,13 +33,6 @@ const showTitle = title => ({focused}) => {
   }
 };
 
-// LoteDetails: {
-//   screen: ItemDetails,
-//   navigationOptions: {
-//     title: 'Detalles del lote',
-//   },
-// },
-// },
 const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
@@ -85,7 +78,7 @@ function RootStack() {
       <Stack.Screen
         name="Main"
         component={TabNavigator}
-        options={{title: 'My app', headerShown: false}}
+        options={{headerShown: false}}
       />
       <Stack.Screen name="Imagen" component={ImageView} />
       <Stack.Screen
@@ -96,16 +89,13 @@ function RootStack() {
       <Stack.Screen
         name="SessionDetails"
         component={SessionDetails}
-        options={({navigation}) => {
+        options={({navigation, route}) => {
           return {
             title: 'Detalles de la sesión',
             headerRight: () => (
               <NavDeleteButton
                 onPress={() => {
-                  onDeleteSession(
-                    navigation.state.initialParams.itemId,
-                    navigation,
-                  );
+                  onDeleteSession(route.params.itemId, navigation);
                 }}
               />
             ),
@@ -140,50 +130,6 @@ function onDeleteSession(sessionId, navigation) {
       //TODO: actualizar lista de sesiones
     });
 }
-
-// const HomeNavigator = createStackNavigator(
-//   {
-//     Imagen: {
-//       screen: ImageView,
-//     },
-//     Main: {
-//       navigationOptions: {
-//         headerShown: false,
-//       },
-//       screen: tabNavigator,
-//     },
-//     NewSession: {
-//       screen: NewSession,
-//       navigationOptions: {
-//         title: 'Nueva sesión',
-//       },
-//     },
-//     SessionDetails: {
-//       screen: SessionDetails,
-//       navigationOptions: ({navigation}) => {
-//         return {
-//           title: 'Detalles de la sesión',
-//           headerRight: () => (
-//             <NavDeleteButton
-//               onPress={() => {
-//                 onDeleteSession(navigation.state.params.itemId, navigation);
-//               }}
-//             />
-//           ),
-//         };
-//       },
-//     },
-//     LoteDetails: {
-//       screen: ItemDetails,
-//       navigationOptions: {
-//         title: 'Detalles del lote',
-//       },
-//     },
-//   },
-//   {
-//     initialRouteName: 'Main',
-//   },
-// );
 
 const styles = StyleSheet.create({
   menuIconFocused: {
