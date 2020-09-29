@@ -9,6 +9,7 @@ import {
 } from '../../../shared';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
+import {useFocusEffect} from '@react-navigation/native';
 
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
@@ -16,24 +17,30 @@ function SessionsList(props) {
   const [refresh, setRefresh] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
-  //TODO: onFocus habria que actualizar lista de sesiones
+  useFocusEffect(
+    React.useCallback(() => {
+      onRefresh();
+      return () => {};
+    }, [props.firebaseService]),
+  );
 
-  useEffect(() => {
-    props.firebaseService.getAll('sessions').then(sessions => {
-      setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
-    });
-  }, [refresh]);
+  // useEffect(() => {
+  //   props.firebaseService.getAll('sessions').then(sessions => {
+  //     setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
+  //   });
+  // }, [refresh]);
+
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
 
   function refreshSessions() {
-    setRefresh(true);
+    // setRefresh(true);
   }
 
   function goToNewSession() {
     props.navigation.navigate('NewSession', {
-      onGoBack: () => refreshSessions(),
+      // onGoBack: () => refreshSessions(),
     });
   }
 
@@ -41,7 +48,7 @@ function SessionsList(props) {
     props.navigation.navigate('SessionDetails', {
       item: item.data(),
       itemId: item.id,
-      onGoBack: () => refreshSessions(),
+      // onGoBack: () => refreshSessions(),
     });
   }
 
@@ -57,8 +64,10 @@ function SessionsList(props) {
 
   function onRefresh() {
     setRefreshing(true);
-    props.firebaseService.getAll('sessions').then(sessions => {
-      setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
+    props.firebaseService.getAll('sessions').then(sessionsList => {
+      setSessions(
+        sessionsList.sort(props.sessionsService.compareSessionsByDate),
+      );
       setRefreshing(false);
     });
   }
@@ -68,7 +77,7 @@ function SessionsList(props) {
       <SearchInput
         onChangeText={setSearchTerm}
         style={styles.searchInput}
-        placeholder="Buscar por nombre, descripcion, mes ..."
+        placeholder="Buscar por nombre, descripción, mes ..."
       />
 
       <FlatList
