@@ -20,7 +20,9 @@ function SessionsList(props) {
 
   useEffect(() => {
     props.firebaseService.getAll('sessions').then(sessions => {
-      setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
+      setSessions(
+        sessions.docs.sort(props.sessionsService.compareSessionsByDate),
+      );
     });
   }, [refresh]);
   const filteredSession = sessions.filter(

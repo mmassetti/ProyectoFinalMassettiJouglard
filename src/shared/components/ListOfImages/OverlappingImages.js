@@ -8,12 +8,7 @@ import {
 import {OurImage} from './EntryImage';
 import {NewAfterImage} from './NewAfterImage';
 
-export function OverlappingEntries({
-  item,
-  loteId,
-  openBehindScreen,
-  somethingOpened,
-}) {
+export function OverlappingEntries({item, openBehindScreen, somethingOpened}) {
   const [opened, setOpened] = useState(false);
   const [zIndexFirstImage, setFirstIndex] = useState(9);
   const [zIndexSecondImage, setSecondIndex] = useState(8);
@@ -107,7 +102,6 @@ export function OverlappingEntries({
       ) : (
         <NewAfterImage
           reference={ref => (image2 = ref)}
-          itemId={loteId}
           style={[styles.container, backEntryStyles, {top: -70}]}
           beforeId={item.before.id}
         />
