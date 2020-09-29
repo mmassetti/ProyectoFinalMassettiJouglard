@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -10,7 +10,7 @@ import {
 import {SessionHeader} from './SessionHeader';
 
 function SessionDetails(props) {
-  const {item, itemId} = props.navigation.state.params;
+  const {item, itemId} = props.route.params;
   const [lotes, setLotes] = useState([]);
 
   useEffect(() => {

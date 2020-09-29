@@ -3,7 +3,7 @@ import {StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor, galleryCameraButtons} from '../../../configuration';
 import {withImageHandler} from '../HOCForInjection/WithService';
-import {withNavigation} from 'react-navigation';
+import {withNavigation} from '@react-navigation/compat';
 
 function NewImage({
   reference,

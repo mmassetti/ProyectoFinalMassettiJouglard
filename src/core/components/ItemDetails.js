@@ -17,12 +17,13 @@ function ItemDetails({
   firebaseService: firebase,
   alertService: alerts,
   navigation,
+  route,
   imageHandler,
 }) {
   const [images, setImages] = useState([]);
   const [pasturas, setPasturas] = useState([]);
   const [itemDetail, setItemDetail] = useState();
-  const {item} = navigation.state.params;
+  const {item} = route.params;
   useEffect(() => {
     firebase
       .getDataFromInnerId('lotesDetails')(item.id)

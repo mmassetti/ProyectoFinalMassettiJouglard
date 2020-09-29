@@ -81,9 +81,9 @@ function NewSession(props) {
 
   function goBackToSessions() {
     //TODO: si la accion fue Volver no deberia mandar el onGoBack para evitar que entre al use effect innecesariamente en sessions list
-    const {navigation} = props;
+    const {navigation, route} = props;
     navigation.goBack();
-    navigation.state.params.onGoBack();
+    route.params.onGoBack();
   }
 
   function createSession() {
