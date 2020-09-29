@@ -26,10 +26,8 @@ function NewSession(props) {
         style={{width: 200, marginBottom: 15}}
         date={date}
         mode="date"
-        locale={'es'}
         placeholder="Elegir fecha"
         format="DD-MM-YYYY"
-        // minDate="2016-05-01"
         confirmBtnText="OK"
         cancelBtnText="Cancelar"
         customStyles={{
