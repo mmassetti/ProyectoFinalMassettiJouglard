@@ -29,7 +29,6 @@ class InnerFirebaseService {
     percentages,
     uri,
   ) {
-    console.log(itemId);
     const docRef = await this.getDocRefFromInnerId(collectionName)(itemId);
     const objToSave = {id: newImageId, uri, percentages};
     if (!beforeId) {
@@ -191,7 +190,7 @@ class InnerFirebaseService {
             lotes.map(lote => {
               firestore()
                 .collection('lotesDetails')
-                .where('loteId', '==', lote.id)
+                .where('id', '==', lote.id)
                 .get()
                 .then(querySnapshot => {
                   querySnapshot.forEach(doc => {
