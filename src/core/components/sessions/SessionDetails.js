@@ -38,8 +38,17 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
         '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
       )
       .then(async () => {
-        await firebaseService.removeSession(sessionId);
-        navigation.navigate('Main');
+        const collectionDelete = firebaseService
+          .getDocRefFromId('sessions', sessionId)
+          .delete();
+        const detailsDelete = (await firebaseService.getDocRefInnerId(
+          'sessionsDetails',
+          sessionId,
+        )).docRef.delete();
+        Promise.all([collectionDelete, detailsDelete]).then(() => {
+          navigation.navigate('Main');
+        });
+        //TODO: actualizar lista de sesiones
       });
   }
 
