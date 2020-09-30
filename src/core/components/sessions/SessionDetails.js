@@ -15,7 +15,7 @@ import {AlertService} from '../../../shared/services/alertsService';
 function SessionDetails({navigation, route, firebaseService, alertService}) {
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
-  const [docRef, setDocRef] = useState();
+  const [docRef, setDocRef] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const toggleRefresh = () => setRefresh(prev => !prev);
@@ -28,6 +28,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
       );
       setLotes(data.lotes.reverse() || []);
       setDocRef(docRef);
+      console.log(docRef);
     }
     retrieveDetails();
   }, [itemId, refresh]);
@@ -41,14 +42,10 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
         const collectionDelete = firebaseService
           .getDocRefFromId('sessions', sessionId)
           .delete();
-        const detailsDelete = (await firebaseService.getDocRefInnerId(
-          'sessionsDetails',
-          sessionId,
-        )).docRef.delete();
+        const detailsDelete = docRef?.delete();
         Promise.all([collectionDelete, detailsDelete]).then(() => {
           navigation.navigate('Main');
         });
-        //TODO: actualizar lista de sesiones
       });
   }
 
