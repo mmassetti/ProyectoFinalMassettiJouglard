@@ -80,10 +80,8 @@ function NewSession(props) {
   };
 
   function goBackToSessions() {
-    //TODO: si la accion fue Volver no deberia mandar el onGoBack para evitar que entre al use effect innecesariamente en sessions list
     const {navigation} = props;
     navigation.goBack();
-    navigation.state.params.onGoBack();
   }
 
   function createSession() {
@@ -94,9 +92,17 @@ function NewSession(props) {
       user: 'NombreUsuario',
       visibility: switchValue ? 'Pública' : 'Privada',
     };
-    props.firebaseService.createSession(sessionData).then(createdSession => {
-      goBackToSessions();
-    });
+    return props.firebaseService
+      .addObjToCollection('sessions', sessionData)
+      .then(doc => {
+        const addToSessionDetails = props.firebaseService
+          .addObjToCollection('sessionsDetails', {
+            ...sessionData,
+            lotes: [],
+            id: doc.id,
+          })
+          .then(goBackToSessions);
+      });
   }
 
   const showButtons = () => {

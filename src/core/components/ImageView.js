@@ -19,10 +19,10 @@ class ImageView extends Component {
     super(props);
     this.state = {
       showOriginal: false,
-      ...this.props.navigation.state.params,
+      ...this.props.route.params,
     };
     this.originalImage = this.state.originalImage.clone();
-    this.onSave = this.props.navigation.state.params.onSave;
+    this.onSave = this.props.route.params.onSave;
   }
 
   render() {
@@ -43,14 +43,14 @@ class ImageView extends Component {
         <ImageWithAdjustment
           onImageAdjusted={this.updateOriginalImage}
           imageToEdit={this.originalImage}
-          shouldRotate={this.props.navigation.state.params.shouldRotate}
+          shouldRotate={this.props.route.params.shouldRotate}
           imageToShow={this.getImage()}
         />
         <Percentages percentages={this.state.percentages} />
         {this.onSave ? (
           <SaveImage
             image={this.originalImage}
-            onSave={this.props.navigation.state.params.onSave}
+            onSave={this.props.route.params.onSave}
           />
         ) : null}
       </View>
