@@ -11,7 +11,7 @@ import {
 import {OverlappingEntries} from './OverlappingImages';
 import {useAnimation} from '../../services/animations';
 
-export function ImagesTaken({images, loteId}) {
+export function ImagesTaken({images}) {
   const [somethingOpened, setOpened] = useState(false);
   const [opacity, triggerOpacity, resetOpacity] = useAnimation(0, 200);
   return (
@@ -39,7 +39,6 @@ export function ImagesTaken({images, loteId}) {
               key={key}
               item={item}
               somethingOpened={somethingOpened}
-              loteId={loteId}
               openBehindScreen={() => {
                 setOpened(true);
                 triggerOpacity(0.6);

@@ -1,26 +1,20 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useContext} from 'react';
 import {StyleSheet, Animated, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor, galleryCameraButtons} from '../../../configuration';
 import {withImageHandler} from '../HOCForInjection/WithService';
 import {withNavigation} from '@react-navigation/compat';
+import {DocRefContext} from '../DocRefContext';
 
-function NewImage({
-  reference,
-  style,
-  itemId,
-  navigation,
-  beforeId,
-  imageHandler,
-}) {
+function NewImage({reference, style, navigation, beforeId, imageHandler}) {
   const ref = useRef(null);
   useEffect(() => {
     reference(ref);
   });
+  const {docRef} = useContext(DocRefContext);
   const launch = picker => async () => {
     const imageResponse = await imageHandler.pickImage({
-      collectionName: 'lotesDetails',
-      itemId,
+      docRef,
       beforeId,
     })(picker);
     navigation.navigate('Imagen', imageResponse);

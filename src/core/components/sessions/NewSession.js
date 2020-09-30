@@ -92,9 +92,17 @@ function NewSession(props) {
       user: 'NombreUsuario',
       visibility: switchValue ? 'Pública' : 'Privada',
     };
-    props.firebaseService.createSession(sessionData).then(createdSession => {
-      goBackToSessions();
-    });
+    return props.firebaseService
+      .addObjToCollection('sessions', sessionData)
+      .then(doc => {
+        const addToSessionDetails = props.firebaseService
+          .addObjToCollection('sessionsDetails', {
+            ...sessionData,
+            lotes: [],
+            id: doc.id,
+          })
+          .then(goBackToSessions);
+      });
   }
 
   const showButtons = () => {

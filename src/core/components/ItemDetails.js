@@ -5,12 +5,12 @@ import {
   withAlertService,
   withFirebase,
   Tabs,
-  uniqueId,
   GridWithNewButton,
   ImagesTaken,
   BottomRightButton,
   Info,
   withImageHandler,
+  DocRefContextProvider,
 } from '../../shared/';
 
 function ItemDetails({
@@ -24,59 +24,60 @@ function ItemDetails({
   const [pasturas, setPasturas] = useState([]);
   const [itemDetail, setItemDetail] = useState();
   const {item} = route.params;
+  const [docRef, setDocRef] = useState();
+
   useEffect(() => {
     firebase
-      .getDataFromInnerId('lotesDetails')(item.id)
-      .then(item => {
-        setItemDetail(item);
-        setImages(item.images);
-        setPasturas(item.pasturas);
+      .getDocRefInnerId('lotesDetails', item.id)
+      .then(({docRef, data}) => {
+        setItemDetail(data);
+        setImages(data.images);
+        setPasturas(data.pasturas);
+        setDocRef(docRef);
       });
   }, [item.id]);
-  const handleImage = imageHandler.pickImage({
-    collectionName: 'lotesDetails',
-    itemId: item.id,
-  });
+
+  const routeWithImage = picker => async () => {
+    const imageResponse = await imageHandler.pickImage({docRef});
+    navigation.navigate('Imagen', imageResponse);
+  };
   const noop = () => {};
+
   return (
-    <View style={styles.detailsContainer}>
-      <Info item={itemDetail} />
-      <Tabs
-        firstTitle="Pasturas"
-        secondTitle="Imagenes"
-        FirstScreen={() => (
-          <GridWithNewButton
-            title=""
-            data={pasturas}
-            onEntryClick={noop}
-            onNewClick={noop}
-            onDeleteEntry={noop}
-          />
-        )}
-        SecondScreen={() => <ImagesTaken images={images} loteId={item.id} />}
-      />
-      <BottomRightButton
-        withBackground={true}
-        buttons={[
-          {
-            name: 'upload',
-            type: 'FontAwesome5',
-            onPress: async () => {
-              const imageResponse = await handleImage('Gallery');
-              navigation.navigate('Imagen', imageResponse);
+    <DocRefContextProvider docRef={docRef}>
+      <View style={styles.detailsContainer}>
+        <Info item={itemDetail} />
+        <Tabs
+          firstTitle="Pasturas"
+          secondTitle="Imagenes"
+          FirstScreen={() => (
+            <GridWithNewButton
+              title=""
+              data={pasturas}
+              onEntryClick={noop}
+              onNewClick={noop}
+              onDeleteEntry={noop}
+            />
+          )}
+          SecondScreen={() => <ImagesTaken images={images} />}
+        />
+        <BottomRightButton
+          withBackground={true}
+          buttons={[
+            {
+              name: 'upload',
+              type: 'FontAwesome5',
+              onPress: routeWithImage('Gallery'),
             },
-          },
-          {
-            name: 'camera-retro',
-            type: 'FontAwesome5',
-            onPress: async () => {
-              const imageResponse = await handleImage('Camera');
-              navigation.navigate('Imagen', imageResponse);
+            {
+              name: 'camera-retro',
+              type: 'FontAwesome5',
+              onPress: routeWithImage('Camera'),
             },
-          },
-        ]}
-      />
-    </View>
+          ]}
+        />
+      </View>
+    </DocRefContextProvider>
   );
 }
 

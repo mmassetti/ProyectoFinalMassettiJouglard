@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet, View, Dimensions, ActivityIndicator} from 'react-native';
+import {mainThemeColor} from '../../configuration';
 
 export function OurSpinner({show}) {
   return show ? (
     <View style={styles.spinnerContainer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size={70} color={mainThemeColor(1)} />
     </View>
   ) : null;
 }

@@ -36,8 +36,6 @@ class InnerImageHandler {
       const onSave = async () => {
         const imageId = uuidv4();
         this.saveImageLocally(imageId, uri);
-        console.log('uri', uri);
-        console.log('imageId', imageId);
         this.saveImageInTheCloud(
           imageId,
           uri,

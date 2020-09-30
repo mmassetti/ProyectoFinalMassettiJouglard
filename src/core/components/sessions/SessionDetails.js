@@ -6,20 +6,31 @@ import {
   withFirebase,
   uniqueId,
   GridWithNewButton,
+  DocRefContextProvider,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
 import {NavDeleteButton} from '../../../shared/components/NavDeleteButton';
 import {AlertService} from '../../../shared/services/alertsService';
 
-function SessionDetails(props) {
-  const {item, itemId} = props.route.params;
+function SessionDetails({navigation, route, firebaseService, alertService}) {
+  const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
+  const [docRef, setDocRef] = useState();
+  const [refresh, setRefresh] = useState(false);
+
+  const toggleRefresh = () => setRefresh(prev => !prev);
 
   useEffect(() => {
-    props.firebaseService.getSessionById(itemId).then(session => {
-      setLotes(session?.lotes.reverse() || []);
-    });
-  }, [itemId]);
+    async function retrieveDetails() {
+      const {docRef, data} = await firebaseService.getDocRefInnerId(
+        'sessionsDetails',
+        itemId,
+      );
+      setLotes(data.lotes.reverse() || []);
+      setDocRef(docRef);
+    }
+    retrieveDetails();
+  }, [itemId, refresh]);
 
   async function onDeleteSession(sessionId) {
     AlertService.getInstance()
@@ -27,60 +38,73 @@ function SessionDetails(props) {
         '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
       )
       .then(async () => {
-        await props.firebaseService.removeSession(sessionId);
-        props.navigation.navigate('Main');
+        await firebaseService.removeSession(sessionId);
+        navigation.navigate('Main');
       });
   }
 
-  props.navigation.setOptions({
+  navigation.setOptions({
     title: 'Detalles de la sesión',
     headerRight: () => (
       <NavDeleteButton
         onPress={() => {
-          onDeleteSession(props.route.params.itemId);
+          onDeleteSession(route.params.itemId);
         }}
       />
     ),
   });
 
   const onDelete = loteId => {
-    props.alertService
+    alertService
       .showConfirmDialog('¡Atención! Se eliminará este lote. ')
       .then(() => {
-        setLotes(lotes.filter(lote => lote.id !== loteId));
-        props.firebaseService.removeLoteFromSession(itemId, loteId);
+        firebaseService
+          .remove(docRef, 'lotes', 'lotesDetails', loteId)
+          .then(toggleRefresh);
       });
   };
   const onNewPress = () => {
-    props.alertService
+    alertService
       .showPromptDialog(
         `Lote ${lotes.length + 1}`,
         'Nombre/Identificador del lote',
       )
       .then(loteName => {
-        const newLote = {id: uniqueId(), description: loteName};
-        setLotes(prevLotes => [newLote].concat(prevLotes));
-        props.firebaseService.addNewLoteToSession(itemId, newLote);
+        firebaseService
+          .add(
+            docRef,
+            'lotes',
+            'lotesDetails',
+            {description: loteName},
+            {
+              images: [],
+              pasturas: [],
+              averagePercentages: {},
+            },
+          )
+          .then(toggleRefresh);
       });
   };
 
   const routeToLote = item => {
-    props.navigation.navigate('LoteDetails', {
+    navigation.navigate('LoteDetails', {
       item: item,
     });
   };
 
   return (
-    <View style={styles.viewContainer}>
-      <SessionHeader item={item} />
-      <GridWithNewButton
-        title="Lotes"
-        data={lotes}
-        onDeleteEntry={onDelete}
-        onNewClick={onNewPress}
-        onEntryClick={routeToLote}
-      />
-    </View>
+    <DocRefContextProvider docRef={docRef}>
+      <View style={styles.viewContainer}>
+        <SessionHeader item={item} />
+        <GridWithNewButton
+          title="Lotes"
+          data={lotes}
+          onDeleteEntry={onDelete}
+          onNewClick={onNewPress}
+          onEntryClick={routeToLote}
+        />
+      </View>
+    </DocRefContextProvider>
   );
 }
 
