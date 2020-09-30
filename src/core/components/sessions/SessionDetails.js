@@ -8,6 +8,8 @@ import {
   GridWithNewButton,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
+import {NavDeleteButton} from '../../../shared/components/NavDeleteButton';
+import {AlertService} from '../../../shared/services/alertsService';
 
 function SessionDetails(props) {
   const {item, itemId} = props.route.params;
@@ -18,6 +20,28 @@ function SessionDetails(props) {
       setLotes(session?.lotes.reverse() || []);
     });
   }, [itemId]);
+
+  async function onDeleteSession(sessionId) {
+    AlertService.getInstance()
+      .showConfirmDialog(
+        '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
+      )
+      .then(async () => {
+        await props.firebaseService.removeSession(sessionId);
+        props.navigation.navigate('Main');
+      });
+  }
+
+  props.navigation.setOptions({
+    title: 'Detalles de la sesión',
+    headerRight: () => (
+      <NavDeleteButton
+        onPress={() => {
+          onDeleteSession(props.route.params.itemId);
+        }}
+      />
+    ),
+  });
 
   const onDelete = loteId => {
     props.alertService

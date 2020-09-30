@@ -9,9 +9,6 @@ import {tabBarIcons} from '../../configuration';
 import ItemDetails from './ItemDetails';
 import {Animation} from '../../shared/components/Animation';
 import {Icon} from 'native-base';
-import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
-import {AlertService} from '../../shared/services/alertsService';
-import {FirebaseService} from '../../shared/services/firebaseService';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -72,9 +69,7 @@ const Stack = createStackNavigator();
 
 function RootStack() {
   return (
-    <Stack.Navigator
-      initialRouteName="Main"
-      screenOptions={{gestureEnabled: false}}>
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="Main"
         component={TabNavigator}
@@ -86,27 +81,8 @@ function RootStack() {
         component={NewSession}
         options={{title: 'Nueva sesión'}}
       />
-      <Stack.Screen
-        name="SessionDetails"
-        component={SessionDetails}
-        options={({navigation, route}) => {
-          return {
-            title: 'Detalles de la sesión',
-            headerRight: () => (
-              <NavDeleteButton
-                onPress={() => {
-                  onDeleteSession(route.params.itemId, navigation);
-                }}
-              />
-            ),
-          };
-        }}
-      />
-      <Stack.Screen
-        name="LoteDetails"
-        component={ItemDetails}
-        options={{title: 'Detalles del lote'}}
-      />
+      <Stack.Screen name="SessionDetails" component={SessionDetails} />
+      <Stack.Screen name="LoteDetails" component={ItemDetails} />
     </Stack.Navigator>
   );
 }
@@ -117,18 +93,6 @@ export default function Main() {
       <RootStack />
     </NavigationContainer>
   );
-}
-
-function onDeleteSession(sessionId, navigation) {
-  AlertService.getInstance()
-    .showConfirmDialog(
-      '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
-    )
-    .then(() => {
-      FirebaseService.getInstance().removeSession(sessionId);
-      navigation.navigate('Main');
-      //TODO: actualizar lista de sesiones
-    });
 }
 
 const styles = StyleSheet.create({
