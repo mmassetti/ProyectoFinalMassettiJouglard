@@ -31,9 +31,18 @@ function background(state = true, {type, onPress}) {
       return state;
   }
 }
+function userName(state = '', {type, name}) {
+  switch (type) {
+    case 'SET_USER':
+      return name;
+    default:
+      return state;
+  }
+}
 
 export default combineReducers({
   spinner,
   showApp,
   background,
+  userName,
 });

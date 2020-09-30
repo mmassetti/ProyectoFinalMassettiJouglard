@@ -12,3 +12,7 @@ export const hideBackground = callback => ({
   type: 'HIDE_BACK',
   onPress: callback,
 });
+export const setUser = name => ({
+  type: 'SET_USER',
+  name,
+});

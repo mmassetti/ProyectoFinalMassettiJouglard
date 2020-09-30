@@ -1,25 +1,29 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useEffect, useState} from 'react';
 import Main from './src/core/components/Main';
+import prompt from 'react-native-prompt-android';
 import {Tour} from './src/guided-tour/Tour';
 import {OurSpinner} from './src/core/components/Spinner';
 import {Provider} from 'react-redux';
 import {store} from './src/store';
 import NetInfo from '@react-native-community/netinfo';
 import {NetStatusBar} from './src/shared';
+import {setUser} from './src/store/actions';
 
 function App() {
   const [showRealApp, setShowApp] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const [netStatus, setNetStatus] = useState(true);
+  const [userName, setUserName] = useState();
 
   NetInfo.addEventListener(state => {
     if (netStatus !== state.isConnected) setNetStatus(state.isConnected);
   });
 
   store.subscribe(() => {
-    const {spinner} = store.getState();
+    const {spinner, userName} = store.getState();
     setSpinner(spinner);
+    setUserName(userName);
   });
 
   useEffect(() => {
@@ -29,6 +33,32 @@ function App() {
     }
     isOldUser();
   }, []);
+  useEffect(() => {
+    async function getUserName() {
+      let userName = await AsyncStorage.getItem('@UserName');
+      if (!userName) {
+        prompt(
+          'Ingrese un nombre de usuario',
+          '',
+          [
+            {
+              text: 'Confirmar',
+              onPress: name => {
+                AsyncStorage.setItem('@UserName', name);
+                store.dispatch(setUser(name));
+              },
+            },
+          ],
+          {
+            cancelable: false,
+          },
+        );
+      } else {
+        store.dispatch(setUser(userName));
+      }
+    }
+    getUserName();
+  }, [userName]);
 
   const hideTour = show => () => {
     setShowApp(show);

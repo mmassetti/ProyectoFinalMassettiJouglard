@@ -7,6 +7,7 @@ import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import 'moment/locale/es';
 import {withFirebase} from '../../../shared';
+import {connect} from 'react-redux';
 
 function NewSession(props) {
   const [date, setDate] = useState(new Date());
@@ -89,7 +90,7 @@ function NewSession(props) {
       active: true,
       date: date,
       description: description,
-      user: 'NombreUsuario',
+      user: props.userName,
       visibility: switchValue ? 'Pública' : 'Privada',
     };
     return props.firebaseService
@@ -172,5 +173,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 });
+function mapStateToProps(state) {
+  return {userName: state.userName};
+}
 
-export default withFirebase(NewSession);
+export default connect(mapStateToProps)(withFirebase(NewSession));
