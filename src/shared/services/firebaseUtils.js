@@ -16,8 +16,6 @@ export class FirebaseUtils {
       .doc(id);
   };
   getDocRefInnerId = async (collectionName, innerId) => {
-    console.log('innerId', innerId);
-    console.log('collectionName', collectionName);
     const {
       docs: [doc],
     } = await firestore()

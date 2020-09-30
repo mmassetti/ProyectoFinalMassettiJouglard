@@ -21,7 +21,7 @@ export class InnerFirebaseService extends FirebaseUtils {
       id,
       ...objToAdd,
     });
-    const addToCollection = this.addObjToCollection('detailsCollection', {
+    const addToCollection = this.addObjToCollection('lotesDetails', {
       id,
       ...objToAdd,
       ...detailsObj,

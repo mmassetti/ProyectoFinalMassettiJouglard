@@ -14,6 +14,9 @@ function SessionDetails({navigation, firebaseService, alertService}) {
   const {item, itemId} = navigation.state.params;
   const [lotes, setLotes] = useState([]);
   const [docRef, setDocRef] = useState();
+  const [refresh, setRefresh] = useState(false);
+
+  const toggleRefresh = () => setRefresh(prev => !prev);
 
   useEffect(() => {
     async function retrieveDetails() {
@@ -25,14 +28,15 @@ function SessionDetails({navigation, firebaseService, alertService}) {
       setDocRef(docRef);
     }
     retrieveDetails();
-  }, [itemId]);
+  }, [itemId, refresh]);
 
   const onDelete = loteId => {
     alertService
       .showConfirmDialog('¡Atención! Se eliminará este lote. ')
       .then(() => {
-        setLotes(lotes.filter(lote => lote.id !== loteId));
-        firebaseService.remove(docRef, 'lotes', 'lotesDetails', loteId);
+        firebaseService
+          .remove(docRef, 'lotes', 'lotesDetails', loteId)
+          .then(toggleRefresh);
       });
   };
   const onNewPress = () => {
@@ -42,13 +46,19 @@ function SessionDetails({navigation, firebaseService, alertService}) {
         'Nombre/Identificador del lote',
       )
       .then(loteName => {
-        const newLote = {description: loteName};
-        setLotes(prevLotes => [newLote].concat(prevLotes));
-        firebaseService.add(docRef, 'lotes', 'lotesDetails', newLote, {
-          images: [],
-          pasturas: [],
-          averagePercentages: {},
-        });
+        firebaseService
+          .add(
+            docRef,
+            'lotes',
+            'lotesDetails',
+            {description: loteName},
+            {
+              images: [],
+              pasturas: [],
+              averagePercentages: {},
+            },
+          )
+          .then(toggleRefresh);
       });
   };
 
