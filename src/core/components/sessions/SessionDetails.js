@@ -28,7 +28,6 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
       );
       setLotes(data.lotes.reverse() || []);
       setDocRef(docRef);
-      console.log(docRef);
     }
     retrieveDetails();
   }, [itemId, refresh]);
