@@ -14,7 +14,6 @@ import {useFocusEffect} from '@react-navigation/native';
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [refresh, setRefresh] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
@@ -24,31 +23,18 @@ function SessionsList(props) {
     }, [props.firebaseService]),
   );
 
-  // useEffect(() => {
-  //   props.firebaseService.getAll('sessions').then(sessions => {
-  //     setSessions(sessions.sort(props.sessionsService.compareSessionsByDate));
-  //   });
-  // }, [refresh]);
-
   const filteredSession = sessions.filter(
     createFilter(searchTerm, ['user', 'description']),
   );
 
-  function refreshSessions() {
-    // setRefresh(true);
-  }
-
   function goToNewSession() {
-    props.navigation.navigate('NewSession', {
-      // onGoBack: () => refreshSessions(),
-    });
+    props.navigation.navigate('NewSession', {});
   }
 
   function goToSessionDetails(item) {
     props.navigation.navigate('SessionDetails', {
       item: item.data(),
       itemId: item.id,
-      // onGoBack: () => refreshSessions(),
     });
   }
 
