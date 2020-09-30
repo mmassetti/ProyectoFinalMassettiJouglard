@@ -75,12 +75,12 @@ class InnerImageHandler {
   }
   async saveImageInTheCloud(imageId, uri, percentages, saveConfig) {
     const secure_url = await this.cloudinaryService.uploadPhoto(uri);
-    return this.firebaseService.uploadPhoto(
-      saveConfig,
-      imageId,
+    const imageToAdd = {
+      id: imageId,
       percentages,
-      secure_url,
-    );
+      uri: secure_url,
+    };
+    return this.firebaseService.uploadPhoto(saveConfig, imageToAdd);
   }
 }
 

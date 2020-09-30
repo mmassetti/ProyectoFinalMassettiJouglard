@@ -38,7 +38,8 @@ function ItemDetails({
   }, [item.id]);
 
   const routeWithImage = picker => async () => {
-    const imageResponse = await imageHandler.pickImage({docRef});
+    const imageResponse = await imageHandler.pickImage({docRef})(picker);
+    console.log('imageResponse', imageResponse);
     navigation.navigate('Imagen', imageResponse);
   };
   const noop = () => {};
