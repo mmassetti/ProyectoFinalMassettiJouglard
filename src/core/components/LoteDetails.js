@@ -11,9 +11,10 @@ import {
   Info,
   withImageHandler,
   DocRefContextProvider,
-} from '../../shared/';
+} from '../../shared';
+import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
 
-function ItemDetails({
+function LoteDetails({
   firebaseService: firebase,
   alertService: alerts,
   navigation,
@@ -43,6 +44,17 @@ function ItemDetails({
     navigation.navigate('Imagen', imageResponse);
   };
   const noop = () => {};
+
+  navigation.setOptions({
+    title: 'Detalles del lote',
+    headerRight: () => (
+      <NavDeleteButton
+        onPress={() => {
+          // onDeleteLote(route.params.itemId);
+        }}
+      />
+    ),
+  });
 
   return (
     <DocRefContextProvider docRef={docRef}>
@@ -92,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withImageHandler(withAlertService(withFirebase(ItemDetails)));
+export default withImageHandler(withAlertService(withFirebase(LoteDetails)));
