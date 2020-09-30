@@ -64,8 +64,15 @@ function onDeleteSession(sessionId, navigation) {
     .showConfirmDialog(
       '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
     )
-    .then(() => {
-      FirebaseService.getInstance().removeSession(sessionId);
+    .then(async () => {
+      console.log(sessionId);
+      FirebaseService.getInstance()
+        .getDocRefFromId('sessions', sessionId)
+        .delete();
+      (await FirebaseService.getInstance().getDocRefInnerId(
+        'sessionsDetails',
+        sessionId,
+      )).docRef.delete();
       navigation.navigate('Main');
       //TODO: actualizar lista de sesiones
     });
