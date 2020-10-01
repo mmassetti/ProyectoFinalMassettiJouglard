@@ -69,6 +69,7 @@ function LoteDetails({
           FirstScreen={() => (
             <GridWithNewButton
               title=""
+              newItemText="Nueva pastura"
               data={pasturas}
               onEntryClick={noop}
               onNewClick={noop}

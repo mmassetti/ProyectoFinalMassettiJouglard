@@ -1,12 +1,13 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor} from '../../../configuration/colors';
 
-export function AddEntry({onPress}) {
+export function AddEntry({onPress, text}) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Icon name="squared-plus" style={styles.addIcon} type="Entypo" />
+      <Text>{text}</Text>
     </TouchableOpacity>
   );
 }

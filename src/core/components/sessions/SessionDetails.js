@@ -114,6 +114,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
         <SessionHeader item={item} />
         <GridWithNewButton
           title="Lotes"
+          newItemText="Nuevo lote"
           data={lotes}
           onDeleteEntry={onDelete}
           onNewClick={onNewPress}

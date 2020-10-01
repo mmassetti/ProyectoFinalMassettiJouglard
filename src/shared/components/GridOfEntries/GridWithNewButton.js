@@ -7,6 +7,7 @@ import {FlatGrid} from 'react-native-super-grid';
 
 export function GridWithNewButton({
   title,
+  newItemText,
   data,
   onEntryClick,
   onDeleteEntry,
@@ -21,7 +22,7 @@ export function GridWithNewButton({
         data={[{add: true}].concat(data)}
         renderItem={({item}) =>
           item.add ? (
-            <AddEntry onPress={onNewClick} />
+            <AddEntry onPress={onNewClick} text={newItemText} />
           ) : (
             <EntrySquare
               item={item}
