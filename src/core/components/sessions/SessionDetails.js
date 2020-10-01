@@ -1,16 +1,17 @@
 //@ts-check
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
-  uniqueId,
   GridWithNewButton,
   DocRefContextProvider,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
 import {NavDeleteButton} from '../../../shared/components/NavDeleteButton';
 import {AlertService} from '../../../shared/services/alertsService';
+import {useFocusEffect} from '@react-navigation/native';
+import {HeaderBackButton} from '@react-navigation/stack';
 
 function SessionDetails({navigation, route, firebaseService, alertService}) {
   const {item, itemId} = route.params;
@@ -20,19 +21,20 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
 
   const toggleRefresh = () => setRefresh(prev => !prev);
 
-  useEffect(() => {
-    console.log('SessionDetails -> item', item);
-
-    async function retrieveDetails() {
-      const {docRef, data} = await firebaseService.getDocRefInnerId(
-        'sessionsDetails',
-        itemId,
-      );
-      setLotes(data.lotes.reverse() || []);
-      setDocRef(docRef);
-    }
-    retrieveDetails();
-  }, [itemId, refresh]);
+  useFocusEffect(
+    React.useCallback(() => {
+      async function retrieveDetails() {
+        const {docRef, data} = await firebaseService.getDocRefInnerId(
+          'sessionsDetails',
+          itemId,
+        );
+        setLotes(data.lotes.reverse() || []);
+        setDocRef(docRef);
+      }
+      retrieveDetails();
+      return () => {};
+    }, [itemId, refresh]),
+  );
 
   async function onDeleteSession(sessionId) {
     AlertService.getInstance()
@@ -52,6 +54,13 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
 
   navigation.setOptions({
     title: 'Detalles de la sesión',
+    headerLeft: () => (
+      <HeaderBackButton
+        onPress={() => {
+          navigation.navigate('Main');
+        }}
+      />
+    ),
     headerRight: () => (
       <NavDeleteButton
         onPress={() => {
