@@ -1,14 +1,14 @@
 //@ts-check
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
   GridWithNewButton,
   DocRefContextProvider,
+  NavDeleteButton,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
-import {NavDeleteButton} from '../../../shared/components/NavDeleteButton';
 import {AlertService} from '../../../shared/services/alertsService';
 import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
@@ -36,6 +36,26 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
     }, [itemId, refresh]),
   );
 
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Detalles de la sesión',
+      headerLeft: () => (
+        <HeaderBackButton
+          onPress={() => {
+            navigation.navigate('Main');
+          }}
+        />
+      ),
+      headerRight: () => (
+        <NavDeleteButton
+          onPress={() => {
+            onDeleteSession(route.params.itemId);
+          }}
+        />
+      ),
+    });
+  }, []);
+
   async function onDeleteSession(sessionId) {
     AlertService.getInstance()
       .showConfirmDialog(
@@ -52,62 +72,6 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
       });
   }
 
-  navigation.setOptions({
-    title: 'Detalles de la sesión',
-    headerLeft: () => (
-      <HeaderBackButton
-        onPress={() => {
-          navigation.navigate('Main');
-        }}
-      />
-    ),
-    headerRight: () => (
-      <NavDeleteButton
-        onPress={() => {
-          onDeleteSession(route.params.itemId);
-        }}
-      />
-    ),
-  });
-
-  const onDelete = loteId => {
-    alertService
-      .showConfirmDialog('¡Atención! Se eliminará este lote. ')
-      .then(() => {
-        firebaseService
-          .remove(docRef, 'lotes', 'lotesDetails', loteId)
-          .then(toggleRefresh);
-      });
-  };
-  const onNewPress = () => {
-    alertService
-      .showPromptDialog(
-        `Lote ${lotes.length + 1}`,
-        'Nombre/Identificador del lote',
-      )
-      .then(loteName => {
-        firebaseService
-          .add(
-            docRef,
-            'lotes',
-            'lotesDetails',
-            {description: loteName},
-            {
-              images: [],
-              pasturas: [],
-              averagePercentages: {},
-            },
-          )
-          .then(toggleRefresh);
-      });
-  };
-
-  const routeToLote = item => {
-    navigation.navigate('LoteDetails', {
-      item: item,
-    });
-  };
-
   return (
     <DocRefContextProvider docRef={docRef}>
       <View style={styles.viewContainer}>
@@ -116,9 +80,12 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           title="Lotes"
           newItemText="Nuevo lote"
           data={lotes}
-          onDeleteEntry={onDelete}
-          onNewClick={onNewPress}
-          onEntryClick={routeToLote}
+          refresh={toggleRefresh}
+          detailsCollection="lotesDetails"
+          arrayName="lotes"
+          defaultObj={{pasturas: []}}
+          nextScreen="LoteDetails"
+          docRef={docRef}
         />
       </View>
     </DocRefContextProvider>

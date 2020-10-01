@@ -12,6 +12,7 @@ import {Icon} from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
+import {PasturasDetail} from './PasturasDetails';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -84,6 +85,7 @@ function RootStack() {
       />
       <Stack.Screen name="SessionDetails" component={SessionDetails} />
       <Stack.Screen name="LoteDetails" component={LoteDetails} />
+      <Stack.Screen name="PasturasDetails" component={PasturasDetail} />
     </Stack.Navigator>
   );
 }

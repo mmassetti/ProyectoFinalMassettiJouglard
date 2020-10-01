@@ -51,9 +51,7 @@ function SessionsList(props) {
   function onRefresh() {
     setRefreshing(true);
     props.firebaseService.getAll('sessions').then(sessions => {
-      setSessions(
-        sessions.docs.sort(props.sessionsService.compareSessionsByDate),
-      );
+      setSessions(sessions.docs);
       setRefreshing(false);
     });
   }

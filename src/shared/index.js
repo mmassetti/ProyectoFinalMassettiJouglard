@@ -25,3 +25,4 @@ export {Info} from './components/Info';
 export {SaveImage} from './components//SaveImage';
 export {Tabs} from './components/Tabs';
 export {DocRefContext, DocRefContextProvider} from './components/DocRefContext';
+export {NavDeleteButton} from './components/NavDeleteButton';
