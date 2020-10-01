@@ -85,6 +85,14 @@ function NewSession(props) {
     navigation.goBack();
   }
 
+  function goToSessionDetails(sessionData, id) {
+    const {navigation} = props;
+    navigation.navigate('SessionDetails', {
+      item: sessionData,
+      itemId: id,
+    });
+  }
+
   function createSession() {
     const sessionData = {
       active: true,
@@ -96,13 +104,15 @@ function NewSession(props) {
     return props.firebaseService
       .addObjToCollection('sessions', sessionData)
       .then(doc => {
+        let id;
         const addToSessionDetails = props.firebaseService
           .addObjToCollection('sessionsDetails', {
             ...sessionData,
             lotes: [],
             id: doc.id,
           })
-          .then(goBackToSessions);
+          .then(goToSessionDetails(sessionData, id));
+        // .then(goBackToSessions);
       });
   }
 

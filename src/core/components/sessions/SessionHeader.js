@@ -10,7 +10,9 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
       <>
         <Text>
           <Text style={styles.boldText}>Fecha:</Text>{' '}
-          {moment(date.toDate()).format('L')}
+          {date instanceof Date
+            ? moment(date).format('L')
+            : moment(date.toDate()).format('L')}
         </Text>
         <Text>
           <Text style={styles.boldText}>Creada por:</Text> {user}

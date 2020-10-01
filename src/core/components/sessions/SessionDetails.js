@@ -21,6 +21,8 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   const toggleRefresh = () => setRefresh(prev => !prev);
 
   useEffect(() => {
+    console.log('SessionDetails -> item', item);
+
     async function retrieveDetails() {
       const {docRef, data} = await firebaseService.getDocRefInnerId(
         'sessionsDetails',
