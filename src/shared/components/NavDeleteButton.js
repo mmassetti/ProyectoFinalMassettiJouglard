@@ -7,7 +7,7 @@ export function NavDeleteButton({onPress}) {
   return (
     <TouchableOpacity transparent style={styles.deleteButton} onPress={onPress}>
       <Icon
-        type="FontAwesome"
+        type="FontAwesome5"
         name="trash"
         style={{color: warnThemeColor(0.7), fontSize: 22}}
       />

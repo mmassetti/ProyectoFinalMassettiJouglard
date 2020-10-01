@@ -30,8 +30,8 @@ export class ImageEditor extends Component {
           <BottomRightButton
             buttons={[
               {
-                type: 'Ionicons',
-                name: 'refresh',
+                type: 'FontAwesome5',
+                name: 'redo-alt',
                 onPress: this.resetAdjustment,
               },
             ]}

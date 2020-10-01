@@ -9,7 +9,8 @@ export class Tour extends Component {
     return (
       <View style={styles.buttonCircle}>
         <Icon
-          name="md-arrow-round-forward"
+          type="FontAwesome5"
+          name="arrow-right"
           color="rgba(255, 255, 255, .9)"
           size={24}
           style={{backgroundColor: 'transparent'}}
@@ -21,7 +22,8 @@ export class Tour extends Component {
     return (
       <View style={styles.buttonCircle}>
         <Icon
-          name="md-checkmark"
+          type="FontAwesome5"
+          name="check"
           color="rgba(255, 255, 255, .9)"
           size={24}
           style={{backgroundColor: 'transparent'}}

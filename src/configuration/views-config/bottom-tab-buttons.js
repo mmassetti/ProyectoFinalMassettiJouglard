@@ -4,7 +4,7 @@ export const tabBarIcons = {
     name: 'list',
   },
   recent: {
-    type: 'MaterialCommunityIcons',
+    type: 'FontAwesome5',
     name: 'clock',
   },
   fastProcess: {

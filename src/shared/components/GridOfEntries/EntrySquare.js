@@ -12,7 +12,7 @@ export function EntrySquare({onDelete, item, onPress}) {
       <TouchableOpacity
         style={styles.cross}
         onPress={onDelete.bind(null, item.id)}>
-        <Icon style={styles.crossIcon} name="trash-o" type="FontAwesome" />
+        <Icon style={styles.crossIcon} name="trash-alt" type="FontAwesome5" />
       </TouchableOpacity>
       <Text style={styles.text}>{item.description}</Text>
       <View style={styles.percentagesContainer}>

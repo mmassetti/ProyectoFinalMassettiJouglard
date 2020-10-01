@@ -17,6 +17,7 @@ const iconForTab = icon => ({focused}) => {
   return (
     <Icon
       style={focused ? styles.menuIconFocused : styles.menuIcon}
+      type="FontAwesome5"
       {...icon}
     />
   );
