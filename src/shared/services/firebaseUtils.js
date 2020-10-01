@@ -6,7 +6,9 @@ export class FirebaseUtils {
   withSpinner = SpinnerService.getInstance().callAsyncFunctionWithSpinner;
 
   getAll = collectionName => {
-    const collection = firestore().collection(collectionName);
+    const collection = firestore()
+      .collection(collectionName)
+      .orderBy('date', 'desc');
     return this.withSpinner(collection.get.bind(collection));
   };
 

@@ -1,5 +1,5 @@
 //@ts-check
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
@@ -27,6 +27,21 @@ function LoteDetails({
   const [itemDetail, setItemDetail] = useState();
   const {item} = route.params;
   const [docRef, setDocRef] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const toggleRefresh = () => setRefresh(prev => !prev);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Detalles del lote',
+      headerRight: () => (
+        <NavDeleteButton
+          onPress={() => {
+            // onDeleteLote(route.params.itemId);
+          }}
+        />
+      ),
+    });
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -39,25 +54,13 @@ function LoteDetails({
           setDocRef(docRef);
         });
       return () => {};
-    }, [item.id]),
+    }, [item.id, refresh]),
   );
 
   const routeWithImage = picker => async () => {
     const imageResponse = await imageHandler.pickImage({docRef})(picker);
     navigation.navigate('Imagen', imageResponse);
   };
-  const noop = () => {};
-
-  navigation.setOptions({
-    title: 'Detalles del lote',
-    headerRight: () => (
-      <NavDeleteButton
-        onPress={() => {
-          // onDeleteLote(route.params.itemId);
-        }}
-      />
-    ),
-  });
 
   return (
     <DocRefContextProvider docRef={docRef}>
@@ -70,9 +73,12 @@ function LoteDetails({
             <GridWithNewButton
               title=""
               data={pasturas}
-              onEntryClick={noop}
-              onNewClick={noop}
-              onDeleteEntry={noop}
+              arrayName="pasturas"
+              detailsCollection="pasturasDetails"
+              refresh={toggleRefresh}
+              defaultObj={{}}
+              nextScreen="PasturasDetails"
+              docRef={docRef}
             />
           )}
           SecondScreen={() => <ImagesTaken images={images} />}
