@@ -70,7 +70,7 @@ const Stack = createStackNavigator();
 
 function RootStack() {
   return (
-    <Stack.Navigator initialRouteName="Main">
+    <Stack.Navigator initialRouteName="Main" gestureEnabled="false">
       <Stack.Screen
         name="Main"
         component={TabNavigator}
