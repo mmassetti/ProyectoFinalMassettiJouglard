@@ -23,11 +23,13 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log(itemId);
       async function retrieveDetails() {
         const {docRef, data} = await firebaseService.getDocRefInnerId(
           'sessionsDetails',
           itemId,
         );
+        console.log('Docref', docRef);
         setLotes(data.lotes.reverse() || []);
         setDocRef(docRef);
       }
@@ -57,7 +59,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   }, []);
 
   async function onDeleteSession(sessionId) {
-    AlertService.getInstance()
+    alertService
       .showConfirmDialog(
         '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
       )

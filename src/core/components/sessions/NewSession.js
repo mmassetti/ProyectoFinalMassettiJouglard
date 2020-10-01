@@ -111,7 +111,7 @@ function NewSession(props) {
             lotes: [],
             id: doc.id,
           })
-          .then(goToSessionDetails(sessionData, id));
+          .then(() => goToSessionDetails(sessionData, doc.id));
         // .then(goBackToSessions);
       });
   }
