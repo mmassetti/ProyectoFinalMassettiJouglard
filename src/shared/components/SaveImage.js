@@ -1,11 +1,22 @@
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import {withCloudinary, withFirebase} from './HOCForInjection/WithService';
+import {Text} from 'react-native';
 import {Button} from 'native-base';
+import {useNavigation} from '@react-navigation/native';
 
 export function SaveImage({onSave}) {
+  const navigation = useNavigation();
+
+  async function save() {
+    await onSave();
+    navigation.goBack();
+  }
+
   return (
-    <Button onPress={onSave} primary>
+    <Button
+      onPress={() => {
+        save();
+      }}
+      primary>
       <Text>Guardar</Text>
     </Button>
   );

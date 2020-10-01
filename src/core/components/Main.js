@@ -6,7 +6,7 @@ import {StyleSheet, Text} from 'react-native';
 import ImageView from './ImageView';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
-import ItemDetails from './ItemDetails';
+import LoteDetails from './LoteDetails';
 import {Animation} from '../../shared/components/Animation';
 import {Icon} from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -82,7 +82,7 @@ function RootStack() {
         options={{title: 'Nueva sesión'}}
       />
       <Stack.Screen name="SessionDetails" component={SessionDetails} />
-      <Stack.Screen name="LoteDetails" component={ItemDetails} />
+      <Stack.Screen name="LoteDetails" component={LoteDetails} />
     </Stack.Navigator>
   );
 }

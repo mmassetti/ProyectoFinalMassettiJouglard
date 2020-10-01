@@ -1,6 +1,6 @@
 //@ts-check
-import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -11,9 +11,11 @@ import {
   Info,
   withImageHandler,
   DocRefContextProvider,
-} from '../../shared/';
+} from '../../shared';
+import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
+import {useFocusEffect} from '@react-navigation/native';
 
-function ItemDetails({
+function LoteDetails({
   firebaseService: firebase,
   alertService: alerts,
   navigation,
@@ -26,23 +28,36 @@ function ItemDetails({
   const {item} = route.params;
   const [docRef, setDocRef] = useState();
 
-  useEffect(() => {
-    firebase
-      .getDocRefInnerId('lotesDetails', item.id)
-      .then(({docRef, data}) => {
-        setItemDetail(data);
-        setImages(data.images);
-        setPasturas(data.pasturas);
-        setDocRef(docRef);
-      });
-  }, [item.id]);
+  useFocusEffect(
+    React.useCallback(() => {
+      firebase
+        .getDocRefInnerId('lotesDetails', item.id)
+        .then(({docRef, data}) => {
+          setItemDetail(data);
+          setImages(data.images);
+          setPasturas(data.pasturas);
+          setDocRef(docRef);
+        });
+      return () => {};
+    }, [item.id]),
+  );
 
   const routeWithImage = picker => async () => {
     const imageResponse = await imageHandler.pickImage({docRef})(picker);
-    console.log('imageResponse', imageResponse);
     navigation.navigate('Imagen', imageResponse);
   };
   const noop = () => {};
+
+  navigation.setOptions({
+    title: 'Detalles del lote',
+    headerRight: () => (
+      <NavDeleteButton
+        onPress={() => {
+          // onDeleteLote(route.params.itemId);
+        }}
+      />
+    ),
+  });
 
   return (
     <DocRefContextProvider docRef={docRef}>
@@ -92,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withImageHandler(withAlertService(withFirebase(ItemDetails)));
+export default withImageHandler(withAlertService(withFirebase(LoteDetails)));
