@@ -9,29 +9,26 @@ import {
   NavDeleteButton,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
-import {AlertService} from '../../../shared/services/alertsService';
 import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
 
 function SessionDetails({navigation, route, firebaseService, alertService}) {
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
-  const [docRef, setDocRef] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  let reference = null;
 
   const toggleRefresh = () => setRefresh(prev => !prev);
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(itemId);
       async function retrieveDetails() {
         const {docRef, data} = await firebaseService.getDocRefInnerId(
           'sessionsDetails',
           itemId,
         );
-        console.log('Docref', docRef);
         setLotes(data.lotes.reverse() || []);
-        setDocRef(docRef);
+        reference = docRef;
       }
       retrieveDetails();
       return () => {};
@@ -39,6 +36,21 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   );
 
   useEffect(() => {
+    const onDeleteSession = sessionId => {
+      alertService
+        .showConfirmDialog(
+          '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
+        )
+        .then(async () => {
+          const collectionDelete = firebaseService
+            .getDocRefFromId('sessions', sessionId)
+            .delete();
+          const detailsDelete = reference.delete();
+          Promise.all([collectionDelete, detailsDelete]).then(() => {
+            navigation.navigate('Main');
+          });
+        });
+    };
     navigation.setOptions({
       title: 'Detalles de la sesión',
       headerLeft: () => (
@@ -58,24 +70,8 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
     });
   }, []);
 
-  async function onDeleteSession(sessionId) {
-    alertService
-      .showConfirmDialog(
-        '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
-      )
-      .then(async () => {
-        const collectionDelete = firebaseService
-          .getDocRefFromId('sessions', sessionId)
-          .delete();
-        const detailsDelete = docRef?.delete();
-        Promise.all([collectionDelete, detailsDelete]).then(() => {
-          navigation.navigate('Main');
-        });
-      });
-  }
-
   return (
-    <DocRefContextProvider docRef={docRef}>
+    <DocRefContextProvider docRef={reference}>
       <View style={styles.viewContainer}>
         <SessionHeader item={item} />
         <GridWithNewButton
@@ -87,7 +83,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           arrayName="lotes"
           defaultObj={{pasturas: []}}
           nextScreen="LoteDetails"
-          docRef={docRef}
+          docRef={reference}
         />
       </View>
     </DocRefContextProvider>
