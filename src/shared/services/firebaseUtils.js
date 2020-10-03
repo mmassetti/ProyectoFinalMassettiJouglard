@@ -73,7 +73,8 @@ export class FirebaseUtils {
       allArrays.push(
         firestore()
           .collection(detailsCollection)
-          .where('id', 'in', arrayOfIds.slice(i, i + 10)),
+          .where('id', 'in', arrayOfIds.slice(i, i + 10))
+          .get(),
       );
     }
     const allDocs = await Promise.all(allArrays);
