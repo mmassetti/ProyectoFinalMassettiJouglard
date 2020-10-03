@@ -33,11 +33,11 @@ export function InnerGrid({
   };
   const route = item => {
     navigation.navigate(nextScreen, {
-      item: item,
+      item,
+      docRef,
     });
   };
   const onNewPress = () => {
-    console.log(defaultObj);
     alertService
       .showPromptDialog(`Lote ${data.length + 1}`, 'Nombre/Identificador')
       .then(name => {

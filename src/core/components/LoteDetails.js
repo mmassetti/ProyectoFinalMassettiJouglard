@@ -25,7 +25,7 @@ function LoteDetails({
   const [images, setImages] = useState([]);
   const [pasturas, setPasturas] = useState([]);
   const [itemDetail, setItemDetail] = useState();
-  const {item} = route.params;
+  const {item, docRef: sessionDocRef} = route.params;
   const [docRef, setDocRef] = useState();
   const [refresh, setRefresh] = useState(false);
   const toggleRefresh = () => setRefresh(prev => !prev);
@@ -36,12 +36,26 @@ function LoteDetails({
       headerRight: () => (
         <NavDeleteButton
           onPress={() => {
-            // onDeleteLote(route.params.itemId);
+            alerts
+              .showConfirmDialog(
+                '¡Atención! Se eliminará este lote y toda la información asociada a ella. ',
+              )
+              .then(() => {
+                firebase.deleteInBatch(
+                  pasturas.map(pastura => pastura.id),
+                  'pasturasDetails',
+                );
+                firebase
+                  .remove(sessionDocRef, 'lotes', 'lotesDetails', item.id)
+                  .then(() => {
+                    navigation.goBack();
+                  });
+              });
           }}
         />
       ),
     });
-  }, []);
+  }, [docRef, pasturas]);
 
   useFocusEffect(
     React.useCallback(() => {

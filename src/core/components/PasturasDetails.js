@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   withFirebase,
   withImageHandler,
+  withAlertService,
   ImagesTaken,
   BottomRightButton,
   NavDeleteButton,
@@ -14,9 +15,10 @@ function InnerPasturasDetails({
   route,
   navigation,
   imageHandler,
+  alertService: alerts,
   firebaseService,
 }) {
-  const {item} = route.params;
+  const {item, docRef: lotesRef} = route.params;
   const [images, setImages] = useState([]);
   const [docRef, setDocRef] = useState();
 
@@ -26,7 +28,17 @@ function InnerPasturasDetails({
       headerRight: () => (
         <NavDeleteButton
           onPress={() => {
-            // onDeleteLote(route.params.itemId);
+            alerts
+              .showConfirmDialog(
+                '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ',
+              )
+              .then(() => {
+                firebaseService
+                  .remove(lotesRef, 'pasturas', 'pasturasDetails', item.id)
+                  .then(() => {
+                    navigation.goBack();
+                  });
+              });
           }}
         />
       ),
@@ -72,6 +84,6 @@ function InnerPasturasDetails({
   );
 }
 
-export const PasturasDetail = withImageHandler(
-  withFirebase(InnerPasturasDetails),
+export const PasturasDetail = withAlertService(
+  withImageHandler(withFirebase(InnerPasturasDetails)),
 );

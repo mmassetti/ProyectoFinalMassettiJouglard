@@ -77,12 +77,8 @@ export class FirebaseUtils {
           .get(),
       );
     }
-    console.log(allArrays);
     const allDocs = await Promise.all(allArrays);
-
-    console.log('Docs', allDocs);
     const flattenArray = [].concat(...allDocs.map(response => response.docs));
-    console.log('flattenArray', flattenArray);
 
     const docsRefs = flattenArray.map(doc =>
       firestore()
