@@ -16,7 +16,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [docRef, setDocRef] = useState();
+  const [docRef, setDocRef] = useState(null);
   let reference = null;
 
   const toggleRefresh = () => setRefresh(prev => !prev);
@@ -47,7 +47,11 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           const collectionDelete = firebaseService
             .getDocRefFromId('sessions', sessionId)
             .delete();
-          const detailsDelete = reference.delete();
+          const detailsDelete = docRef?.delete();
+          firebaseService.deleteInBatch(
+            lotes.map(lote => lote.id),
+            'lotesDetails',
+          );
           Promise.all([collectionDelete, detailsDelete]).then(() => {
             navigation.navigate('Main');
           });
@@ -70,7 +74,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
         />
       ),
     });
-  }, []);
+  }, [lotes, docRef]);
 
   return (
     <DocRefContextProvider docRef={docRef}>
