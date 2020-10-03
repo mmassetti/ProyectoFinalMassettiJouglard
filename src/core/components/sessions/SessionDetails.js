@@ -16,6 +16,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [docRef, setDocRef] = useState();
   let reference = null;
 
   const toggleRefresh = () => setRefresh(prev => !prev);
@@ -28,6 +29,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           itemId,
         );
         setLotes(data.lotes.reverse() || []);
+        setDocRef(docRef);
         reference = docRef;
       }
       retrieveDetails();
@@ -71,7 +73,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
   }, []);
 
   return (
-    <DocRefContextProvider docRef={reference}>
+    <DocRefContextProvider docRef={docRef}>
       <View style={styles.viewContainer}>
         <SessionHeader item={item} />
         <GridWithNewButton
@@ -83,7 +85,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           arrayName="lotes"
           defaultObj={{pasturas: []}}
           nextScreen="LoteDetails"
-          docRef={reference}
+          docRef={docRef}
         />
       </View>
     </DocRefContextProvider>

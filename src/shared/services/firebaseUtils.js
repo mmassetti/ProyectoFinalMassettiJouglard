@@ -65,4 +65,21 @@ export class FirebaseUtils {
     }
     return this.withSpinner(docRef.update.bind(docRef, {images: newImages}));
   };
+
+  async deleteInBatch(arrayOfIds, detailsCollection) {
+    const batch = firestore().batch();
+    const {docs} = await firestore()
+      .collection(detailsCollection)
+      .where('id', 'in', arrayOfIds)
+      .get();
+    const docsRefs = docs.map(doc =>
+      firestore()
+        .collection(detailsCollection)
+        .doc(doc.id),
+    );
+    for (const ref of docsRefs) {
+      batch.delete(ref);
+    }
+    return batch.commit();
+  }
 }
