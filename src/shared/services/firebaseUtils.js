@@ -69,7 +69,7 @@ export class FirebaseUtils {
   async deleteInBatch(arrayOfIds, detailsCollection) {
     const batch = firestore().batch();
     const allArrays = [];
-    for (let i = 0; i < length; i += 10) {
+    for (let i = 0; i < arrayOfIds.length; i += 10) {
       allArrays.push(
         firestore()
           .collection(detailsCollection)
@@ -77,9 +77,14 @@ export class FirebaseUtils {
           .get(),
       );
     }
+    console.log(allArrays);
     const allDocs = await Promise.all(allArrays);
 
-    const docsRefs = [].concat(...allDocs).map(doc =>
+    console.log('Docs', allDocs);
+    const flattenArray = [].concat(...allDocs.map(response => response.docs));
+    console.log('flattenArray', flattenArray);
+
+    const docsRefs = flattenArray.map(doc =>
       firestore()
         .collection(detailsCollection)
         .doc(doc.id),
