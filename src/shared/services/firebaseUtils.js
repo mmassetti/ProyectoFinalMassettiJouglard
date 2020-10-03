@@ -68,11 +68,17 @@ export class FirebaseUtils {
 
   async deleteInBatch(arrayOfIds, detailsCollection) {
     const batch = firestore().batch();
-    const {docs} = await firestore()
-      .collection(detailsCollection)
-      .where('id', 'in', arrayOfIds)
-      .get();
-    const docsRefs = docs.map(doc =>
+    const allArrays = [];
+    for (let i = 0; i < length; i += 10) {
+      allArrays.push(
+        firestore()
+          .collection(detailsCollection)
+          .where('id', 'in', arrayOfIds.slice(i, i + 10)),
+      );
+    }
+    const allDocs = await Promise.all(allArrays);
+
+    const docsRefs = [].concat(...allDocs).map(doc =>
       firestore()
         .collection(detailsCollection)
         .doc(doc.id),
