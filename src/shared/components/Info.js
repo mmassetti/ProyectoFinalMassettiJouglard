@@ -13,24 +13,24 @@ export function Info({item}) {
   };
   return (
     <>
-      <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}>
-        <Icon type="FontAwesome5" name="info-circle" style={styles.text} />
-        <Text style={styles.text}>Mas</Text>
-      </TouchableOpacity>
-      <Popover isVisible={showInfo}>
-        <Text>{item.description}</Text>
-        <Text>{item.creationDate}</Text>
-        <Percentages
-          percentages={{
-            percentageGreen: item.totalGreen / item.totalImages,
-            percentageNaked: item.totalNaked / item.totalImages,
-            percentageYellow: item.totalYellow / item.totalImages,
-          }}
-        />
-        <Button onPress={toggleInfo(false)} primary>
-          <Text>Cerrar</Text>
-        </Button>
-      </Popover>
+      {/* <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}> */}
+      {/*   <Icon type="FontAwesome5" name="info-circle" style={styles.text} /> */}
+      {/*   <Text style={styles.text}>Mas</Text> */}
+      {/* </TouchableOpacity> */}
+      {/* <Popover isVisible={showInfo}> */}
+      {/*   <Text>{item.description}</Text> */}
+      {/*   <Text>{item.creationDate}</Text> */}
+      {/*   <Percentages */}
+      {/*     percentages={{ */}
+      {/*       percentageGreen: item.totalGreen / item.totalImages, */}
+      {/*       percentageNaked: item.totalNaked / item.totalImages, */}
+      {/*       percentageYellow: item.totalYellow / item.totalImages, */}
+      {/*     }} */}
+      {/*   /> */}
+      {/*   <Button onPress={toggleInfo(false)} primary> */}
+      {/*     <Text>Cerrar</Text> */}
+      {/*   </Button> */}
+      {/* </Popover> */}
     </>
   );
 }

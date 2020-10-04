@@ -79,8 +79,8 @@ function LoteDetails({
       <View style={styles.detailsContainer}>
         <Info item={itemDetail} />
         <Tabs
-          firstTitle="Pasturas"
-          secondTitle="Imagenes"
+          secondTitle="Pasturas"
+          firstTitle="Imagenes"
           FirstScreen={() => <ImagesTaken images={images} />}
           SecondScreen={() => (
             <GridWithNewButton
