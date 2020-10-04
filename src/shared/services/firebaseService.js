@@ -17,13 +17,17 @@ export class InnerFirebaseService extends FirebaseUtils {
 
   add(docRef, attribute, detailsCollection, objToAdd, detailsObj) {
     const id = uniqueId();
+
+    const creationDate = firestore.Timestamp.fromDate(new Date());
     const addToSession = this.addObjToArray(docRef, attribute, {
       id,
       ...objToAdd,
+      creationDate,
     });
     const addToCollection = this.addObjToCollection(detailsCollection, {
       id,
       ...objToAdd,
+      creationDate,
       ...detailsObj,
     });
     return this.withSpinner(

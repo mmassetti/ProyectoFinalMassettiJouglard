@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
-import {Icon} from 'native-base';
+import {Icon, Button} from 'native-base';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {mainThemeColor} from '../../configuration';
+import Popover from 'react-native-popover-view';
+import {Percentages} from '../../core/components/Percentages';
 
 export function Info({item}) {
   const [showInfo, setShowInfo] = useState(false);
+
   const toggleInfo = showInfo => () => {
     setShowInfo(showInfo);
   };
@@ -14,6 +17,20 @@ export function Info({item}) {
         <Icon type="FontAwesome5" name="info-circle" style={styles.text} />
         <Text style={styles.text}>Mas</Text>
       </TouchableOpacity>
+      <Popover isVisible={showInfo}>
+        <Text>{item.description}</Text>
+        <Text>{item.creationDate}</Text>
+        <Percentages
+          percentages={{
+            percentageGreen: item.totalGreen / item.totalImages,
+            percentageNaked: item.totalNaked / item.totalImages,
+            percentageYellow: item.totalYellow / item.totalImages,
+          }}
+        />
+        <Button onPress={toggleInfo(false)} primary>
+          <Text>Cerrar</Text>
+        </Button>
+      </Popover>
     </>
   );
 }

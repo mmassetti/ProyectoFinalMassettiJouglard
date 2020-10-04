@@ -33,6 +33,7 @@ function App() {
     }
     isOldUser();
   }, []);
+
   useEffect(() => {
     async function getUserName() {
       let userName = await AsyncStorage.getItem('@UserName');

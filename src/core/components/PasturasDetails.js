@@ -7,6 +7,7 @@ import {
   BottomRightButton,
   NavDeleteButton,
   DocRefContextProvider,
+  Info,
 } from '../../shared';
 import {Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
@@ -61,7 +62,8 @@ function InnerPasturasDetails({
 
   return (
     <DocRefContextProvider docRef={docRef}>
-      <Text>{item.description}</Text>
+      {/* <Text>{item.description}</Text> */}
+      <Info item={item} />
       <ImagesTaken images={images} />
       <BottomRightButton
         withBackground={true}

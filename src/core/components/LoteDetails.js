@@ -81,7 +81,8 @@ function LoteDetails({
         <Tabs
           firstTitle="Pasturas"
           secondTitle="Imagenes"
-          FirstScreen={() => (
+          FirstScreen={() => <ImagesTaken images={images} />}
+          SecondScreen={() => (
             <GridWithNewButton
               title=""
               newItemText="Nueva pastura"
@@ -94,7 +95,6 @@ function LoteDetails({
               docRef={docRef}
             />
           )}
-          SecondScreen={() => <ImagesTaken images={images} />}
         />
         <BottomRightButton
           withBackground={true}
