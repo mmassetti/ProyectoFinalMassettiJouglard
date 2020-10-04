@@ -47,9 +47,7 @@ function LoteDetails({
                 );
                 firebase
                   .remove(sessionDocRef, 'lotes', 'lotesDetails', item.id)
-                  .then(() => {
-                    navigation.goBack();
-                  });
+                  .then(navigation.goBack);
               });
           }}
         />

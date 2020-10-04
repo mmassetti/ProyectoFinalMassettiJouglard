@@ -35,9 +35,7 @@ function InnerPasturasDetails({
               .then(() => {
                 firebaseService
                   .remove(lotesRef, 'pasturas', 'pasturasDetails', item.id)
-                  .then(() => {
-                    navigation.goBack();
-                  });
+                  .then(navigation.goBack);
               });
           }}
         />
