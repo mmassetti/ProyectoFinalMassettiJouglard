@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Icon} from 'native-base';
 import {mainThemeColor} from '../../configuration/colors';
+import {Background} from './BackgroundFull';
+import {BackgroundContext} from './BackgroundContext';
 
 export function BottomRightButton({buttons, withBackground = false}) {
+  const {background} = useContext(BackgroundContext);
   return (
     <View
       style={[
@@ -14,7 +17,7 @@ export function BottomRightButton({buttons, withBackground = false}) {
         <TouchableOpacity
           key={name}
           onPress={onPress}
-          style={styles.resetButton}>
+          style={[styles.resetButton, background ? {elevation: 0} : {}]}>
           <Icon
             type={type}
             name={name}
@@ -22,6 +25,7 @@ export function BottomRightButton({buttons, withBackground = false}) {
           />
         </TouchableOpacity>
       ))}
+      <Background style={{borderRadius: 10}} />
     </View>
   );
 }

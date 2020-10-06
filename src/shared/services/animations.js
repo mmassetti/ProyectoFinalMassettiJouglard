@@ -22,5 +22,9 @@ export function useAnimation(initialValue, duration) {
 }
 
 export function calculateOffsetToMiddleOfTheScreen(initialOffset) {
-  return Dimensions.get('window').height / 2 - initialOffset;
+  return (
+    Dimensions.get('window').height / 2 -
+    initialOffset +
+    Dimensions.get('window').height * 0.1
+  );
 }

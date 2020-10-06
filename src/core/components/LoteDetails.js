@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -11,6 +11,8 @@ import {
   Info,
   withImageHandler,
   DocRefContextProvider,
+  BackgroundProvider,
+  Background,
 } from '../../shared';
 import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
 import {useFocusEffect} from '@react-navigation/native';
@@ -29,6 +31,8 @@ function LoteDetails({
   const [docRef, setDocRef] = useState();
   const [refresh, setRefresh] = useState(false);
   const toggleRefresh = () => setRefresh(prev => !prev);
+
+  const [background, setBackground] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -76,42 +80,44 @@ function LoteDetails({
 
   return (
     <DocRefContextProvider docRef={docRef}>
-      <View style={styles.detailsContainer}>
-        <Info item={itemDetail} />
-        <Tabs
-          secondTitle="Pasturas"
-          firstTitle="Imagenes"
-          FirstScreen={() => <ImagesTaken images={images} />}
-          SecondScreen={() => (
-            <GridWithNewButton
-              title=""
-              newItemText="Nueva pastura"
-              data={pasturas}
-              arrayName="pasturas"
-              detailsCollection="pasturasDetails"
-              refresh={toggleRefresh}
-              defaultObj={{}}
-              nextScreen="PasturasDetails"
-              docRef={docRef}
-            />
-          )}
-        />
-        <BottomRightButton
-          withBackground={true}
-          buttons={[
-            {
-              name: 'upload',
-              type: 'FontAwesome5',
-              onPress: routeWithImage('Gallery'),
-            },
-            {
-              name: 'camera-retro',
-              type: 'FontAwesome5',
-              onPress: routeWithImage('Camera'),
-            },
-          ]}
-        />
-      </View>
+      <BackgroundProvider>
+        <View style={styles.detailsContainer}>
+          <Info item={itemDetail} />
+          <Tabs
+            secondTitle="Pasturas"
+            firstTitle="Imagenes"
+            FirstScreen={() => <ImagesTaken images={images} />}
+            SecondScreen={() => (
+              <GridWithNewButton
+                title=""
+                newItemText="Nueva pastura"
+                data={pasturas}
+                arrayName="pasturas"
+                detailsCollection="pasturasDetails"
+                refresh={toggleRefresh}
+                defaultObj={{}}
+                nextScreen="PasturasDetails"
+                docRef={docRef}
+              />
+            )}
+          />
+          <BottomRightButton
+            withBackground={true}
+            buttons={[
+              {
+                name: 'upload',
+                type: 'FontAwesome5',
+                onPress: routeWithImage('Gallery'),
+              },
+              {
+                name: 'camera-retro',
+                type: 'FontAwesome5',
+                onPress: routeWithImage('Camera'),
+              },
+            ]}
+          />
+        </View>
+      </BackgroundProvider>
     </DocRefContextProvider>
   );
 }
@@ -119,6 +125,7 @@ function LoteDetails({
 const styles = StyleSheet.create({
   detailsContainer: {
     height: '100%',
+    zIndex: 10,
   },
   description: {
     fontSize: 21,

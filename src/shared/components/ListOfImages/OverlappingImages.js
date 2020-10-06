@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useContext} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {
   calculateOffsetToMiddleOfTheScreen,
@@ -7,17 +7,23 @@ import {
 } from '../../services/animations';
 import {OurImage} from './EntryImage';
 import {NewAfterImage} from './NewAfterImage';
+import {BackgroundContext} from '../BackgroundContext';
+import {Background} from '../BackgroundFull';
 
-export function OverlappingEntries({item, openBehindScreen, somethingOpened}) {
+export function OverlappingEntries({item}) {
+  console.log('Render overlap');
   const [opened, setOpened] = useState(false);
   const [zIndexFirstImage, setFirstIndex] = useState(9);
   const [zIndexSecondImage, setSecondIndex] = useState(8);
+  const {background, setOnClose, setBackground} = useContext(BackgroundContext);
 
   useEffect(() => {
-    if (!somethingOpened) {
+    if (background == item.before.id) {
+      animate();
+    } else {
       resetAnimation();
     }
-  }, [somethingOpened]);
+  }, [background]);
   const [
     translateYFirstImage,
     triggerFristTransition,
@@ -45,12 +51,13 @@ export function OverlappingEntries({item, openBehindScreen, somethingOpened}) {
         triggerScale(1.2);
       });
       image2.current.measure((ox, oy, width, height, px, py) => {
+        console.log('O', ox, '---', oy);
+        console.log('P', px, '---', py);
         triggerSecondTransition(calculateOffsetToMiddleOfTheScreen(py));
         triggerScale(1.2);
         triggerTranslateX(-10);
         setTimeout(() => triggerOpacity(1), 100);
       });
-      openBehindScreen();
     }
   };
 
@@ -89,7 +96,7 @@ export function OverlappingEntries({item, openBehindScreen, somethingOpened}) {
           elevation: opened ? 5 : 0,
         }}
         image={item.before}
-        onPress={animate}
+        onPress={() => setBackground(item.before.id)}
       />
       {item.after ? (
         <OurImage
@@ -97,7 +104,7 @@ export function OverlappingEntries({item, openBehindScreen, somethingOpened}) {
           text={opened ? 'Despues' : ''}
           style={[backEntryStyles, {opacity}]}
           image={item.after}
-          onPress={animate}
+          onPress={() => setBackground(item.before.id)}
         />
       ) : (
         <NewAfterImage

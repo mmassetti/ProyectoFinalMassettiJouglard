@@ -21,8 +21,13 @@ export {NetStatusBar} from './components/NetStatusBar';
 export {GridWithNewButton} from './components/GridOfEntries/GridWithNewButton';
 export {FirebaseCollection} from './services/firebaseCollection';
 export {ImagesTaken} from './components/ListOfImages/ImagesTaken';
-export {Info} from './components/Info';
+export {Info} from './components/Info/Info';
 export {SaveImage} from './components//SaveImage';
 export {Tabs} from './components/Tabs';
 export {DocRefContext, DocRefContextProvider} from './components/DocRefContext';
 export {NavDeleteButton} from './components/NavDeleteButton';
+export {
+  BackgroundContext,
+  BackgroundProvider,
+} from './components/BackgroundContext';
+export {Background} from './components/BackgroundFull';

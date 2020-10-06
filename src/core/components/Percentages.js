@@ -7,7 +7,7 @@ export class Percentages extends Component {
   render() {
     return (
       <View style={styles.percentages}>
-        <Text style={styles.cover}>Cubrimiento</Text>
+        <Text style={styles.cover}>{this.props.title || 'Cubrimiento'}</Text>
         <View style={styles.circlesContainer}>
           {percentages.map((percentage, index) => {
             return (

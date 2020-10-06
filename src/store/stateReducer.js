@@ -21,6 +21,7 @@ function showApp(state = true, action) {
       return state;
   }
 }
+
 function background(state = true, {type, onPress}) {
   switch (type) {
     case 'SHOW_BACK':

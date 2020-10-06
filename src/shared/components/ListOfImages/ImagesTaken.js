@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   Text,
   Dimensions,
@@ -9,42 +9,20 @@ import {
   ScrollView,
 } from 'react-native';
 import {OverlappingEntries} from './OverlappingImages';
-import {useAnimation} from '../../services/animations';
+import {Background} from '../BackgroundFull';
+import {BackgroundContext} from '../BackgroundContext';
 
 export function ImagesTaken({images}) {
-  const [somethingOpened, setOpened] = useState(false);
-  const [opacity, triggerOpacity, resetOpacity] = useAnimation(0, 200);
+  const {background, setBackground} = useContext(BackgroundContext);
   return (
-    <ScrollView style={{minHeight: '100%'}} fadingEdgeLength={250}>
-      {somethingOpened ? (
-        <TouchableOpacity
-          onPress={() => {
-            setOpened(false);
-            resetOpacity();
-          }}
-          style={[{opacity}, styles.fullScreen]}
-          activeOpacity={1}>
-          <Animated.View
-            style={[{opacity, backgroundColor: 'black'}, styles.fullScreen]}
-          />
-        </TouchableOpacity>
-      ) : null}
+    <ScrollView style={{minHeight: '100%'}}>
+      <Background />
       <View
         style={{
           minHeight: Dimensions.get('screen').height * 0.7,
         }}>
         {images.map((item, key) => {
-          return (
-            <OverlappingEntries
-              key={key}
-              item={item}
-              somethingOpened={somethingOpened}
-              openBehindScreen={() => {
-                setOpened(true);
-                triggerOpacity(0.6);
-              }}
-            />
-          );
+          return <OverlappingEntries key={key} item={item} />;
         })}
       </View>
       <View style={{height: 90}} />
