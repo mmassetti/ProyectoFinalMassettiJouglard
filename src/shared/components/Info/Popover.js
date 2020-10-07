@@ -4,6 +4,7 @@ import {Dimensions, Text, View} from 'react-native';
 import Popover from 'react-native-popover-view';
 import {mainThemeColor, percentages} from '../../configuration';
 import {Percentage} from './PercentageCircle';
+import {Promedio} from './Promedio';
 
 export function PopoverInfo({isVisible, item}) {
   return (
@@ -15,9 +16,6 @@ export function PopoverInfo({isVisible, item}) {
           alignItems: 'center',
         }}>
         <View style={{height: '30%', alignItems: 'center'}}>
-          <Text style={styles.title}>Informacion</Text>
-          <Text>Descripcion: {item?.description}</Text>
-          <Text>Fecha de creacion: {item?.creationDate}</Text>
           <Text>Cantidad total de imagenes: {item?.totalImages}</Text>
         </View>
         <Text style={styles.percentagesTitle}>Promedio de Cubrimiento</Text>
@@ -30,20 +28,16 @@ export function PopoverInfo({isVisible, item}) {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          {percentages.map((percentage, index) => {
-            return (
-              <Percentage
-                key={index}
-                color={percentage.color}
-                size={Dimensions.get('window').width * 0.2}
-                percentage={Math.floor(
-                  item?.averagePercentages['total' + percentage.type] /
-                    item?.totalImages,
-                )}
-                title={percentage.title}
-              />
-            );
-          })}
+          <Promedio
+            title="Antes"
+            averages={item.averageBefore}
+            totalImages={item.totalImages}
+          />
+          <Promedio
+            title="Despues"
+            averages={item.averageAfter}
+            totalImages={item.totalImages}
+          />
         </View>
         <Button
           onPress={toggleInfo(false)}
