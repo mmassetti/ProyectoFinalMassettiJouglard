@@ -11,6 +11,8 @@ import {
 } from '../../shared';
 import {Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
+import {setPastura} from '../../store/actions';
+import {connect} from 'react-redux';
 
 function InnerPasturasDetails({
   route,
@@ -18,10 +20,12 @@ function InnerPasturasDetails({
   imageHandler,
   alertService: alerts,
   firebaseService,
+  setPastura,
+  pastura,
+  lote,
 }) {
-  const {item, docRef: lotesRef} = route.params;
+  const {item} = route.params;
   const [images, setImages] = useState([]);
-  const [docRef, setDocRef] = useState();
 
   useEffect(() => {
     navigation.setOptions({
@@ -35,7 +39,7 @@ function InnerPasturasDetails({
               )
               .then(() => {
                 firebaseService
-                  .remove(lotesRef, 'pasturas', 'pasturasDetails', item.id)
+                  .remove(lote.docRef, 'pasturas', 'pasturasDetails', item.id)
                   .then(navigation.goBack);
               });
           }}
@@ -50,18 +54,20 @@ function InnerPasturasDetails({
         .getDocRefInnerId('pasturasDetails', item.id)
         .then(({docRef, data}) => {
           setImages(data.images);
-          setDocRef(docRef);
+          setPastura({docRef, data});
         });
     }, [item.id]),
   );
 
   const routeWithImage = picker => async () => {
-    const imageResponse = await imageHandler.pickImage({docRef})(picker);
+    const imageResponse = await imageHandler.pickImage({
+      docRef: pastura.docRef,
+    })(picker);
     navigation.navigate('Imagen', imageResponse);
   };
 
   return (
-    <DocRefContextProvider docRef={docRef}>
+    <DocRefContextProvider docRef={pastura.docRef}>
       {/* <Text>{item.description}</Text> */}
       <Info item={item} />
       <ImagesTaken images={images} />
@@ -84,6 +90,18 @@ function InnerPasturasDetails({
   );
 }
 
-export const PasturasDetail = withAlertService(
-  withImageHandler(withFirebase(InnerPasturasDetails)),
-);
+const mapStateToProps = state => {
+  return {
+    session: state.session,
+    lote: state.lote,
+    pastura: state.pastura,
+  };
+};
+const mapDispatchToProps = {
+  setPastura,
+};
+
+export const PasturasDetail = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withAlertService(withImageHandler(withFirebase(InnerPasturasDetails))));

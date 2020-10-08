@@ -1,12 +1,12 @@
 import {Button} from 'native-base';
-import {default as React, default as React} from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import React from 'react';
+import {Dimensions, Text, StyleSheet, View} from 'react-native';
 import Popover from 'react-native-popover-view';
-import {mainThemeColor, percentages} from '../../configuration';
-import {Percentage} from './PercentageCircle';
+import {mainThemeColor} from '../../../configuration';
+import {Percentage} from '../PercentageCircle';
 import {Promedio} from './Promedio';
 
-export function PopoverInfo({isVisible, item}) {
+export function PopoverInfo({isVisible, item, hide}) {
   return (
     <Popover isVisible={isVisible}>
       <View
@@ -30,17 +30,17 @@ export function PopoverInfo({isVisible, item}) {
           }}>
           <Promedio
             title="Antes"
-            averages={item.averageBefore}
-            totalImages={item.totalImages}
+            averages={item?.averageBefore}
+            totalImages={item?.totalImages}
           />
           <Promedio
             title="Despues"
-            averages={item.averageAfter}
-            totalImages={item.totalImages}
+            averages={item?.averageAfter}
+            totalImages={item?.totalImages}
           />
         </View>
         <Button
-          onPress={toggleInfo(false)}
+          onPress={hide}
           primary
           style={{position: 'absolute', right: 20, bottom: 20, padding: 15}}>
           <Text style={{color: 'white'}}>Cerrar</Text>
@@ -49,3 +49,8 @@ export function PopoverInfo({isVisible, item}) {
     </Popover>
   );
 }
+const styles = StyleSheet.create({
+  percentagesTitle: {
+    fontSize: 21,
+  },
+});

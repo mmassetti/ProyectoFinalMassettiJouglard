@@ -16,3 +16,16 @@ export const setUser = name => ({
   type: 'SET_USER',
   name,
 });
+
+export const setSession = session => ({
+  type: 'SET_SESSION',
+  session,
+});
+export const setLote = lote => ({
+  type: 'SET_LOTE',
+  lote,
+});
+export const setPastura = pastura => ({
+  type: 'SET_PASTURA',
+  pastura,
+});

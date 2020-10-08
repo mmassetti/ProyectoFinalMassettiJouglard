@@ -11,13 +11,20 @@ import {
 import {SessionHeader} from './SessionHeader';
 import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
+import {setSession} from '../../../store/actions';
+import {connect} from 'react-redux';
 
-function SessionDetails({navigation, route, firebaseService, alertService}) {
+function SessionDetails({
+  navigation,
+  setSession,
+  session,
+  route,
+  firebaseService,
+  alertService,
+}) {
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [docRef, setDocRef] = useState(null);
-  let reference = null;
 
   const toggleRefresh = () => setRefresh(prev => !prev);
 
@@ -29,8 +36,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           itemId,
         );
         setLotes(data.lotes.reverse() || []);
-        setDocRef(docRef);
-        reference = docRef;
+        setSession({docRef, data});
       }
       retrieveDetails();
       return () => {};
@@ -47,7 +53,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           const collectionDelete = firebaseService
             .getDocRefFromId('sessions', sessionId)
             .delete();
-          const detailsDelete = docRef?.delete();
+          const detailsDelete = session.docRef?.delete();
           firebaseService.deleteInBatch(
             lotes.map(lote => lote.id),
             'lotesDetails',
@@ -74,10 +80,10 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
         />
       ),
     });
-  }, [lotes, docRef]);
+  }, [lotes, session]);
 
   return (
-    <DocRefContextProvider docRef={docRef}>
+    <DocRefContextProvider docRef={session.docRef}>
       <View style={styles.viewContainer}>
         <SessionHeader item={item} />
         <GridWithNewButton
@@ -89,7 +95,7 @@ function SessionDetails({navigation, route, firebaseService, alertService}) {
           arrayName="lotes"
           defaultObj={{pasturas: []}}
           nextScreen="LoteDetails"
-          docRef={docRef}
+          docRef={session.docRef}
         />
       </View>
     </DocRefContextProvider>
@@ -137,4 +143,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAlertService(withFirebase(SessionDetails));
+const mapDispatchToProps = {
+  setSession,
+};
+const mapStateToProps = state => {
+  return {session: state.session};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withAlertService(withFirebase(SessionDetails)));

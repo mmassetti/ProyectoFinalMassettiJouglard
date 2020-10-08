@@ -22,16 +22,6 @@ function showApp(state = true, action) {
   }
 }
 
-function background(state = true, {type, onPress}) {
-  switch (type) {
-    case 'SHOW_BACK':
-      return {show: true, onPress: onPress};
-    case 'HIDE_BACK':
-      return {show: false, onPress: onPress};
-    default:
-      return state;
-  }
-}
 function userName(state = '', {type, name}) {
   switch (type) {
     case 'SET_USER':
@@ -41,9 +31,36 @@ function userName(state = '', {type, name}) {
   }
 }
 
+function session(state = {}, {type, session}) {
+  switch (type) {
+    case 'SET_SESSION':
+      return session;
+    default:
+      return state;
+  }
+}
+function lote(state = {}, {type, lote}) {
+  switch (type) {
+    case 'SET_LOTE':
+      return lote;
+    default:
+      return state;
+  }
+}
+function pastura(state = {}, {type, pastura}) {
+  switch (type) {
+    case 'SET_PASTURA':
+      return pastura;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   spinner,
   showApp,
-  background,
   userName,
+  session,
+  lote,
+  pastura,
 });

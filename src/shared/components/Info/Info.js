@@ -1,8 +1,8 @@
 import {Icon} from 'native-base';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {mainThemeColor} from '../../configuration';
-import {Background} from './BackgroundFull';
+import {mainThemeColor} from '../../../configuration';
+import {Background} from '../BackgroundFull';
 import {PopoverInfo} from './Popover';
 
 export function Info({item}) {
@@ -11,42 +11,34 @@ export function Info({item}) {
   const toggleInfo = showInfo => () => {
     setShowInfo(showInfo);
   };
-  console.log(item);
   return (
     <View style={{height: '10%'}}>
       <Background />
       <View>
         <Text>Descripcion: {item?.description}</Text>
-        <Text style={styles.date}>Fecha de creacion: {item?.creationDate}</Text>
+        {/* <Text style={styles.date}>Fecha de creacion: {item?.creationDate}</Text> */}
         <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}>
           <Icon type="FontAwesome5" name="percentage" style={styles.text} />
         </TouchableOpacity>
       </View>
-      <PopoverInfo isVisible={showInfo} item={item} />
+      <PopoverInfo isVisible={showInfo} item={item} hide={toggleInfo(false)} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    flexDirection: 'row',
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
+    // position: 'absolute',
+    // right: 10,
+    // bottom: 10,
     backgroundColor: mainThemeColor(1),
     color: 'white',
-    borderRadius: 3,
-    width: '50%',
-    alignSelf: 'center',
-    padding: 20,
-    justifyContent: 'space-around',
-  },
-  percentagesTitle: {
-    fontSize: 21,
+    borderRadius: 16,
   },
   text: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 32,
   },
   title: {
     fontSize: 20,

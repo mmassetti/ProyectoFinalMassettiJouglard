@@ -90,4 +90,9 @@ export class FirebaseUtils {
     }
     return batch.commit();
   }
+
+  appendUpdateToBatch(docRef, obj, batch = firestore().batch()) {
+    batch.update(docRef, obj);
+    return batch;
+  }
 }

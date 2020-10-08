@@ -7,6 +7,7 @@ import {ImageModel} from '../models/ImageModel';
 import {Singleton} from './singletonService';
 import {uuidv4} from './uuidService';
 import AsyncStorage from '@react-native-community/async-storage';
+import {store} from '../../store/index';
 
 class InnerImageHandler {
   imagePicker;
@@ -25,6 +26,7 @@ class InnerImageHandler {
     const {uri, data, width, height} = await this.imagePicker[
       'getImageFrom' + picker
     ]();
+
     let imgModel = new ImageModel(data, height, width, uri);
     const processed = await this.processImage(imgModel);
     const objToReturn = {
@@ -80,7 +82,85 @@ class InnerImageHandler {
       percentages,
       uri: secure_url,
     };
-    return this.firebaseService.uploadPhoto(saveConfig, imageToAdd);
+    const percentagesPromise = this.recalculateNewPercentages(
+      percentages,
+      !saveConfig.beforeId ? 'Before' : 'After',
+    );
+    const uploadPromise = this.firebaseService.uploadPhoto(
+      saveConfig,
+      imageToAdd,
+    );
+    return Promise.all([percentagesPromise, uploadPromise]);
+  }
+
+  recalculateNewPercentages(percentages, type) {
+    const {session, lote, pastura} = store.getState();
+
+    let batch;
+    if (pastura.data) {
+      console.log('Entra Pastura');
+      batch = this.firebaseService.appendUpdateToBatch(pastura.docRef, {
+        ['totalImages' + type]: pastura.data['totalImages' + type] + 1,
+        ['average' + type]: this.generateNewObject(
+          percentages,
+          pastura.data['average' + type],
+        ),
+      });
+    }
+
+    const loteBatch = this.firebaseService.appendUpdateToBatch(
+      lote.docRef,
+      {
+        pasturas: pastura.data
+          ? this.generateNewArray(
+              lote.data.pasturas,
+              pastura.data.id,
+              percentages,
+              type,
+            )
+          : lote.data.pasturas,
+        ['average' + type]: this.generateNewObject(
+          percentages,
+          lote.data['average' + type],
+        ),
+        ['totalImages' + type]: lote.data['totalImages' + type] + 1,
+      },
+      batch,
+    );
+    const sessionBatch = this.firebaseService.appendUpdateToBatch(
+      session.docRef,
+      {
+        lotes: this.generateNewArray(
+          session.data.lotes,
+          lote.data.id,
+          percentages,
+          type,
+        ),
+      },
+      loteBatch,
+    );
+    return sessionBatch.commit();
+  }
+
+  generateNewArray(array, id, newPercentages, type) {
+    return array.map(item => {
+      if (item.id == id) {
+        item['average' + type] = this.generateNewObject(
+          newPercentages,
+          item['average' + type],
+        );
+        item['totalImages' + type]++;
+      }
+      return item;
+    });
+  }
+
+  generateNewObject(newPercentages, oldPercentages) {
+    let item = oldPercentages;
+    item.totalGreen += newPercentages.percentageGreen;
+    item.totalYellow += newPercentages.percentageYellow;
+    item.totalNaked += newPercentages.percentageNaked;
+    return item;
   }
 }
 

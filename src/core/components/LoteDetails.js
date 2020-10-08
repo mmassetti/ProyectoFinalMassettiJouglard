@@ -12,27 +12,27 @@ import {
   withImageHandler,
   DocRefContextProvider,
   BackgroundProvider,
-  Background,
 } from '../../shared';
 import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
 import {useFocusEffect} from '@react-navigation/native';
+import {setLote} from '../../store/actions';
+import {connect} from 'react-redux';
 
 function LoteDetails({
   firebaseService: firebase,
   alertService: alerts,
   navigation,
+  lote,
+  session,
+  setLote,
   route,
   imageHandler,
 }) {
   const [images, setImages] = useState([]);
   const [pasturas, setPasturas] = useState([]);
-  const [itemDetail, setItemDetail] = useState();
-  const {item, docRef: sessionDocRef} = route.params;
-  const [docRef, setDocRef] = useState();
+  const {item} = route.params;
   const [refresh, setRefresh] = useState(false);
   const toggleRefresh = () => setRefresh(prev => !prev);
-
-  const [background, setBackground] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,39 +50,40 @@ function LoteDetails({
                   'pasturasDetails',
                 );
                 firebase
-                  .remove(sessionDocRef, 'lotes', 'lotesDetails', item.id)
+                  .remove(session.docRef, 'lotes', 'lotesDetails', item.id)
                   .then(navigation.goBack);
               });
           }}
         />
       ),
     });
-  }, [docRef, pasturas]);
+  }, [lote.docRef, pasturas]);
 
   useFocusEffect(
     React.useCallback(() => {
       firebase
         .getDocRefInnerId('lotesDetails', item.id)
         .then(({docRef, data}) => {
-          setItemDetail(data);
           setImages(data.images);
           setPasturas(data.pasturas);
-          setDocRef(docRef);
+          setLote({docRef, data});
         });
       return () => {};
     }, [item.id, refresh]),
   );
 
   const routeWithImage = picker => async () => {
-    const imageResponse = await imageHandler.pickImage({docRef})(picker);
+    const imageResponse = await imageHandler.pickImage({docRef: lote.docRef})(
+      picker,
+    );
     navigation.navigate('Imagen', imageResponse);
   };
 
   return (
-    <DocRefContextProvider docRef={docRef}>
+    <DocRefContextProvider docRef={lote.docRef}>
       <BackgroundProvider>
         <View style={styles.detailsContainer}>
-          <Info item={itemDetail} />
+          <Info item={lote.data} />
           <Tabs
             secondTitle="Pasturas"
             firstTitle="Imagenes"
@@ -97,7 +98,7 @@ function LoteDetails({
                 refresh={toggleRefresh}
                 defaultObj={{}}
                 nextScreen="PasturasDetails"
-                docRef={docRef}
+                docRef={lote.docRef}
               />
             )}
           />
@@ -133,4 +134,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withImageHandler(withAlertService(withFirebase(LoteDetails)));
+const mapDispatchToProps = {
+  setLote,
+};
+const mapStateToProps = state => {
+  return {lote: state.lote, session: state.session};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withImageHandler(withAlertService(withFirebase(LoteDetails))));

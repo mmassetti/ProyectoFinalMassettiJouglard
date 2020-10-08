@@ -11,7 +11,6 @@ import {BackgroundContext} from '../BackgroundContext';
 import {Background} from '../BackgroundFull';
 
 export function OverlappingEntries({item}) {
-  console.log('Render overlap');
   const [opened, setOpened] = useState(false);
   const [zIndexFirstImage, setFirstIndex] = useState(9);
   const [zIndexSecondImage, setSecondIndex] = useState(8);
@@ -51,8 +50,6 @@ export function OverlappingEntries({item}) {
         triggerScale(1.2);
       });
       image2.current.measure((ox, oy, width, height, px, py) => {
-        console.log('O', ox, '---', oy);
-        console.log('P', px, '---', py);
         triggerSecondTransition(calculateOffsetToMiddleOfTheScreen(py));
         triggerScale(1.2);
         triggerTranslateX(-10);

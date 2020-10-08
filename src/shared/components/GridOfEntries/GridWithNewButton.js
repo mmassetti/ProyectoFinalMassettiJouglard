@@ -34,22 +34,27 @@ export function InnerGrid({
   const route = item => {
     navigation.navigate(nextScreen, {
       item,
-      docRef,
     });
   };
   const onNewPress = () => {
     alertService
       .showPromptDialog(`Lote ${data.length + 1}`, 'Nombre/Identificador')
       .then(name => {
+        const initialTotal = {totalGreen: 0, totalYellow: 0, totalNaked: 0};
         firebaseService
           .add(
             docRef,
             arrayName,
             detailsCollection,
-            {description: name},
+            {
+              description: name,
+              averageAfter: initialTotal,
+              averageBefore: initialTotal,
+              totalImagesAfter: 0,
+              totalImagesBefore: 0,
+            },
             {
               images: [],
-              averagePercentages: {},
               ...defaultObj,
             },
           )

@@ -14,7 +14,7 @@ export function Promedio({averages, title, totalImages}) {
             color={percentage.color}
             size={Dimensions.get('window').width * 0.2}
             percentage={Math.floor(
-              averages['total' + percentage.type] / totalImages,
+              averages?.['total' + percentage.type] / (totalImages || 1),
             )}
             title={percentage.title}
           />
