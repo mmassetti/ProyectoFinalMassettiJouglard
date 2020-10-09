@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -90,7 +90,6 @@ function LoteDetails({
             FirstScreen={() => <ImagesTaken images={images} />}
             SecondScreen={() => (
               <GridWithNewButton
-                title=""
                 newItemText="Nueva pastura"
                 data={pasturas}
                 arrayName="pasturas"

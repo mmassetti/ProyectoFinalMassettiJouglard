@@ -7,12 +7,14 @@ import {
   GridWithNewButton,
   DocRefContextProvider,
   NavDeleteButton,
+  Tabs,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
 import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
 import {setSession} from '../../../store/actions';
 import {connect} from 'react-redux';
+import {Text} from 'native-base';
 
 function SessionDetails({
   navigation,
@@ -86,16 +88,22 @@ function SessionDetails({
     <DocRefContextProvider docRef={session.docRef}>
       <View style={styles.viewContainer}>
         <SessionHeader item={item} />
-        <GridWithNewButton
-          title="Lotes"
-          newItemText="Nuevo lote"
-          data={lotes}
-          refresh={toggleRefresh}
-          detailsCollection="lotesDetails"
-          arrayName="lotes"
-          defaultObj={{pasturas: []}}
-          nextScreen="LoteDetails"
-          docRef={session.docRef}
+        <Tabs
+          firstTitle="Lotes"
+          secondTitle="Notas"
+          FirstScreen={() => (
+            <GridWithNewButton
+              newItemText="Nuevo lote"
+              data={lotes}
+              refresh={toggleRefresh}
+              detailsCollection="lotesDetails"
+              arrayName="lotes"
+              defaultObj={{pasturas: []}}
+              nextScreen="LoteDetails"
+              docRef={session.docRef}
+            />
+          )}
+          SecondScreen={() => <Text>Componentes notas</Text>}
         />
       </View>
     </DocRefContextProvider>
@@ -120,10 +128,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   viewContainer: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // flex: 1,
+    // width: '100%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    height: '100%',
+    zIndex: 10,
   },
 
   buttonsContainer: {

@@ -63,7 +63,6 @@ export function InnerGrid({
   };
   return (
     <View style={styles.lotesContainer}>
-      <Text style={styles.lotesTitle}>{title}</Text>
       <FlatGrid
         style={styles.grid}
         itemDimension={130}

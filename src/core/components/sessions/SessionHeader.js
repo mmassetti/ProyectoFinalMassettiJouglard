@@ -30,8 +30,8 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
 }
 const styles = StyleSheet.create({
   inputContainer: {
-    marginTop: 20,
-    marginBottom: 20,
+    margin: 20,
+    width: '100%',
   },
   boldText: {
     fontWeight: 'bold',
