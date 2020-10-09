@@ -19,11 +19,13 @@ export function ImageWithPopUp({style, imageId, source}) {
   };
 
   useEffect(() => {
-    async function getImage() {
-      const locallySavedImage = await AsyncStorage.getItem(imageId);
-      setSrc(locallySavedImage || source);
-    }
-    getImage();
+    let unmounted = false;
+    AsyncStorage.getItem(imageId).then(locallySavedImage => {
+      if (!unmounted) setSrc(locallySavedImage || source);
+    });
+    return () => {
+      unmounted = true;
+    };
   }, [imageId, source]);
   return (
     <View style={style}>

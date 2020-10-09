@@ -83,7 +83,7 @@ function LoteDetails({
     <DocRefContextProvider docRef={lote.docRef}>
       <BackgroundProvider>
         <View style={styles.detailsContainer}>
-          <Info item={lote.data} />
+          <Info item={item} />
           <Tabs
             secondTitle="Pasturas"
             firstTitle="Imagenes"
