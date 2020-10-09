@@ -3,7 +3,6 @@ import React from 'react';
 import {Dimensions, Text, StyleSheet, View} from 'react-native';
 import Popover from 'react-native-popover-view';
 import {mainThemeColor} from '../../../configuration';
-import {Percentage} from '../PercentageCircle';
 import {Promedio} from './Promedio';
 
 export function PopoverInfo({isVisible, item, hide}) {
@@ -15,28 +14,23 @@ export function PopoverInfo({isVisible, item, hide}) {
           height: Dimensions.get('window').height * 0.7,
           alignItems: 'center',
         }}>
-        <View style={{height: '30%', alignItems: 'center'}}>
-          <Text>Cantidad total de imagenes: {item?.totalImages}</Text>
-        </View>
         <Text style={styles.percentagesTitle}>Promedio de Cubrimiento</Text>
         <View
           style={{
-            backgroundColor: mainThemeColor(1),
             paddingBottom: 30,
             borderRadius: 6,
             width: '80%',
-            flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
           <Promedio
             title="Antes"
             averages={item?.averageBefore}
-            totalImages={item?.totalImages}
+            totalImages={item?.totalImagesBefore}
           />
           <Promedio
             title="Despues"
             averages={item?.averageAfter}
-            totalImages={item?.totalImages}
+            totalImages={item?.totalImagesAfter}
           />
         </View>
         <Button
@@ -51,6 +45,7 @@ export function PopoverInfo({isVisible, item, hide}) {
 }
 const styles = StyleSheet.create({
   percentagesTitle: {
-    fontSize: 21,
+    fontSize: 24,
+    textDecorationLine: 'underline',
   },
 });

@@ -4,6 +4,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {mainThemeColor} from '../../../configuration';
 import {Background} from '../BackgroundFull';
 import {PopoverInfo} from './Popover';
+import moment from 'moment';
+import 'moment/locale/es';
 
 export function Info({item}) {
   const [showInfo, setShowInfo] = useState(false);
@@ -12,15 +14,31 @@ export function Info({item}) {
     setShowInfo(showInfo);
   };
   return (
-    <View style={{height: '10%'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: '10%',
+        paddingHorizontal: 10,
+        alignItems: 'stretch',
+      }}>
       <Background />
-      <View>
-        <Text>Descripcion: {item?.description}</Text>
-        {/* <Text style={styles.date}>Fecha de creacion: {item?.creationDate}</Text> */}
-        <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}>
-          <Icon type="FontAwesome5" name="percentage" style={styles.text} />
-        </TouchableOpacity>
+      <View
+        style={{
+          justifyContent: 'space-evenly',
+          paddingLeft: 10,
+        }}>
+        <Text style={{fontWeight: 'bold', fontSize: 20}}>
+          {item?.description}
+        </Text>
+        <Text style={{fontWeight: 'bold', color: 'grey'}}>
+          Creado el {moment(item?.creationDate.toDate())?.format('L')}
+        </Text>
       </View>
+      <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}>
+        {/* <Icon type="FontAwesome5" name="percentage" style={styles.icon} /> */}
+        <Text>Ver promedios</Text>
+      </TouchableOpacity>
       <PopoverInfo isVisible={showInfo} item={item} hide={toggleInfo(false)} />
     </View>
   );
@@ -28,17 +46,17 @@ export function Info({item}) {
 
 const styles = StyleSheet.create({
   button: {
-    // position: 'absolute',
-    // right: 10,
-    // bottom: 10,
-    backgroundColor: mainThemeColor(1),
-    color: 'white',
-    borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignSelf: 'center',
+    borderColor: mainThemeColor(1),
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 16,
   },
-  text: {
+  icon: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 32,
+    fontSize: 24,
   },
   title: {
     fontSize: 20,
