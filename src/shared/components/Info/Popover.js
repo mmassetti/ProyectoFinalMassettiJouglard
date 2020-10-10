@@ -11,7 +11,7 @@ export function PopoverInfo({isVisible, item, hide}) {
       <View
         style={{
           width: Dimensions.get('window').width * 0.9,
-          height: Dimensions.get('window').height * 0.7,
+          height: Dimensions.get('window').height * 0.8,
           alignItems: 'center',
         }}>
         <Text style={styles.percentagesTitle}>Promedio de Cubrimiento</Text>
@@ -19,8 +19,8 @@ export function PopoverInfo({isVisible, item, hide}) {
           style={{
             paddingBottom: 30,
             borderRadius: 6,
-            width: '80%',
-            justifyContent: 'space-evenly',
+            width: '100%',
+            flex: 1,
           }}>
           <Promedio
             title="Antes"
@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
   percentagesTitle: {
     fontSize: 24,
     textDecorationLine: 'underline',
+    marginBottom: 25,
   },
 });

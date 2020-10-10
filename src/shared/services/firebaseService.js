@@ -30,9 +30,13 @@ export class InnerFirebaseService extends FirebaseUtils {
       creationDate,
       ...detailsObj,
     });
-    return this.withSpinner(
-      this.generatePromise(addToSession, addToCollection),
-    );
+    return this.withSpinner(this.generatePromise(addToSession, addToCollection))
+      .then(() => {
+        console.log('Connection');
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   }
   getDataFromDocRef(docRef) {
     return this.withSpinner(docRef.get.bind(docRef));

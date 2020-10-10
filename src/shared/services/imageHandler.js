@@ -35,13 +35,18 @@ class InnerImageHandler {
       shouldRotate: imgModel.width < imgModel.height,
     };
     if (saveConfig) {
-      const onSave = async () => {
+      const onSave = async (
+        percentages = processed.percentages,
+        image = uri,
+      ) => {
+        console.log('inside', image);
+        console.log('percentages', percentages);
         const imageId = uuidv4();
         this.saveImageLocally(imageId, uri);
         return this.saveImageInTheCloud(
           imageId,
-          uri,
-          processed.percentages,
+          image,
+          percentages,
           saveConfig,
         );
       };

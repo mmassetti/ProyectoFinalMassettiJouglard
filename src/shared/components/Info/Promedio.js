@@ -13,7 +13,7 @@ export function Promedio({averages, title, totalImages}) {
             <Percentage
               key={index}
               color={percentage.color}
-              size={Dimensions.get('window').width * 0.2}
+              size={Dimensions.get('window').width * 0.18}
               percentage={Math.floor(
                 averages?.['total' + percentage.type] / (totalImages || 1),
               )}
@@ -21,8 +21,17 @@ export function Promedio({averages, title, totalImages}) {
             />
           );
         })}
-        <Text style={{color: 'black'}}>{totalImages}</Text>
       </View>
+      <Text
+        style={{
+          color: 'black',
+          alignSelf: 'flex-end',
+          fontWeight: 'bold',
+          fontSize: 15,
+          marginRight: '5%',
+        }}>
+        Cantidad de imagenes: {totalImages}
+      </Text>
     </View>
   );
 }
@@ -31,6 +40,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginBottom: 30,
+    width: '100%',
   },
   percentagesContainer: {
     backgroundColor: mainThemeColor(1),
@@ -39,6 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     justifyContent: 'space-evenly',
+    width: '90%',
   },
   title: {
     fontSize: 22,

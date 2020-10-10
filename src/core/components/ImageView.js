@@ -49,7 +49,8 @@ class ImageView extends Component {
         <Percentages percentages={this.state.percentages} />
         {this.onSave ? (
           <SaveImage
-            image={this.originalImage}
+            image={this.state.originalImage}
+            percentages={this.state.percentages}
             onSave={this.props.route.params.onSave}
           />
         ) : null}
@@ -68,9 +69,9 @@ class ImageView extends Component {
       };
       newState.originalImage.setUri('file://' + newUri);
       newState.processedImage.setData(nativeReponse.img);
-      newState.percentageGreen = nativeReponse.percentageGreen;
-      newState.percentageYellow = nativeReponse.percentageYellow;
-      newState.percentageNaked = nativeReponse.percentageNaked;
+      newState.percentages.percentageGreen = nativeReponse.percentageGreen;
+      newState.percentages.percentageYellow = nativeReponse.percentageYellow;
+      newState.percentages.percentageNaked = nativeReponse.percentageNaked;
 
       // // const uri = await this.cloudinaryService.uploadPhoto(
       // //   `data:image/png;base64,${newState.processedImage.getData()}`,

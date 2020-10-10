@@ -1,11 +1,10 @@
-import {Icon} from 'native-base';
+import moment from 'moment';
+import 'moment/locale/es';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {mainThemeColor} from '../../../configuration';
 import {Background} from '../BackgroundFull';
 import {PopoverInfo} from './Popover';
-import moment from 'moment';
-import 'moment/locale/es';
 
 export function Info({item}) {
   const [showInfo, setShowInfo] = useState(false);
@@ -18,7 +17,7 @@ export function Info({item}) {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: '10%',
+        height: '17%',
         paddingHorizontal: 10,
         alignItems: 'stretch',
       }}>

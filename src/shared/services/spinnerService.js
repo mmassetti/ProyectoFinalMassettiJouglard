@@ -5,9 +5,8 @@ import {Singleton} from './singletonService';
 class InnerSpinnerService {
   callAsyncFunctionWithSpinner(fn) {
     store.dispatch(showSpinner());
-    return fn().then(response => {
+    return fn().finally(() => {
       store.dispatch(hideSpinner());
-      return response;
     });
   }
 }

@@ -9,6 +9,7 @@ import {store} from './src/store';
 import NetInfo from '@react-native-community/netinfo';
 import {NetStatusBar} from './src/shared';
 import {setUser} from './src/store/actions';
+import firestore from '@react-native-firebase/firestore';
 
 function App() {
   const [showRealApp, setShowApp] = useState(false);
@@ -16,8 +17,20 @@ function App() {
   const [netStatus, setNetStatus] = useState(true);
   const [userName, setUserName] = useState();
 
+  useEffect(() => {
+    if (!netStatus) {
+      console.log('disabled');
+      firestore().disableNetwork();
+    } else {
+      console.log('enabled');
+      firestore().enableNetwork();
+    }
+  });
+
   NetInfo.addEventListener(state => {
-    if (netStatus !== state.isConnected) setNetStatus(state.isConnected);
+    if (netStatus !== state.isConnected) {
+      setNetStatus(state.isConnected);
+    }
   });
 
   store.subscribe(() => {
