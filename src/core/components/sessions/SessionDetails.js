@@ -14,7 +14,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
 import {setSession} from '../../../store/actions';
 import {connect} from 'react-redux';
-import {Text} from 'native-base';
+import Notes from '../notes/Notes.js';
 
 function SessionDetails({
   navigation,
@@ -103,7 +103,7 @@ function SessionDetails({
               docRef={session.docRef}
             />
           )}
-          SecondScreen={() => <Text>Componentes notas</Text>}
+          SecondScreen={() => <Notes notes={session.notes} />}
         />
       </View>
     </DocRefContextProvider>
