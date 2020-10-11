@@ -103,7 +103,13 @@ function SessionDetails({
               docRef={session.docRef}
             />
           )}
-          SecondScreen={() => <Notes notes={session.notes} />}
+          SecondScreen={() => (
+            <Notes
+              sessionData={session.data}
+              docRef={session.docRef}
+              refresh={toggleRefresh}
+            />
+          )}
         />
       </View>
     </DocRefContextProvider>
