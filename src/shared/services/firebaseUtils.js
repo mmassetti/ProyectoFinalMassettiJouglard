@@ -18,16 +18,16 @@ export class FirebaseUtils {
       .doc(id);
   };
   getDocRefInnerId = async (collectionName, innerId) => {
-    const {
-      docs: [doc],
-    } = await firestore()
+    return firestore()
       .collection(collectionName)
       .where('id', '==', innerId)
-      .get();
-    return {
-      docRef: doc.ref,
-      data: doc.data(),
-    };
+      .get()
+      .then(({docs: [doc]}) => {
+        return {
+          docRef: doc.ref,
+          data: doc.data(),
+        };
+      });
   };
 
   addObjToCollection = (collectionName, objToAdd) => {

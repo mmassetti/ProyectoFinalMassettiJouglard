@@ -17,6 +17,7 @@ import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
 import {useFocusEffect} from '@react-navigation/native';
 import {setLote} from '../../store/actions';
 import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function LoteDetails({
   firebaseService: firebase,
@@ -71,6 +72,25 @@ function LoteDetails({
       return () => {};
     }, [item.id, refresh]),
   );
+
+  useEffect(() => {
+    AsyncStorage.getItem('recentLotes').then(lotes => {
+      const arrayOfLotes = JSON.parse(lotes) || [];
+      const arrayWithoutLote = arrayOfLotes.filter(
+        prev => prev.lote.id !== item.id,
+      );
+      console.log('withOutLote', arrayWithoutLote);
+      item.date = item.creationDate.toDate();
+      arrayWithoutLote.push({
+        session: {data: session.data, id: session.docRef.id},
+        lote: item,
+      });
+      AsyncStorage.setItem(
+        'recentLotes',
+        JSON.stringify(arrayWithoutLote.slice(-10)),
+      );
+    });
+  }, []);
 
   const routeWithImage = picker => async () => {
     const imageResponse = await imageHandler.pickImage({docRef: lote.docRef})(

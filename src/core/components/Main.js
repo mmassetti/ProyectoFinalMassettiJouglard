@@ -13,6 +13,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {PasturasDetail} from './PasturasDetails';
+import {Recents} from './Recents';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -48,7 +49,7 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Recent"
-        component={Animation}
+        component={Recents}
         options={{
           tabBarIcon: iconForTab(tabBarIcons['recent']),
           title: 'Reciente',
