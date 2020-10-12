@@ -17,7 +17,9 @@ import {mainThemeColor} from '../../../configuration/colors';
 
 function Notes({sessionData, firebaseService, alertService, docRef, refresh}) {
   const renderItem = ({item, index}) => {
-    return <SingleNote nota={item} index={index} />;
+    return (
+      <SingleNote nota={item} index={index} docRef={docRef} refresh={refresh} />
+    );
   };
 
   const newNoteButton = () => {
