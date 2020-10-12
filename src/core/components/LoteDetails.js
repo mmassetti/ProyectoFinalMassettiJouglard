@@ -42,7 +42,7 @@ function LoteDetails({
           onPress={() => {
             alerts
               .showConfirmDialog(
-                '¡Atención! Se eliminará este lote y toda la información asociada a ella. ',
+                '¡Atención! Se eliminará este lote y toda la información asociada a él. ',
               )
               .then(() => {
                 firebase.deleteInBatch(
@@ -98,6 +98,7 @@ function LoteDetails({
                 defaultObj={{}}
                 nextScreen="PasturasDetails"
                 docRef={lote.docRef}
+                esPastura
               />
             )}
           />

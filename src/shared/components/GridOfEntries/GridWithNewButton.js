@@ -19,19 +19,22 @@ export function InnerGrid({
   arrayName,
   detailsCollection,
   defaultObj,
+  esPastura,
 }) {
   const navigation = useNavigation();
 
   const onDelete = id => {
-    alertService
-      .showConfirmDialog(
-        '¡Atención! Se eliminará este lote y toda la información asociada a ella. ',
-      )
-      .then(() => {
-        firebaseService
-          .remove(docRef, arrayName, detailsCollection, id)
-          .then(refresh);
-      });
+    let msgAlert =
+      '¡Atención! Se eliminará este lote y toda la información asociada a él. ';
+    if (esPastura) {
+      msgAlert =
+        '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ';
+    }
+    alertService.showConfirmDialog(msgAlert).then(() => {
+      firebaseService
+        .remove(docRef, arrayName, detailsCollection, id)
+        .then(refresh);
+    });
   };
   const route = item => {
     navigation.navigate(nextScreen, {
@@ -39,8 +42,15 @@ export function InnerGrid({
     });
   };
   const onNewPress = () => {
+    let objectToCreate = 'Lote';
+    if (esPastura) {
+      objectToCreate = 'Pastura';
+    }
     alertService
-      .showPromptDialog(`Lote ${data.length + 1}`, 'Nombre/Identificador')
+      .showPromptDialog(
+        `${objectToCreate} ${data.length + 1}`,
+        'Nombre/Identificador',
+      )
       .then(name => {
         const initialTotal = {totalGreen: 0, totalYellow: 0, totalNaked: 0};
         firebaseService
