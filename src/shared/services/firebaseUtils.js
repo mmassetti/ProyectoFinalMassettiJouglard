@@ -51,6 +51,19 @@ export class FirebaseUtils {
     });
   };
 
+  removeItemFromArrayByDescription = async (
+    docRef,
+    attribute,
+    descriptionToRemove,
+  ) => {
+    const response = await docRef.get();
+    const oldArray = response.data()[attribute];
+    const newArray = oldArray.filter(item => item !== descriptionToRemove);
+    return docRef.update({
+      [attribute]: newArray,
+    });
+  };
+
   uploadPhoto = async ({docRef, beforeId}, imageToAdd) => {
     let newImages;
     if (!beforeId) {

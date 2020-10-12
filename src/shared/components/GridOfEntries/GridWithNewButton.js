@@ -1,6 +1,6 @@
 //@ts-check
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {AddEntry} from './AddEntry';
 import {EntrySquare} from './EntrySquare';
 import {FlatGrid} from 'react-native-super-grid';
@@ -24,7 +24,9 @@ export function InnerGrid({
 
   const onDelete = id => {
     alertService
-      .showConfirmDialog('¡Atención! Se eliminará este lote. ')
+      .showConfirmDialog(
+        '¡Atención! Se eliminará este lote y toda la información asociada a ella. ',
+      )
       .then(() => {
         firebaseService
           .remove(docRef, arrayName, detailsCollection, id)

@@ -105,14 +105,14 @@ function NewSession(props) {
       .addObjToCollection('sessions', sessionData)
       .then(doc => {
         let id;
-        const addToSessionDetails = props.firebaseService
+        props.firebaseService
           .addObjToCollection('sessionsDetails', {
             ...sessionData,
             lotes: [],
+            notes: [],
             id: doc.id,
           })
           .then(() => goToSessionDetails(sessionData, doc.id));
-        // .then(goBackToSessions);
       });
   }
 
