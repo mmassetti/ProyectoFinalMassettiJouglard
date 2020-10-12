@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -87,19 +87,44 @@ function LoteDetails({
           <Tabs
             secondTitle="Pasturas"
             firstTitle="Imagenes"
-            FirstScreen={() => <ImagesTaken images={images} />}
+            FirstScreen={() => (
+              <>
+                {!images || images.length === 0 ? (
+                  <View style={styles.centeredTextStyle}>
+                    <Text>
+                      Este lote todavía no tiene imágenes.{'\n'}
+                      {'\n'}Podés sacar una foto, cargar una imágen desde la
+                      galería, o bien crear una nueva pastura para este lote .
+                    </Text>
+                  </View>
+                ) : (
+                  <></>
+                )}
+                <ImagesTaken images={images} />
+              </>
+            )}
             SecondScreen={() => (
-              <GridWithNewButton
-                newItemText="Nueva pastura"
-                data={pasturas}
-                arrayName="pasturas"
-                detailsCollection="pasturasDetails"
-                refresh={toggleRefresh}
-                defaultObj={{}}
-                nextScreen="PasturasDetails"
-                docRef={lote.docRef}
-                esPastura
-              />
+              <>
+                {!pasturas || pasturas.length === 0 ? (
+                  <View style={styles.centeredTextStyle}>
+                    <Text>Este lote todavía no tiene pasturas.</Text>
+                  </View>
+                ) : (
+                  <></>
+                )}
+
+                <GridWithNewButton
+                  newItemText="Nueva pastura"
+                  data={pasturas}
+                  arrayName="pasturas"
+                  detailsCollection="pasturasDetails"
+                  refresh={toggleRefresh}
+                  defaultObj={{}}
+                  nextScreen="PasturasDetails"
+                  docRef={lote.docRef}
+                  esPastura
+                />
+              </>
             )}
           />
           <BottomRightButton
@@ -131,6 +156,11 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 21,
     textAlign: 'center',
+  },
+  centeredTextStyle: {
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

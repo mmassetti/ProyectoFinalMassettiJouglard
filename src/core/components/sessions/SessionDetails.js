@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -92,16 +92,26 @@ function SessionDetails({
           firstTitle="Lotes"
           secondTitle="Notas"
           FirstScreen={() => (
-            <GridWithNewButton
-              newItemText="Nuevo lote"
-              data={lotes}
-              refresh={toggleRefresh}
-              detailsCollection="lotesDetails"
-              arrayName="lotes"
-              defaultObj={{pasturas: []}}
-              nextScreen="LoteDetails"
-              docRef={session.docRef}
-            />
+            <>
+              {!lotes || lotes.length == 0 ? (
+                <View style={styles.centeredTextStyle}>
+                  <Text>Esta sesión todavía no tiene lotes.</Text>
+                </View>
+              ) : (
+                <></>
+              )}
+
+              <GridWithNewButton
+                newItemText="Nuevo lote"
+                data={lotes}
+                refresh={toggleRefresh}
+                detailsCollection="lotesDetails"
+                arrayName="lotes"
+                defaultObj={{pasturas: []}}
+                nextScreen="LoteDetails"
+                docRef={session.docRef}
+              />
+            </>
           )}
           SecondScreen={() => (
             <Notes
@@ -156,6 +166,11 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 20,
+  },
+  centeredTextStyle: {
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
