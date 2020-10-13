@@ -40,7 +40,7 @@ function SingleNote({
 
 const styles = StyleSheet.create({
   container: {
-    padding: '2%',
+    padding: '5%',
     flexDirection: 'row',
   },
   even: {},
