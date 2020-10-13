@@ -14,7 +14,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
 import {setSession} from '../../../store/actions';
 import {connect} from 'react-redux';
-import Notes from '../notes/Notes.js';
+import Notes from '../notes/Notes';
 
 function SessionDetails({
   navigation,
