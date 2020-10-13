@@ -21,7 +21,14 @@ export function Recents() {
   );
   return (
     <>
-      <Text style={{textAlign: 'center', fontSize: 18}}>
+      <Text
+        style={{
+          textAlign: 'center',
+          marginTop: 10,
+          textDecorationLine: 'underline',
+          marginBottom: 20,
+          fontSize: 18,
+        }}>
         Lotes accedidos recientemente
       </Text>
       <FlatList
@@ -55,17 +62,19 @@ function InnerRecentEntry({item, index, firebaseService, setSession}) {
         backgroundColor: index % 2 ? lightGray : 'white',
         justifyContent: 'space-between',
         paddingLeft: 15,
-        paddingRight: 25,
+        paddingRight: 15,
       }}>
-      <View style={{justifyContent: 'space-evenly'}}>
+      <View style={{justifyContent: 'space-evenly', width: '100%'}}>
         <Text style={{fontWeight: 'bold', fontSize: 16}}>
           {item.lote.description}
         </Text>
         <Text style={{color: 'grey', fontWeight: 'bold'}}>
-          {moment(item.lote.date).format('L')}
+          Creado el {moment(item.lote.date).format('L')}
+        </Text>
+        <Text numberOfLines={1} style={{maxWidth: '90%'}}>
+          Sesion: {item.session.data.description}
         </Text>
       </View>
-      <Text style={{alignSelf: 'center'}}>Sesion</Text>
     </TouchableOpacity>
   );
 }

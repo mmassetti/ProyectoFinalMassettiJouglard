@@ -7,18 +7,14 @@ export function SaveImage({onSave, image, percentages}) {
   const navigation = useNavigation();
 
   async function save() {
-    console.log(image.getSource());
-    console.log(percentages);
-    await onSave();
+    console.log('outside', image.getSource());
+    console.log('outside', percentages);
+    await onSave(percentages, image.getSource());
     navigation.goBack();
   }
 
   return (
-    <Button
-      onPress={() => {
-        save();
-      }}
-      primary>
+    <Button onPress={save} primary>
       <Text>Guardar</Text>
     </Button>
   );

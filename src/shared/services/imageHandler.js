@@ -42,7 +42,7 @@ class InnerImageHandler {
         console.log('inside', image);
         console.log('percentages', percentages);
         const imageId = uuidv4();
-        this.saveImageLocally(imageId, uri);
+        this.saveImageLocally(imageId, image);
         return this.saveImageInTheCloud(
           imageId,
           image,
@@ -78,6 +78,7 @@ class InnerImageHandler {
   }
 
   saveImageLocally(imageId, uri) {
+    console.log(uri);
     AsyncStorage.setItem(imageId, uri);
   }
   async saveImageInTheCloud(imageId, uri, percentages, saveConfig) {
