@@ -12,17 +12,23 @@ import {OverlappingEntries} from './OverlappingImages';
 import {Background} from '../BackgroundFull';
 import {BackgroundContext} from '../BackgroundContext';
 
-export function ImagesTaken({images}) {
+export function ImagesTaken({images, deleteImage}) {
   const {background, setBackground} = useContext(BackgroundContext);
   return (
-    <ScrollView style={{minHeight: '100%'}}>
+    <ScrollView style={{minHeight: '100%'}} scrollEnabled={!background}>
       <Background />
       <View
         style={{
           minHeight: Dimensions.get('screen').height * 0.7,
         }}>
         {images.map((item, key) => {
-          return <OverlappingEntries key={key} item={item} />;
+          return (
+            <OverlappingEntries
+              key={key}
+              item={item}
+              deleteImage={deleteImage}
+            />
+          );
         })}
       </View>
       <View style={{height: 90}} />

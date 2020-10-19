@@ -17,10 +17,12 @@ export class ImageWithAdjustment extends Component {
     return (
       <View style={styles.imageContainer}>
         <ImageZoom
-          cropWidth={Dimensions.get('window').width}
-          cropHeight={Dimensions.get('window').height}
-          // style={this.shouldRotate()}
-          imageWidth={280}
+          cropWidth={Dimensions.get('window').width * 0.8}
+          cropHeight={Dimensions.get('window').height * 0.3}
+          maxOverflow={0}
+          panToMove={false}
+          //style={this.shouldRotate()}
+          imageWidth={Dimensions.get('window').width * 0.8}
           imageHeight={280}>
           <Image
             style={this.shouldRotate()}

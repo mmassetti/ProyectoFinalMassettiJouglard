@@ -31,3 +31,5 @@ export {
   BackgroundProvider,
 } from './components/BackgroundContext';
 export {Background} from './components/BackgroundFull';
+export {ImageView} from './components/ImageView/ImageView';
+export {ImageNotes} from './components/ImageView/ImageNotes';

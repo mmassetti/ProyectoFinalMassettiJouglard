@@ -14,8 +14,11 @@ export function SaveImage({onSave, image, percentages}) {
   }
 
   return (
-    <Button onPress={save} primary>
-      <Text>Guardar</Text>
+    <Button
+      style={{alignSelf: 'center', padding: '2%', marginVertical: 15}}
+      onPress={save}
+      primary>
+      <Text style={{color: 'white', fontSize: 17}}>Guardar</Text>
     </Button>
   );
 }

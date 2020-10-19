@@ -7,3 +7,4 @@ export {options} from './views-config/options';
 export {percentages} from './views-config/percentages';
 export {switchConfig} from './views-config/switcher-configuration';
 export {tabBarIcons} from './views-config/bottom-tab-buttons';
+export {warnThemeColor} from './colors';

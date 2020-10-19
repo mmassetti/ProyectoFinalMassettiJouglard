@@ -3,11 +3,10 @@ import SessionsList from './sessions/SessionsList';
 import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
 import {StyleSheet, Text} from 'react-native';
-import ImageView from './ImageView';
+import ImageAnalysis from './ImageAnalysis';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons} from '../../configuration';
 import LoteDetails from './LoteDetails';
-import {Animation} from '../../shared/components/Animation';
 import {Icon} from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -78,7 +77,7 @@ function RootStack() {
         component={TabNavigator}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Imagen" component={ImageView} />
+      <Stack.Screen name="Imagen" component={ImageAnalysis} />
       <Stack.Screen
         name="NewSession"
         component={NewSession}

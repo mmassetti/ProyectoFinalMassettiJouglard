@@ -12,6 +12,13 @@ export class FirebaseUtils {
     return this.withSpinner(collection.get.bind(collection));
   };
 
+  paginateQuery = (query, perPage, last, page) => {
+    return query
+      .startAfter(last)
+      .limit(perPage)
+      .get();
+  };
+
   getDocRefFromId = (collectionName, id) => {
     return firestore()
       .collection(collectionName)

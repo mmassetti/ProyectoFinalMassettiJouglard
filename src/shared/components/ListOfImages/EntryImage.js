@@ -4,16 +4,30 @@ import {
   Animated,
   Dimensions,
   StyleSheet,
-  Text,
   TouchableNativeFeedback,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress/Circle';
-import {mainThemeColor, percentages} from '../../../configuration';
+import {
+  mainThemeColor,
+  warnThemeColor,
+  percentages,
+} from '../../../configuration';
 import {ImageWithPopUp} from './ImageWithPopUp';
 import {useAnimation} from '../../services/animations';
+import {Icon} from 'native-base';
 
-export function OurImage({onPress, reference, image, style, text}) {
+export function OurImage({
+  onPress,
+  opened,
+  reference,
+  deleteImage,
+  image,
+  style,
+  text,
+  isBefore,
+}) {
   const formatText = progress => () => {
     return `${progress}%`;
   };
@@ -28,6 +42,7 @@ export function OurImage({onPress, reference, image, style, text}) {
   }, [text]);
 
   const [opacity, triggerOpacity, resetOpacity] = useAnimation(0, 300);
+
   return (
     <Animated.View ref={refer} style={style}>
       <Animated.Text style={[styles.titleEntry, {opacity: opacity}]}>
@@ -45,7 +60,14 @@ export function OurImage({onPress, reference, image, style, text}) {
             flexDirection: 'row',
           }}
           onPress={onPress}>
-          <View style={styles.circlesContainer}>
+          <View
+            style={[
+              styles.circlesContainer,
+              {
+                borderTopRightRadius: !opened ? 6 : 0,
+                borderBottomEndRadius: !opened ? 6 : 0,
+              },
+            ]}>
             {percentages.map((percentage, index) => {
               return (
                 <ProgressCircle
@@ -66,13 +88,35 @@ export function OurImage({onPress, reference, image, style, text}) {
             })}
           </View>
         </TouchableNativeFeedback>
+        <TouchableOpacity
+          onPress={deleteImage(isBefore)}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: !opened ? 'transparent' : '#fafafa',
+            flex: 1,
+            borderTopRightRadius: 6,
+            borderBottomRightRadius: 6,
+          }}>
+          {isBefore || opened ? (
+            <Icon
+              type="FontAwesome5"
+              name="trash"
+              style={{
+                color: warnThemeColor(1),
+                fontSize: 26,
+                transform: [{translateX: !opened ? 8 : 0}],
+              }}
+            />
+          ) : null}
+        </TouchableOpacity>
       </View>
     </Animated.View>
   );
 }
 const styles = StyleSheet.create({
   circlesContainer: {
-    flex: 3,
+    flex: 6,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -80,11 +124,9 @@ const styles = StyleSheet.create({
     backgroundColor: mainThemeColor(1),
     paddingTop: 10,
     paddingBottom: 10,
-    borderTopRightRadius: 6,
-    borderBottomRightRadius: 6,
   },
   image: {
-    flex: 1,
+    flex: 2,
     resizeMode: 'cover',
   },
   container: {

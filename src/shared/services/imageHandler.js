@@ -91,7 +91,7 @@ class InnerImageHandler {
     const percentagesPromise = this.recalculateNewPercentages(
       percentages,
       !saveConfig.beforeId ? 'Before' : 'After',
-    );
+    ).commit();
     const uploadPromise = this.firebaseService.uploadPhoto(
       saveConfig,
       imageToAdd,
@@ -99,17 +99,17 @@ class InnerImageHandler {
     return Promise.all([percentagesPromise, uploadPromise]);
   }
 
-  recalculateNewPercentages(percentages, type) {
+  recalculateNewPercentages(percentages, type, add = 1) {
     const {session, lote, pastura} = store.getState();
 
     let batch;
     if (pastura.data) {
-      console.log('Entra Pastura');
       batch = this.firebaseService.appendUpdateToBatch(pastura.docRef, {
-        ['totalImages' + type]: pastura.data['totalImages' + type] + 1,
+        ['totalImages' + type]: pastura.data['totalImages' + type] + add,
         ['average' + type]: this.generateNewObject(
           percentages,
           pastura.data['average' + type],
+          add,
         ),
       });
     }
@@ -123,13 +123,15 @@ class InnerImageHandler {
               pastura.data.id,
               percentages,
               type,
+              add,
             )
           : lote.data.pasturas,
         ['average' + type]: this.generateNewObject(
           percentages,
           lote.data['average' + type],
+          add,
         ),
-        ['totalImages' + type]: lote.data['totalImages' + type] + 1,
+        ['totalImages' + type]: lote.data['totalImages' + type] + add,
       },
       batch,
     );
@@ -141,32 +143,95 @@ class InnerImageHandler {
           lote.data.id,
           percentages,
           type,
+          add,
         ),
       },
       loteBatch,
     );
-    return sessionBatch.commit();
+    return sessionBatch;
   }
 
-  generateNewArray(array, id, newPercentages, type) {
+  generateNewArray(array, id, newPercentages, type, add) {
     return array.map(item => {
       if (item.id == id) {
         item['average' + type] = this.generateNewObject(
           newPercentages,
           item['average' + type],
+          add,
         );
-        item['totalImages' + type]++;
+        item['totalImages' + type] += add;
       }
       return item;
     });
   }
 
-  generateNewObject(newPercentages, oldPercentages) {
+  generateNewObject(newPercentages, oldPercentages, adjust = 1) {
     let item = oldPercentages;
-    item.totalGreen += newPercentages.percentageGreen;
-    item.totalYellow += newPercentages.percentageYellow;
-    item.totalNaked += newPercentages.percentageNaked;
+    item.totalGreen += adjust * newPercentages.percentageGreen;
+    item.totalYellow += adjust * newPercentages.percentageYellow;
+    item.totalNaked += adjust * newPercentages.percentageNaked;
     return item;
+  }
+
+  deletePhoto(imageItem, type) {
+    console.log('imageItem', imageItem);
+    const {lote, pastura} = store.getState();
+    let arrayBatch;
+    if (imageItem.after) {
+      arrayBatch = this.recalculateNewPercentages(
+        imageItem.after.percentages,
+        'After',
+        -1,
+      );
+    }
+    if (type === 'Before') {
+      const beforeBatch = this.recalculateNewPercentages(
+        imageItem.before.percentages,
+        'Before',
+        -1,
+      );
+      beforeBatch.commit();
+    }
+    let finalBatch;
+    if (pastura.data) {
+      finalBatch = this.firebaseService.appendUpdateToBatch(
+        pastura.docRef,
+        {
+          images: this.deletePhotoFromArray(
+            pastura.data.images,
+            type,
+            imageItem[type.toLowerCase()].id,
+          ),
+        },
+        arrayBatch,
+      );
+    } else {
+      finalBatch = this.firebaseService.appendUpdateToBatch(
+        lote.docRef,
+        {
+          images: this.deletePhotoFromArray(
+            lote.data.images,
+            type,
+            imageItem[type.toLowerCase()].id,
+          ),
+        },
+        arrayBatch,
+      );
+    }
+    return finalBatch.commit();
+  }
+
+  deletePhotoFromArray(array, type, imageId) {
+    if (type == 'Before') {
+      return array.filter(item => item.before.id !== imageId);
+    } else {
+      return array.map(item => {
+        if (item.after.id == imageId) {
+          return {before: item.before};
+        }
+        return item;
+      });
+    }
   }
 }
 

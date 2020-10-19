@@ -26,6 +26,11 @@ function InnerPasturasDetails({
 }) {
   const {item} = route.params;
   const [images, setImages] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const toggleRefresh = () => {
+    setRefresh(prev => !prev);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,7 +61,7 @@ function InnerPasturasDetails({
           setImages(data.images);
           setPastura({docRef, data});
         });
-    }, [item.id]),
+    }, [item.id, refresh]),
   );
 
   const routeWithImage = picker => async () => {
@@ -66,11 +71,20 @@ function InnerPasturasDetails({
     navigation.navigate('Imagen', imageResponse);
   };
 
+  const deleteImage = item => isBefore => () => {
+    console.log('Ejecuta borrar');
+    alerts.showConfirmDialog('Atencion! Se eliminara la imagen').then(() => {
+      imageHandler
+        .deletePhoto(item, isBefore ? 'Before' : 'After')
+        .then(toggleRefresh);
+    });
+  };
+
   return (
     <DocRefContextProvider docRef={pastura.docRef}>
       {/* <Text>{item.description}</Text> */}
       <Info item={item} />
-      <ImagesTaken images={images} />
+      <ImagesTaken images={images} deleteImage={deleteImage} />
       <BottomRightButton
         withBackground={true}
         buttons={[

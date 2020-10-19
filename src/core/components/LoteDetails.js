@@ -62,6 +62,7 @@ function LoteDetails({
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log('Render');
       firebase
         .getDocRefInnerId('lotesDetails', item.id)
         .then(({docRef, data}) => {
@@ -79,7 +80,6 @@ function LoteDetails({
       const arrayWithoutLote = arrayOfLotes.filter(
         prev => prev.lote.id !== item.id,
       );
-      console.log('withOutLote', arrayWithoutLote);
       item.date = item.creationDate.toDate();
       arrayWithoutLote.push({
         session: {data: session.data, id: session.docRef.id},
@@ -91,6 +91,15 @@ function LoteDetails({
       );
     });
   }, []);
+
+  const deleteImage = item => isBefore => () => {
+    console.log('Ejecuta borrar');
+    alerts.showConfirmDialog('Atencion! Se eliminara la imagen').then(() => {
+      imageHandler
+        .deletePhoto(item, isBefore ? 'Before' : 'After')
+        .then(toggleRefresh);
+    });
+  };
 
   const routeWithImage = picker => async () => {
     const imageResponse = await imageHandler.pickImage({docRef: lote.docRef})(
@@ -120,7 +129,22 @@ function LoteDetails({
                 ) : (
                   <></>
                 )}
-                <ImagesTaken images={images} />
+                <ImagesTaken images={images} deleteImage={deleteImage} />
+                <BottomRightButton
+                  withBackground={true}
+                  buttons={[
+                    {
+                      name: 'upload',
+                      type: 'FontAwesome5',
+                      onPress: routeWithImage('Gallery'),
+                    },
+                    {
+                      name: 'camera-retro',
+                      type: 'FontAwesome5',
+                      onPress: routeWithImage('Camera'),
+                    },
+                  ]}
+                />
               </>
             )}
             SecondScreen={() => (
@@ -146,21 +170,6 @@ function LoteDetails({
                 />
               </>
             )}
-          />
-          <BottomRightButton
-            withBackground={true}
-            buttons={[
-              {
-                name: 'upload',
-                type: 'FontAwesome5',
-                onPress: routeWithImage('Gallery'),
-              },
-              {
-                name: 'camera-retro',
-                type: 'FontAwesome5',
-                onPress: routeWithImage('Camera'),
-              },
-            ]}
           />
         </View>
       </BackgroundProvider>

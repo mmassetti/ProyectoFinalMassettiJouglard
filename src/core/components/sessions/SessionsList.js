@@ -68,6 +68,8 @@ function SessionsList(props) {
         data={filteredSession}
         key={({item: {id}}) => id}
         renderItem={renderItem}
+        onEndReachedThreshold={0.5}
+        onEndReached={console.log}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

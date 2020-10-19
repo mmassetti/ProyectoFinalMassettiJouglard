@@ -5,6 +5,7 @@ import {
   Animated,
   StyleSheet,
   TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 import {BackgroundContext} from './BackgroundContext';
 import {useAnimation} from '../services/animations';
@@ -19,7 +20,7 @@ export function Background({style}) {
   }, [background]);
   if (background) {
     return (
-      <TouchableWithoutFeedback
+      <Pressable
         style={[StyleSheet.absoluteFill, {zIndex: 10, ...style}]}
         onPress={() => setBackground(false)}>
         <Animated.View
@@ -28,7 +29,7 @@ export function Background({style}) {
             {opacity, backgroundColor: 'black', zIndex: 10, ...style},
           ]}
         />
-      </TouchableWithoutFeedback>
+      </Pressable>
     );
   } else {
     return null;

@@ -9,8 +9,12 @@ import {OurImage} from './EntryImage';
 import {NewAfterImage} from './NewAfterImage';
 import {BackgroundContext} from '../BackgroundContext';
 import {Background} from '../BackgroundFull';
+import {
+  withImageHandler,
+  withAlertService,
+} from '../HOCForInjection/WithService';
 
-export function OverlappingEntries({item}) {
+export function OverlappingEntries({item, deleteImage}) {
   const [opened, setOpened] = useState(false);
   const [zIndexFirstImage, setFirstIndex] = useState(9);
   const [zIndexSecondImage, setSecondIndex] = useState(8);
@@ -47,11 +51,11 @@ export function OverlappingEntries({item}) {
         triggerFristTransition(
           calculateOffsetToMiddleOfTheScreen(py) - (height + height / 2),
         );
-        triggerScale(1.2);
+        triggerScale(1.09);
       });
       image2.current.measure((ox, oy, width, height, px, py) => {
         triggerSecondTransition(calculateOffsetToMiddleOfTheScreen(py));
-        triggerScale(1.2);
+        triggerScale(1.09);
         triggerTranslateX(-10);
         setTimeout(() => triggerOpacity(1), 100);
       });
@@ -81,7 +85,7 @@ export function OverlappingEntries({item}) {
         {
           alignSelf: 'center',
           height: Dimensions.get('window').height * 0.16,
-          width: '80%',
+          width: '90%',
         },
       ]}>
       <OurImage
@@ -94,6 +98,9 @@ export function OverlappingEntries({item}) {
         }}
         image={item.before}
         onPress={() => setBackground(item.before.id)}
+        isBefore={true}
+        opened={opened}
+        deleteImage={deleteImage(item)}
       />
       {item.after ? (
         <OurImage
@@ -102,6 +109,9 @@ export function OverlappingEntries({item}) {
           style={[backEntryStyles, {opacity}]}
           image={item.after}
           onPress={() => setBackground(item.before.id)}
+          isBefore={false}
+          opened={opened}
+          deleteImage={deleteImage(item)}
         />
       ) : (
         <NewAfterImage
