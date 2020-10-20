@@ -9,6 +9,10 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
   const [originalImage, setOriginalImage] = useState(params.originalImage);
   const [processedImage, setProcessedImage] = useState(params.processedImage);
   const [percentages, setPercentages] = useState(params.percentages);
+  let note;
+  const setNote = text => {
+    note = text;
+  };
 
   const updateOriginalImage = async newUri => {
     let {
@@ -26,11 +30,17 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
     setOriginalImage(prev => {
       const newOriginal = prev;
       newOriginal.setUri('file://' + newUri);
+      return newOriginal.clone();
     });
     setProcessedImage(prev => {
       const newProcessed = prev;
       newProcessed.setData(img);
+      return newProcessed.clone();
     });
+  };
+
+  const saveImage = async () => {
+    return await onSave(percentages, originalImage.getSource(), note);
   };
 
   const getImageView = () => (
@@ -38,6 +48,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
       shouldRotate={params.shouldRotate}
       updateOriginalImage={updateOriginalImage}
       originalImage={originalImage}
+      staticOriginal={params.originalImage.clone()}
       processedImage={processedImage}
       percentages={percentages}
     />
@@ -48,20 +59,14 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
       {onSave ? (
         <Tabs
           FirstScreen={getImageView}
-          SecondScreen={() => <ImageNotes />}
+          SecondScreen={() => <ImageNotes updateNote={setNote} />}
           secondTitle="Notas"
           firstTitle="Analisis"
         />
       ) : (
         getImageView()
       )}
-      {onSave ? (
-        <SaveImage
-          image={originalImage}
-          percentages={percentages}
-          onSave={onSave}
-        />
-      ) : null}
+      {onSave ? <SaveImage onSave={saveImage} /> : null}
     </View>
   );
 }
