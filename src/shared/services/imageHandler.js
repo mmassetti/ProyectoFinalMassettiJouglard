@@ -38,6 +38,7 @@ class InnerImageHandler {
       const onSave = async (
         percentages = processed.percentages,
         image = uri,
+        note,
       ) => {
         console.log('inside', image);
         console.log('percentages', percentages);
@@ -48,6 +49,7 @@ class InnerImageHandler {
           image,
           percentages,
           saveConfig,
+          note,
         );
       };
       Object.assign(objToReturn, {onSave});
@@ -81,12 +83,13 @@ class InnerImageHandler {
     console.log(uri);
     AsyncStorage.setItem(imageId, uri);
   }
-  async saveImageInTheCloud(imageId, uri, percentages, saveConfig) {
+  async saveImageInTheCloud(imageId, uri, percentages, saveConfig, note) {
     const secure_url = await this.cloudinaryService.uploadPhoto(uri);
     const imageToAdd = {
       id: imageId,
       percentages,
       uri: secure_url,
+      note,
     };
     const percentagesPromise = this.recalculateNewPercentages(
       percentages,

@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
   View,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress/Circle';
 import {
@@ -53,6 +54,14 @@ export function OurImage({
           imageId={image.id}
           source={image.uri}
           style={styles.image}
+          additionalInfo={() => (
+            <View style={{padding: 15}}>
+              <Text style={{fontSize: 17, fontWeight: 'bold'}}>
+                Anotaciones
+              </Text>
+              <Text>{image.note}</Text>
+            </View>
+          )}
         />
         <TouchableNativeFeedback
           style={{

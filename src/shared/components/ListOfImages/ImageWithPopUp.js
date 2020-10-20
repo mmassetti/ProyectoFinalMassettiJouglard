@@ -11,7 +11,7 @@ import {
 import Popover from 'react-native-popover-view';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export function ImageWithPopUp({style, imageId, source}) {
+export function ImageWithPopUp({style, additionalInfo, imageId, source}) {
   const [popped, setPopped] = useState(false);
   const [src, setSrc] = useState();
   const triggerPopUp = trigger => () => {
@@ -38,8 +38,9 @@ export function ImageWithPopUp({style, imageId, source}) {
           <Image
             source={{uri: src}}
             defaultSource={require('../../../../captures/Default.jpg')}
-            style={{resizeMode: 'contain', flex: 1}}
+            style={{resizeMode: 'contain', flex: 3}}
           />
+          {additionalInfo()}
           <Button style={styles.button} onPress={triggerPopUp(false)} primary>
             <Text style={styles.buttonText}>Cerrar</Text>
           </Button>
@@ -55,6 +56,9 @@ export function ImageWithPopUp({style, imageId, source}) {
 const styles = StyleSheet.create({
   button: {
     padding: 10,
+    alignSelf: 'flex-end',
+    marginBottom: 8,
+    marginRight: 8,
   },
   buttonsContainer: {
     flex: 1,
