@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {mainThemeColor} from '../../../configuration';
 
-import {StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {StyleSheet, FlatList, RefreshControl, View, Text} from 'react-native';
 import {
   withFirebase,
   withSessionsService,
@@ -58,22 +58,37 @@ function SessionsList(props) {
 
   return (
     <>
-      <SearchInput
-        onChangeText={setSearchTerm}
-        style={styles.searchInput}
-        placeholder="Buscar por nombre, descripción, mes ..."
-      />
+      {sessions && sessions.length > 0 ? (
+        <>
+          <SearchInput
+            onChangeText={setSearchTerm}
+            style={styles.searchInput}
+            placeholder="Buscar por nombre, descripción, mes ..."
+          />
 
-      <FlatList
-        data={filteredSession}
-        key={({item: {id}}) => id}
-        renderItem={renderItem}
-        onEndReachedThreshold={0.5}
-        onEndReached={console.log}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
+          <FlatList
+            data={filteredSession}
+            key={({item: {id}}) => id}
+            renderItem={renderItem}
+            onEndReachedThreshold={0.5}
+            onEndReached={console.log}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </>
+      ) : (
+        <View style={styles.centeredTextStyle}>
+          <Text>
+            {'\n'}
+            <Text style={styles.boldTitle}>
+              ¡Todavía no hay ninguna sesión creada!{'\n'}
+            </Text>
+            {'\n'}Podés crear una presionando el botón de la parte inferior
+            derecha.
+          </Text>
+        </View>
+      )}
 
       <BottomRightButton
         buttons={[
@@ -107,6 +122,15 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: 'white',
+  },
+  centeredTextStyle: {
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  boldTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
