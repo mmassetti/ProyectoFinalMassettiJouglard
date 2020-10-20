@@ -10,11 +10,10 @@ export function ImageView({
   processedImage,
   percentages,
   updateOriginalImage,
+  staticOriginal,
   shouldRotate,
 }) {
   const [showOriginal, setShowOriginal] = useState(false);
-  let staticOriginal;
-  staticOriginal = originalImage.clone();
 
   function getImage() {
     let sourceOfImage = showOriginal ? originalImage : processedImage;
