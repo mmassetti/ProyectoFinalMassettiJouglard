@@ -6,10 +6,10 @@ export class FirebaseUtils {
   withSpinner = SpinnerService.getInstance().callAsyncFunctionWithSpinner;
 
   getAll = collectionName => {
-    const collection = firestore()
+    return firestore()
       .collection(collectionName)
-      .orderBy('date', 'desc');
-    return this.withSpinner(collection.get.bind(collection));
+      .orderBy('date', 'desc')
+      .get();
   };
 
   paginateQuery = (query, perPage, last, page) => {
