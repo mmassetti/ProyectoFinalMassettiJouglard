@@ -33,3 +33,4 @@ export {
 export {Background} from './components/BackgroundFull';
 export {ImageView} from './components/ImageView/ImageView';
 export {ImageNotes} from './components/ImageView/ImageNotes';
+export {useRecentLotes} from './services/recentLotesService';

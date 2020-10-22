@@ -12,12 +12,12 @@ import {
   withImageHandler,
   DocRefContextProvider,
   BackgroundProvider,
+  useRecentLotes,
 } from '../../shared';
 import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
 import {useFocusEffect} from '@react-navigation/native';
 import {setLote} from '../../store/actions';
 import {connect} from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
 
 function LoteDetails({
   firebaseService: firebase,
@@ -34,6 +34,7 @@ function LoteDetails({
   const {item} = route.params;
   const [refresh, setRefresh] = useState(false);
   const toggleRefresh = () => setRefresh(prev => !prev);
+  const [, removeLoteFromStorage, , addLoteToStorage] = useRecentLotes();
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,6 +51,8 @@ function LoteDetails({
                   pasturas.map(pastura => pastura.id),
                   'pasturasDetails',
                 );
+                // @ts-ignore
+                removeLoteFromStorage(item.id);
                 firebase
                   .remove(session.docRef, 'lotes', 'lotesDetails', item.id)
                   .then(navigation.goBack);
@@ -75,21 +78,7 @@ function LoteDetails({
   );
 
   useEffect(() => {
-    AsyncStorage.getItem('recentLotes').then(lotes => {
-      const arrayOfLotes = JSON.parse(lotes) || [];
-      const arrayWithoutLote = arrayOfLotes.filter(
-        prev => prev.lote.id !== item.id,
-      );
-      item.date = item.creationDate.toDate();
-      arrayWithoutLote.push({
-        session: {data: session.data, id: session.docRef.id},
-        lote: item,
-      });
-      AsyncStorage.setItem(
-        'recentLotes',
-        JSON.stringify(arrayWithoutLote.slice(-10)),
-      );
-    });
+    addLoteToStorage(session, item);
   }, []);
 
   const deleteImage = item => isBefore => () => {

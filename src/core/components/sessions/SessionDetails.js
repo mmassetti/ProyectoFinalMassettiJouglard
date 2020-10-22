@@ -8,6 +8,7 @@ import {
   DocRefContextProvider,
   NavDeleteButton,
   Tabs,
+  useRecentLotes,
 } from '../../../shared';
 import {SessionHeader} from './SessionHeader';
 import {useFocusEffect} from '@react-navigation/native';
@@ -27,7 +28,7 @@ function SessionDetails({
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
+  const [, , removeLotes] = useRecentLotes();
   const toggleRefresh = () => setRefresh(prev => !prev);
 
   useFocusEffect(
@@ -56,10 +57,10 @@ function SessionDetails({
             .getDocRefFromId('sessions', sessionId)
             .delete();
           const detailsDelete = session.docRef?.delete();
-          firebaseService.deleteInBatch(
-            lotes.map(lote => lote.id),
-            'lotesDetails',
-          );
+          const lotesIDs = lotes.map(lote => lote.id);
+          firebaseService.deleteInBatch(lotesIDs, 'lotesDetails');
+          // @ts-ignore
+          removeLotes(lotesIDs);
           Promise.all([collectionDelete, detailsDelete]).then(() => {
             navigation.navigate('Main');
           });

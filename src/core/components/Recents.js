@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -6,16 +5,17 @@ import React, {useState} from 'react';
 import {Dimensions, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import {lightGray} from '../../configuration/colors';
-import {withFirebase} from '../../shared';
+import {withFirebase, useRecentLotes} from '../../shared';
 import {setSession} from '../../store/actions';
 
 export function Recents() {
   const [recentLotes, setLotes] = useState([]);
+  const [recentsStorage] = useRecentLotes();
 
   useFocusEffect(
     React.useCallback(() => {
-      AsyncStorage.getItem('recentLotes').then(lotes => {
-        setLotes(JSON.parse(lotes).reverse());
+      recentsStorage().then(lotes => {
+        setLotes(lotes.reverse());
       });
     }, []),
   );

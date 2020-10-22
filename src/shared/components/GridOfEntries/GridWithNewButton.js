@@ -6,6 +6,7 @@ import {EntrySquare} from './EntrySquare';
 import {FlatGrid} from 'react-native-super-grid';
 import {withAlertService, withFirebase} from '../HOCForInjection/WithService';
 import {useNavigation} from '@react-navigation/native';
+import {useRecentLotes} from '../../services/recentLotesService';
 
 export function InnerGrid({
   title,
@@ -22,6 +23,7 @@ export function InnerGrid({
   esPastura,
 }) {
   const navigation = useNavigation();
+  const [, removeLote] = useRecentLotes();
 
   const onDelete = id => {
     let msgAlert =
@@ -30,6 +32,9 @@ export function InnerGrid({
       msgAlert =
         '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ';
     }
+    // @ts-ignore
+    if (!esPastura) removeLote(id);
+
     alertService.showConfirmDialog(msgAlert).then(() => {
       firebaseService
         .remove(docRef, arrayName, detailsCollection, id)
