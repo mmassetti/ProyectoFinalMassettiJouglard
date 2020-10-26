@@ -86,28 +86,31 @@ export class FirebaseUtils {
     return docRef.update({images: newImages});
   };
 
-  async deleteInBatch(arrayOfIds, detailsCollection) {
+  async deleteInBatch(array) {
     const batch = firestore().batch();
-    const allArrays = [];
-    for (let i = 0; i < arrayOfIds.length; i += 10) {
-      allArrays.push(
-        firestore()
-          .collection(detailsCollection)
-          .where('id', 'in', arrayOfIds.slice(i, i + 10))
-          .get(),
-      );
-    }
-    const allDocs = await Promise.all(allArrays);
-    const flattenArray = [].concat(...allDocs.map(response => response.docs));
-
-    const docsRefs = flattenArray.map(doc =>
-      firestore()
-        .collection(detailsCollection)
-        .doc(doc.id),
-    );
-    for (const ref of docsRefs) {
-      batch.delete(ref);
-    }
+    array.forEach(item => {
+      batch.delete(item.ref);
+    });
+    // const allArrays = [];
+    // for (let i = 0; i < arrayOfIds.length; i += 10) {
+    //   allArrays.push(
+    //     firestore()
+    //       .collection(detailsCollection)
+    //       .where('id', 'in', arrayOfIds.slice(i, i + 10))
+    //       .get(),
+    //   );
+    // }
+    // const allDocs = await Promise.all(allArrays);
+    // const flattenArray = [].concat(...allDocs.map(response => response.docs));
+    //
+    // const docsRefs = flattenArray.map(doc =>
+    //   firestore()
+    //     .collection(detailsCollection)
+    //     .doc(doc.id),
+    // );
+    // for (const ref of docsRefs) {
+    //   batch.delete(ref);
+    // }
     return batch.commit();
   }
 

@@ -5,13 +5,14 @@ import {percentages, mainThemeColor} from '../../../configuration';
 import {successThemeColor, warnThemeColor} from '../../../configuration/colors';
 
 export function EntrySquare({onDelete, item, onPress}) {
+  console.log('LoteRef', item.loteRef);
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={onPress.bind(null, item)}>
       <TouchableOpacity
         style={styles.cross}
-        onPress={onDelete.bind(null, item.id)}>
+        onPress={onDelete.bind(null, item)}>
         <Icon style={styles.crossIcon} name="trash-alt" type="FontAwesome5" />
       </TouchableOpacity>
       <Text style={styles.text}>{item.description}</Text>

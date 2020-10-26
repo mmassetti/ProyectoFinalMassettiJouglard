@@ -25,7 +25,7 @@ export function InnerGrid({
 }) {
   const navigation = useNavigation();
 
-  const onDelete = id => {
+  const onDelete = item => {
     let msgAlert =
       '¡Atención! Se eliminará este lote y toda la información asociada a él. ';
     if (esPastura) {
@@ -34,10 +34,16 @@ export function InnerGrid({
     }
 
     alertService.showConfirmDialog(msgAlert).then(() => {
-      customDelete(id);
-      firebaseService
-        .remove(docRef, arrayName, detailsCollection, id)
-        .then(refresh);
+      customDelete(item);
+      // firebaseService.deleteInBatch(item);
+      // @ts-ignore
+      // removeLoteFromStorage(item.id);
+      // firebaseService.removeItemFromArray(docRef, 'lotes', item.id);
+      // item.ref.delete();
+      // refresh();
+      // firebaseService
+      //   .remove(docRef, arrayName, detailsCollection, id)
+      //   .then(refresh);
     });
   };
   const route = item => {

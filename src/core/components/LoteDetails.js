@@ -48,15 +48,10 @@ function LoteDetails({
                 '¡Atención! Se eliminará este lote y toda la información asociada a él. ',
               )
               .then(() => {
-                firebase.deleteInBatch(
-                  pasturas.map(pastura => pastura.id),
-                  'pasturasDetails',
-                );
+                firebase.deleteLote({...item, pasturas});
                 // @ts-ignore
                 removeLoteFromStorage(item.id);
-                firebase
-                  .remove(session.docRef, 'lotes', 'lotesDetails', item.id)
-                  .then(navigation.goBack);
+                navigation.goBack();
               });
           }}
         />
@@ -67,19 +62,18 @@ function LoteDetails({
   useFocusEffect(
     React.useCallback(() => {
       setPastura({});
-      firebase
-        .getDocRefInnerId('lotesDetails', item.id)
-        .then(({docRef, data}) => {
-          setImages(data.images);
-          setPasturas(data.pasturas);
-          setLote({docRef, data});
-        });
+      item.ref.get().then(data => {
+        const info = data.data();
+        setImages(info.images);
+        setPasturas(info.pasturas);
+        setLote({docRef: item.ref, data: info});
+      });
       return () => {};
     }, [item.id, refresh]),
   );
 
   useEffect(() => {
-    addLoteToStorage(session, item);
+    // addLoteToStorage(session, item);
   }, []);
 
   const deleteImage = item => isBefore => () => {
@@ -154,13 +148,9 @@ function LoteDetails({
                   data={pasturas}
                   arrayName="pasturas"
                   detailsCollection="pasturasDetails"
-                  customDelete={id => {
-                    const pasturaToDelete = pasturas.find(
-                      pastura => pastura.id == id,
-                    );
-                    imageHandler.deletePasturaPercentageFromLote(
-                      pasturaToDelete,
-                    );
+                  customDelete={item => {
+                    imageHandler.deletePasturaPercentageFromLote(item);
+                    firebase.deletePastura(item).then(toggleRefresh);
                   }}
                   refresh={toggleRefresh}
                   defaultObj={{}}

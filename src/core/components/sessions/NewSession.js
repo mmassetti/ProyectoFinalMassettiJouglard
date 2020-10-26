@@ -102,17 +102,20 @@ function NewSession(props) {
       visibility: switchValue ? 'Pública' : 'Privada',
     };
     return props.firebaseService
-      .addObjToCollection('sessions', sessionData)
+      .addObjToCollection('sessionsDetails', {
+        ...sessionData,
+        lotes: [],
+        notes: [],
+      })
       .then(doc => {
-        let id;
         props.firebaseService
-          .addObjToCollection('sessionsDetails', {
+          .addObjToCollection('sessions', {
             ...sessionData,
-            lotes: [],
-            notes: [],
-            id: doc.id,
+            ref: doc,
           })
-          .then(() => goToSessionDetails(sessionData, doc.id));
+          .then(simpleDoc =>
+            goToSessionDetails({...sessionData, ref: doc}, simpleDoc.id),
+          );
       });
   }
 

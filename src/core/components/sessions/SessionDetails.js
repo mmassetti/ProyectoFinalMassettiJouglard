@@ -36,12 +36,10 @@ function SessionDetails({
     React.useCallback(() => {
       setLote({});
       async function retrieveDetails() {
-        const {docRef, data} = await firebaseService.getDocRefInnerId(
-          'sessionsDetails',
-          itemId,
-        );
+        const data = (await item.ref.get()).data();
+        console.log(data);
         setLotes(data.lotes.reverse() || []);
-        setSession({docRef, data});
+        setSession({docRef: item.ref, data});
       }
       retrieveDetails();
       return () => {};
@@ -55,17 +53,12 @@ function SessionDetails({
           '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
         )
         .then(async () => {
-          const collectionDelete = firebaseService
-            .getDocRefFromId('sessions', sessionId)
-            .delete();
-          const detailsDelete = session.docRef?.delete();
-          const lotesIDs = lotes.map(lote => lote.id);
-          firebaseService.deleteInBatch(lotesIDs, 'lotesDetails');
+          firebaseService.deleteInBatch(lotes);
+          firebaseService.getDocRefFromId('sessions', itemId).delete();
+          item.ref.delete();
           // @ts-ignore
-          removeLotes(lotesIDs);
-          Promise.all([collectionDelete, detailsDelete]).then(() => {
-            navigation.navigate('Main');
-          });
+          removeLotes(lotes.map(lote => lote.id));
+          navigation.navigate('Main');
         });
     };
     const navigateBack = () => {
@@ -121,7 +114,14 @@ function SessionDetails({
                 refresh={toggleRefresh}
                 detailsCollection="lotesDetails"
                 // @ts-ignore
-                customDelete={removeLote}
+                customDelete={item => {
+                  console.log('lote', item.ref);
+                  firebaseService
+                    .deleteLote({...item, pasturas: []})
+                    .then(toggleRefresh);
+                  // // @ts-ignore
+                  // removeLote(item.id);
+                }}
                 arrayName="lotes"
                 defaultObj={{pasturas: []}}
                 nextScreen="LoteDetails"
