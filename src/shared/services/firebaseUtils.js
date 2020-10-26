@@ -83,7 +83,7 @@ export class FirebaseUtils {
           : image;
       });
     }
-    return this.withSpinner(docRef.update.bind(docRef, {images: newImages}));
+    return docRef.update({images: newImages});
   };
 
   async deleteInBatch(arrayOfIds, detailsCollection) {

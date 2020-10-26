@@ -33,23 +33,15 @@ class InnerCloudinaryService {
         ),
       )
       .then(response => response.json())
-      .then(({secure_url}) => secure_url);
+      .then(({secure_url}) => secure_url)
+      .catch(err => {
+        // console.log('Error cloudinary', err);
+      });
   }
 
   async getSignature(timestamp, secret) {
     const plainText = `timestamp=${timestamp}${secret}`;
     return sha1(plainText);
-  }
-
-  //TODO: This might not be needed
-  getImageByID(id) {
-    fetch('https://api.cloudinary.com/v1_1/proyectointauns/resources/images', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-    }).then(console.log);
   }
 }
 

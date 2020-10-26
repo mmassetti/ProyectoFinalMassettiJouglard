@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-
+import {Text, View, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -40,27 +32,25 @@ function Notes({sessionData, firebaseService, alertService, docRef, refresh}) {
 
   return (
     <>
-      <ScrollView style={{minHeight: '100%'}}>
-        <View style={styles.containerStylecontainerStyle}>
-          {sessionData && sessionData.notes && sessionData.notes.length > 0 ? (
-            <>
-              {newNoteButton()}
-              <FlatList
-                data={sessionData.notes}
-                key={({item: {id}}) => id}
-                renderItem={renderItem}
-              />
-            </>
-          ) : (
-            <>
-              <View style={styles.centeredTextStyle}>
-                <Text>Esta sesión todavía no tiene notas</Text>
-              </View>
-              {newNoteButton()}
-            </>
-          )}
-        </View>
-      </ScrollView>
+      <View style={styles.containerStyle}>
+        {sessionData && sessionData.notes && sessionData.notes.length > 0 ? (
+          <>
+            {newNoteButton()}
+            <FlatList
+              data={sessionData.notes}
+              keyExtractor={item => item}
+              renderItem={renderItem}
+            />
+          </>
+        ) : (
+          <>
+            <View style={styles.centeredTextStyle}>
+              <Text>Esta sesión todavía no tiene notas</Text>
+            </View>
+            {newNoteButton()}
+          </>
+        )}
+      </View>
     </>
   );
 }
@@ -69,9 +59,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     padding: 10,
   },
-  containerStyle: {
-    flex: 1,
-  },
+  containerStyle: {},
   button: {
     backgroundColor: 'rgba(0,0,0,0)',
     alignSelf: 'center',

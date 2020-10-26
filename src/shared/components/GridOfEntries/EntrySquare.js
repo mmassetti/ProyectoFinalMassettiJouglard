@@ -19,12 +19,18 @@ export function EntrySquare({onDelete, item, onPress}) {
         {percentages.map((percentage, index) => {
           return (
             <Text key={index} style={{color: percentage.color, ...styles.text}}>
-              {item['percentage' + percentage.type] || '-'}
+              {item.totalImagesBefore > 0
+                ? Math.floor(
+                    item.averageBefore['total' + percentage.type] /
+                      item.totalImagesBefore,
+                  )
+                : '-'}
             </Text>
           );
         })}
       </View>
-      <Text>% promedio</Text>
+      <Text>% promedio Antes</Text>
+      <Text>Imagenes Antes: {item.totalImagesBefore}</Text>
     </TouchableOpacity>
   );
 }

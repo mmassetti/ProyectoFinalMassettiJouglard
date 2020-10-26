@@ -59,7 +59,11 @@ export function OurImage({
               <Text style={{fontSize: 17, fontWeight: 'bold'}}>
                 Anotaciones
               </Text>
-              <Text>{image.note}</Text>
+              {image.note ? (
+                <Text>{image.note}</Text>
+              ) : (
+                <Text style={{fontStyle: 'italic'}}>No hay anotaciones</Text>
+              )}
             </View>
           )}
         />
@@ -81,7 +85,7 @@ export function OurImage({
               return (
                 <ProgressCircle
                   key={index}
-                  thickness={7}
+                  thickness={6}
                   color={percentage.color}
                   progress={
                     image.percentages[`percentage${percentage.type}`] / 100
@@ -98,7 +102,7 @@ export function OurImage({
           </View>
         </TouchableNativeFeedback>
         <TouchableOpacity
-          onPress={deleteImage(isBefore)}
+          onPress={isBefore || opened ? deleteImage(isBefore) : null}
           style={{
             justifyContent: 'center',
             alignItems: 'center',

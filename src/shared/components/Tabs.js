@@ -1,15 +1,32 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, Dimensions, View} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {mainThemeColor} from '../../configuration';
 import {Background} from './BackgroundFull';
 
 export function Tabs({firstTitle, secondTitle, FirstScreen, SecondScreen}) {
+  useEffect(() => {
+    setRoutes([
+      {key: 'first', title: firstTitle},
+      {key: 'second', title: secondTitle},
+    ]);
+  }, [firstTitle, secondTitle]);
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [routes, setRoutes] = useState([
     {key: 'first', title: firstTitle},
     {key: 'second', title: secondTitle},
   ]);
+
+  const renderScene = ({route}) => {
+    switch (route.key) {
+      case 'first':
+        return FirstScreen();
+      case 'second':
+        return SecondScreen();
+      default:
+        return null;
+    }
+  };
 
   const renderTabBar = props => {
     return (
@@ -29,7 +46,7 @@ export function Tabs({firstTitle, secondTitle, FirstScreen, SecondScreen}) {
       navigationState={{index, routes}}
       onIndexChange={setIndex}
       renderTabBar={renderTabBar}
-      renderScene={SceneMap({first: FirstScreen, second: SecondScreen})}
+      renderScene={renderScene}
       initialLayout={{width: Dimensions.get('window').width}}
     />
   );

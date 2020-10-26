@@ -80,7 +80,6 @@ class InnerImageHandler {
   }
 
   saveImageLocally(imageId, uri) {
-    console.log(uri);
     AsyncStorage.setItem(imageId, uri);
   }
   async saveImageInTheCloud(imageId, uri, percentages, saveConfig, note) {
@@ -91,6 +90,7 @@ class InnerImageHandler {
       uri: secure_url,
       note,
     };
+    console.log('percentages', percentages);
     const percentagesPromise = this.recalculateNewPercentages(
       percentages,
       !saveConfig.beforeId ? 'Before' : 'After',
@@ -99,7 +99,7 @@ class InnerImageHandler {
       saveConfig,
       imageToAdd,
     );
-    return Promise.all([percentagesPromise, uploadPromise]);
+    return Promise.all([]);
   }
 
   recalculateNewPercentages(percentages, type, add = 1) {
@@ -107,16 +107,24 @@ class InnerImageHandler {
 
     let batch;
     if (pastura.data) {
-      batch = this.firebaseService.appendUpdateToBatch(pastura.docRef, {
-        ['totalImages' + type]: pastura.data['totalImages' + type] + add,
-        ['average' + type]: this.generateNewObject(
-          percentages,
-          pastura.data['average' + type],
-          add,
-        ),
-      });
+      const updatedPastura = this.generateSpecificAverage(
+        pastura,
+        type,
+        percentages,
+        add,
+      );
+      batch = this.firebaseService.appendUpdateToBatch(
+        pastura.docRef,
+        updatedPastura,
+      );
     }
 
+    const updatedLote = this.generateSpecificAverage(
+      lote,
+      type,
+      percentages,
+      add,
+    );
     const loteBatch = this.firebaseService.appendUpdateToBatch(
       lote.docRef,
       {
@@ -129,12 +137,7 @@ class InnerImageHandler {
               add,
             )
           : lote.data.pasturas,
-        ['average' + type]: this.generateNewObject(
-          percentages,
-          lote.data['average' + type],
-          add,
-        ),
-        ['totalImages' + type]: lote.data['totalImages' + type] + add,
+        ...updatedLote,
       },
       batch,
     );
@@ -160,7 +163,7 @@ class InnerImageHandler {
         item['average' + type] = this.generateNewObject(
           newPercentages,
           item['average' + type],
-          add,
+          add / (Math.abs(add) || 1),
         );
         item['totalImages' + type] += add;
       }
@@ -176,8 +179,18 @@ class InnerImageHandler {
     return item;
   }
 
+  generateSpecificAverage(obj, type, percentages, add) {
+    return {
+      ['average' + type]: this.generateNewObject(
+        percentages,
+        obj.data['average' + type],
+        add / (Math.abs(add) || 1),
+      ),
+      ['totalImages' + type]: obj.data['totalImages' + type] + add,
+    };
+  }
+
   deletePhoto(imageItem, type) {
-    console.log('imageItem', imageItem);
     const {lote, pastura} = store.getState();
     let arrayBatch;
     if (imageItem.after) {
@@ -235,6 +248,27 @@ class InnerImageHandler {
         return item;
       });
     }
+  }
+
+  deletePasturaPercentageFromLote(pasturaItem) {
+    const removeBefore = this.recalculateNewPercentages(
+      this.buildObj(pasturaItem.averageBefore),
+      'Before',
+      -pasturaItem.totalImagesBefore,
+    ).commit();
+    const removeAfter = this.recalculateNewPercentages(
+      this.buildObj(pasturaItem.averageAfter),
+      'After',
+      -pasturaItem.totalImagesAfter,
+    ).commit();
+    return Promise.all([removeBefore, removeAfter]);
+  }
+  buildObj({totalGreen, totalYellow, totalNaked}) {
+    return {
+      percentageGreen: totalGreen,
+      percentageYellow: totalYellow,
+      percentageNaked: totalNaked,
+    };
   }
 }
 

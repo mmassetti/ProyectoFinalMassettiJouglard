@@ -1,23 +1,23 @@
 //@ts-check
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import {
-  withAlertService,
-  withFirebase,
-  Tabs,
+  BackgroundProvider,
+  BottomRightButton,
+  DocRefContextProvider,
   GridWithNewButton,
   ImagesTaken,
-  BottomRightButton,
   Info,
-  withImageHandler,
-  DocRefContextProvider,
-  BackgroundProvider,
+  Tabs,
   useRecentLotes,
+  withAlertService,
+  withFirebase,
+  withImageHandler,
 } from '../../shared';
 import {NavDeleteButton} from '../../shared/components/NavDeleteButton';
-import {useFocusEffect} from '@react-navigation/native';
-import {setLote} from '../../store/actions';
-import {connect} from 'react-redux';
+import {setLote, setPastura} from '../../store/actions';
 
 function LoteDetails({
   firebaseService: firebase,
@@ -26,6 +26,7 @@ function LoteDetails({
   lote,
   session,
   setLote,
+  setPastura,
   route,
   imageHandler,
 }) {
@@ -65,7 +66,7 @@ function LoteDetails({
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('Render');
+      setPastura({});
       firebase
         .getDocRefInnerId('lotesDetails', item.id)
         .then(({docRef, data}) => {
@@ -82,8 +83,10 @@ function LoteDetails({
   }, []);
 
   const deleteImage = item => isBefore => () => {
-    console.log('Ejecuta borrar');
-    alerts.showConfirmDialog('Atencion! Se eliminara la imagen').then(() => {
+    const message = isBefore
+      ? 'Atencion! Se eliminara tanto la imagen de antes como la de despues.'
+      : 'Atencion! Se eliminar la imagen del despues';
+    alerts.showConfirmDialog(message).then(() => {
       imageHandler
         .deletePhoto(item, isBefore ? 'Before' : 'After')
         .then(toggleRefresh);
@@ -103,8 +106,8 @@ function LoteDetails({
         <View style={styles.detailsContainer}>
           <Info item={item} />
           <Tabs
-            secondTitle="Pasturas"
-            firstTitle="Imagenes"
+            secondTitle={`Pasturas (${pasturas.length})`}
+            firstTitle={`Imagenes (${images.length})`}
             FirstScreen={() => (
               <>
                 {!images || images.length === 0 ? (
@@ -151,6 +154,14 @@ function LoteDetails({
                   data={pasturas}
                   arrayName="pasturas"
                   detailsCollection="pasturasDetails"
+                  customDelete={id => {
+                    const pasturaToDelete = pasturas.find(
+                      pastura => pastura.id == id,
+                    );
+                    imageHandler.deletePasturaPercentageFromLote(
+                      pasturaToDelete,
+                    );
+                  }}
                   refresh={toggleRefresh}
                   defaultObj={{}}
                   nextScreen="PasturasDetails"
@@ -184,6 +195,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = {
   setLote,
+  setPastura,
 };
 const mapStateToProps = state => {
   return {lote: state.lote, session: state.session};

@@ -22,11 +22,9 @@ async function removeLoteFromArray(id) {
 
 async function removeSetOfLotes(ids) {
   return transformRecent(arrayRecents => {
-    console.log(arrayRecents);
     const recentsWithOutLote = arrayRecents.filter(
       item => ids.findIndex(id => id == item.lote.id) < 0,
     );
-    console.log('recentsWithOutLote', recentsWithOutLote);
     return recentsWithOutLote;
   });
 }
@@ -38,7 +36,6 @@ async function transformRecent(fn) {
 }
 async function recentsLotes() {
   return AsyncStorage.getItem('recentLotes').then(recent => {
-    console.log('recent', recent);
     return JSON.parse(recent);
   });
 }

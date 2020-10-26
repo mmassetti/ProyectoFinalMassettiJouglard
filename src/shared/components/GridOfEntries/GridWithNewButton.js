@@ -17,13 +17,13 @@ export function InnerGrid({
   refresh,
   docRef,
   nextScreen,
+  customDelete,
   arrayName,
   detailsCollection,
   defaultObj,
   esPastura,
 }) {
   const navigation = useNavigation();
-  const [, removeLote] = useRecentLotes();
 
   const onDelete = id => {
     let msgAlert =
@@ -32,10 +32,9 @@ export function InnerGrid({
       msgAlert =
         '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ';
     }
-    // @ts-ignore
-    if (!esPastura) removeLote(id);
 
     alertService.showConfirmDialog(msgAlert).then(() => {
+      customDelete(id);
       firebaseService
         .remove(docRef, arrayName, detailsCollection, id)
         .then(refresh);

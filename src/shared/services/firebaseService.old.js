@@ -253,7 +253,6 @@ class InnerFirebaseService {
   }
 
   async addNewLoteToSession(sessionId, newLote) {
-    console.log(newLote);
     const docRef = await this.getSessionDetailDocRef(sessionId);
     const firstAdd = docRef.update({
       lotes: firestore.FieldValue.arrayUnion(newLote),

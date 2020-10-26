@@ -1,6 +1,5 @@
 //@ts-check
 import firestore from '@react-native-firebase/firestore';
-import {SpinnerService} from './spinnerService';
 import {Singleton} from './singletonService';
 import {FirebaseUtils} from './firebaseUtils';
 import {uuidv4 as uniqueId} from './uuidService';
@@ -10,9 +9,8 @@ export class InnerFirebaseService extends FirebaseUtils {
     const removeFromArray = this.removeItemFromArray(sessionRef, attribute, id);
     const {docRef} = await this.getDocRefInnerId(detailsCollection, id);
     const removeFromCollection = docRef.delete();
-    return this.withSpinner(
-      this.generatePromise(removeFromArray, removeFromCollection),
-    );
+    return Promise.all([]);
+    // return this.generatePromise(removeFromArray, removeFromCollection);
   }
 
   add(docRef, attribute, detailsCollection, objToAdd, detailsObj) {
@@ -30,19 +28,20 @@ export class InnerFirebaseService extends FirebaseUtils {
       creationDate,
       ...detailsObj,
     });
-    return this.withSpinner(this.generatePromise(addToSession, addToCollection))
-      .then(() => {
-        console.log('Connection');
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
+    return Promise.all([]);
+    // return this.generatePromise(addToSession, addToCollection)
+    //   .then(() => {
+    //     console.log('Connection');
+    //   })
+    //   .catch(err => {
+    //     console.log('err', err);
+    //   });
   }
   getDataFromDocRef(docRef) {
     return this.withSpinner(docRef.get.bind(docRef));
   }
 
-  generatePromise = (...promises) => () =>
+  generatePromise = (...promises) =>
     promises.length === 1 ? promises[0] : Promise.all(promises);
 }
 

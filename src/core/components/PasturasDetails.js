@@ -8,8 +8,8 @@ import {
   NavDeleteButton,
   DocRefContextProvider,
   Info,
+  BackgroundProvider,
 } from '../../shared';
-import {Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {setPastura} from '../../store/actions';
 import {connect} from 'react-redux';
@@ -55,12 +55,14 @@ function InnerPasturasDetails({
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log('Focus');
       firebaseService
         .getDocRefInnerId('pasturasDetails', item.id)
         .then(({docRef, data}) => {
           setImages(data.images);
           setPastura({docRef, data});
         });
+      return () => {};
     }, [item.id, refresh]),
   );
 
@@ -72,7 +74,6 @@ function InnerPasturasDetails({
   };
 
   const deleteImage = item => isBefore => () => {
-    console.log('Ejecuta borrar');
     alerts.showConfirmDialog('Atencion! Se eliminara la imagen').then(() => {
       imageHandler
         .deletePhoto(item, isBefore ? 'Before' : 'After')
@@ -82,24 +83,25 @@ function InnerPasturasDetails({
 
   return (
     <DocRefContextProvider docRef={pastura.docRef}>
-      {/* <Text>{item.description}</Text> */}
-      <Info item={item} />
-      <ImagesTaken images={images} deleteImage={deleteImage} />
-      <BottomRightButton
-        withBackground={true}
-        buttons={[
-          {
-            name: 'upload',
-            type: 'FontAwesome5',
-            onPress: routeWithImage('Gallery'),
-          },
-          {
-            name: 'camera-retro',
-            type: 'FontAwesome5',
-            onPress: routeWithImage('Camera'),
-          },
-        ]}
-      />
+      <BackgroundProvider>
+        <Info item={item} />
+        <ImagesTaken images={images} deleteImage={deleteImage} />
+        <BottomRightButton
+          withBackground={true}
+          buttons={[
+            {
+              name: 'upload',
+              type: 'FontAwesome5',
+              onPress: routeWithImage('Gallery'),
+            },
+            {
+              name: 'camera-retro',
+              type: 'FontAwesome5',
+              onPress: routeWithImage('Camera'),
+            },
+          ]}
+        />
+      </BackgroundProvider>
     </DocRefContextProvider>
   );
 }

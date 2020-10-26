@@ -65,18 +65,21 @@ public class ReactImageManager extends SimpleViewManager<CustomImageView> {
 
     @ReactProp(name = "brightness")
     public void setBrightness(CustomImageView view, @Nullable float brightness) {
+	// Log.d("FILTER", brightness);
 	currentBright = brightness;
 	view.applyFilter(brightness,currentContrast,currentSat);
     }
 
     @ReactProp(name = "saturation")
     public void setSaturation(CustomImageView view, @Nullable float saturation) {
+	// Log.d("FILTER", saturation);
 	currentSat = saturation;
 	view.applyFilter(currentBright,currentContrast,saturation);
     }
 
     @ReactProp(name = "contrast")
     public void setContrast(CustomImageView view, @Nullable float contrast) {
+	// Log.d("FILTER", contrast);
 	currentContrast = contrast;
 	view.applyFilter(currentBright, contrast, currentSat);
     }

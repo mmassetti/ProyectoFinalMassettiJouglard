@@ -1,6 +1,6 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, BackHandler} from 'react-native';
 import {
   withAlertService,
   withFirebase,
@@ -13,13 +13,14 @@ import {
 import {SessionHeader} from './SessionHeader';
 import {useFocusEffect} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/stack';
-import {setSession} from '../../../store/actions';
+import {setSession, setLote} from '../../../store/actions';
 import {connect} from 'react-redux';
 import Notes from '../notes/Notes';
 
 function SessionDetails({
   navigation,
   setSession,
+  setLote,
   session,
   route,
   firebaseService,
@@ -28,11 +29,12 @@ function SessionDetails({
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [, , removeLotes] = useRecentLotes();
+  const [, removeLote, removeLotes] = useRecentLotes();
   const toggleRefresh = () => setRefresh(prev => !prev);
 
   useFocusEffect(
     React.useCallback(() => {
+      setLote({});
       async function retrieveDetails() {
         const {docRef, data} = await firebaseService.getDocRefInnerId(
           'sessionsDetails',
@@ -66,6 +68,14 @@ function SessionDetails({
           });
         });
     };
+    const navigateBack = () => {
+      if (navigation.isFocused('SessionDetails')) {
+        navigation.navigate('Main');
+        return true;
+      }
+      return false;
+    };
+    BackHandler.addEventListener('hardwareBackPress', navigateBack);
     navigation.setOptions({
       title: 'Detalles de la sesión',
       headerLeft: () => (
@@ -83,6 +93,9 @@ function SessionDetails({
         />
       ),
     });
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', navigateBack);
+    };
   }, [lotes, session]);
 
   return (
@@ -90,8 +103,8 @@ function SessionDetails({
       <View style={styles.viewContainer}>
         <SessionHeader item={item} />
         <Tabs
-          firstTitle="Lotes"
-          secondTitle="Notas"
+          firstTitle={`Lotes (${lotes.length})`}
+          secondTitle={`Notas`}
           FirstScreen={() => (
             <>
               {!lotes || lotes.length == 0 ? (
@@ -107,6 +120,8 @@ function SessionDetails({
                 data={lotes}
                 refresh={toggleRefresh}
                 detailsCollection="lotesDetails"
+                // @ts-ignore
+                customDelete={removeLote}
                 arrayName="lotes"
                 defaultObj={{pasturas: []}}
                 nextScreen="LoteDetails"
@@ -177,6 +192,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = {
   setSession,
+  setLote,
 };
 const mapStateToProps = state => {
   return {session: state.session};
