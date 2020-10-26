@@ -8,6 +8,7 @@ import {Singleton} from './singletonService';
 import {uuidv4} from './uuidService';
 import AsyncStorage from '@react-native-community/async-storage';
 import {store} from '../../store/index';
+import {addPhotoToSync, removeSyncPhoto} from './cloudinarySyncService';
 
 class InnerImageHandler {
   imagePicker;
