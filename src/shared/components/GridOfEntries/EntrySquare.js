@@ -5,7 +5,6 @@ import {percentages, mainThemeColor} from '../../../configuration';
 import {successThemeColor, warnThemeColor} from '../../../configuration/colors';
 
 export function EntrySquare({onDelete, item, onPress}) {
-  console.log('LoteRef', item.loteRef);
   return (
     <TouchableOpacity
       style={styles.container}

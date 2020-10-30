@@ -23,7 +23,6 @@ export class InnerFirebaseService extends FirebaseUtils {
       creationDate,
       ...detailsObj,
     });
-    console.log('Collection', addToCollection);
     this.addObjToArray(docRef, attribute, {
       id,
       ref: addToCollection,
@@ -50,18 +49,28 @@ export class InnerFirebaseService extends FirebaseUtils {
     const {session} = store.getState();
     this.deleteInBatch(lote.pasturas);
     lote.ref.delete();
-    return this.removeItemFromArray(session.docRef, 'lotes', lote.id);
+    return this.removeItemFromArray(
+      session.docRef,
+      session.data.lotes,
+      'lotes',
+      lote.id,
+    );
   }
   deletePastura(pastura) {
     const {lote} = store.getState();
     pastura.ref.delete();
-    return this.removeItemFromArray(lote.docRef, 'pasturas', pastura.id);
+    return this.removeItemFromArray(
+      lote.docRef,
+      lote.data.pasturas,
+      'pasturas',
+      pastura.id,
+    );
   }
 
   deleteSession(session) {
     this.deleteInBatch(session.lotes);
     this.getDocRefFromId('sessions', session.id).delete();
-    session.ref.delete();
+    return session.ref.delete();
   }
 }
 

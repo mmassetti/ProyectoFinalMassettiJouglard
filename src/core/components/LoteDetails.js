@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import {
   BackgroundProvider,
   BottomRightButton,
-  DocRefContextProvider,
   GridWithNewButton,
   ImagesTaken,
   Info,
@@ -88,82 +87,81 @@ function LoteDetails({
   };
 
   const routeWithImage = picker => async () => {
-    const imageResponse = await imageHandler.pickImage({docRef: lote.docRef})(
-      picker,
-    );
+    const imageResponse = await imageHandler.pickImage({
+      docRef: lote.docRef,
+      prevImages: images,
+    })(picker);
     navigation.navigate('Imagen', imageResponse);
   };
 
   return (
-    <DocRefContextProvider docRef={lote.docRef}>
-      <BackgroundProvider>
-        <View style={styles.detailsContainer}>
-          <Info item={item} />
-          <Tabs
-            secondTitle={`Pasturas (${pasturas.length})`}
-            firstTitle={`Imagenes (${images.length})`}
-            FirstScreen={() => (
-              <>
-                {!images || images.length === 0 ? (
-                  <View style={styles.centeredTextStyle}>
-                    <Text>
-                      Este lote todavía no tiene imágenes.{'\n'}
-                      {'\n'}Podés sacar una foto, cargar una imágen desde la
-                      galería, o bien crear una nueva pastura para este lote .
-                    </Text>
-                  </View>
-                ) : (
-                  <></>
-                )}
-                <ImagesTaken images={images} deleteImage={deleteImage} />
-                <BottomRightButton
-                  withBackground={true}
-                  buttons={[
-                    {
-                      name: 'upload',
-                      type: 'FontAwesome5',
-                      onPress: routeWithImage('Gallery'),
-                    },
-                    {
-                      name: 'camera-retro',
-                      type: 'FontAwesome5',
-                      onPress: routeWithImage('Camera'),
-                    },
-                  ]}
-                />
-              </>
-            )}
-            SecondScreen={() => (
-              <>
-                {!pasturas || pasturas.length === 0 ? (
-                  <View style={styles.centeredTextStyle}>
-                    <Text>Este lote todavía no tiene pasturas.</Text>
-                  </View>
-                ) : (
-                  <></>
-                )}
+    <BackgroundProvider>
+      <View style={styles.detailsContainer}>
+        <Info item={item} />
+        <Tabs
+          secondTitle={`Pasturas (${pasturas.length})`}
+          firstTitle={`Imagenes (${images.length})`}
+          FirstScreen={() => (
+            <>
+              {!images || images.length === 0 ? (
+                <View style={styles.centeredTextStyle}>
+                  <Text>
+                    Este lote todavía no tiene imágenes.{'\n'}
+                    {'\n'}Podés sacar una foto, cargar una imágen desde la
+                    galería, o bien crear una nueva pastura para este lote .
+                  </Text>
+                </View>
+              ) : (
+                <></>
+              )}
+              <ImagesTaken images={images} deleteImage={deleteImage} />
+              <BottomRightButton
+                withBackground={true}
+                buttons={[
+                  {
+                    name: 'upload',
+                    type: 'FontAwesome5',
+                    onPress: routeWithImage('Gallery'),
+                  },
+                  {
+                    name: 'camera-retro',
+                    type: 'FontAwesome5',
+                    onPress: routeWithImage('Camera'),
+                  },
+                ]}
+              />
+            </>
+          )}
+          SecondScreen={() => (
+            <>
+              {!pasturas || pasturas.length === 0 ? (
+                <View style={styles.centeredTextStyle}>
+                  <Text>Este lote todavía no tiene pasturas.</Text>
+                </View>
+              ) : (
+                <></>
+              )}
 
-                <GridWithNewButton
-                  newItemText="Nueva pastura"
-                  data={pasturas}
-                  arrayName="pasturas"
-                  detailsCollection="pasturasDetails"
-                  customDelete={item => {
-                    imageHandler.deletePasturaPercentageFromLote(item);
-                    firebase.deletePastura(item).then(toggleRefresh);
-                  }}
-                  refresh={toggleRefresh}
-                  defaultObj={{}}
-                  nextScreen="PasturasDetails"
-                  docRef={lote.docRef}
-                  esPastura
-                />
-              </>
-            )}
-          />
-        </View>
-      </BackgroundProvider>
-    </DocRefContextProvider>
+              <GridWithNewButton
+                newItemText="Nueva pastura"
+                data={pasturas}
+                arrayName="pasturas"
+                detailsCollection="pasturasDetails"
+                customDelete={item => {
+                  imageHandler.deletePasturaPercentageFromLote(item);
+                  firebase.deletePastura(item).then(toggleRefresh);
+                }}
+                refresh={toggleRefresh}
+                defaultObj={{}}
+                nextScreen="PasturasDetails"
+                docRef={lote.docRef}
+                esPastura
+              />
+            </>
+          )}
+        />
+      </View>
+    </BackgroundProvider>
   );
 }
 

@@ -15,25 +15,14 @@ export default function SessionItem(props) {
   return (
     <TouchableOpacity onPress={() => props.onItemPressed(item)}>
       <View style={[styles.container, index % 2 ? styles.odd : styles.even]}>
-        <Image
-          source={require('../../../../captures/Default.jpg')}
-          style={styles.image}
-        />
         <View style={styles.textContainer}>
           <Text numberOfLines={3} style={styles.titleText}>
             {sessionData.description}
           </Text>
 
-          <Text>Usuario: {sessionData.user}</Text>
+          <Text>Creada por: {sessionData.user}</Text>
           <Text>Fecha: {moment(sessionData.date.toDate()).format('L')}</Text>
         </View>
-        <Text
-          style={[
-            styles.status,
-            sessionData.active ? styles.activeSession : styles.closedSession,
-          ]}>
-          {sessionData.active ? 'Activa' : 'Cerrada'}
-        </Text>
       </View>
     </TouchableOpacity>
   );

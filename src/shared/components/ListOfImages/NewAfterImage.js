@@ -5,17 +5,26 @@ import {mainThemeColor, galleryCameraButtons} from '../../../configuration';
 import {withImageHandler} from '../HOCForInjection/WithService';
 import {withNavigation} from '@react-navigation/compat';
 import {DocRefContext} from '../DocRefContext';
+import {connect} from 'react-redux';
 
-function NewImage({reference, style, navigation, beforeId, imageHandler}) {
+function NewImage({
+  reference,
+  images = [],
+  docRef,
+  style,
+  navigation,
+  beforeId,
+  imageHandler,
+}) {
   const ref = useRef(null);
   useEffect(() => {
     reference(ref);
   });
-  const {docRef} = useContext(DocRefContext);
   const launch = picker => async () => {
     const imageResponse = await imageHandler.pickImage({
       docRef,
       beforeId,
+      prevImages: images,
     })(picker);
     navigation.navigate('Imagen', imageResponse);
   };
@@ -34,6 +43,11 @@ function NewImage({reference, style, navigation, beforeId, imageHandler}) {
   );
 }
 
+const mapStateToProps = state => {
+  if (state.pastura.data) return {images: state.pastura.data.images};
+  else return {images: state.lote.data?.images, docRef: state.lote.docRef};
+};
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#b1c8cd',
@@ -50,4 +64,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export const NewAfterImage = withNavigation(withImageHandler(NewImage));
+export const NewAfterImage = connect(mapStateToProps)(
+  withNavigation(withImageHandler(NewImage)),
+);

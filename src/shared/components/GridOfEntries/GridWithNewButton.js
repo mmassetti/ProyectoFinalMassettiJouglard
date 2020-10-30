@@ -32,18 +32,8 @@ export function InnerGrid({
       msgAlert =
         '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ';
     }
-
     alertService.showConfirmDialog(msgAlert).then(() => {
       customDelete(item);
-      // firebaseService.deleteInBatch(item);
-      // @ts-ignore
-      // removeLoteFromStorage(item.id);
-      // firebaseService.removeItemFromArray(docRef, 'lotes', item.id);
-      // item.ref.delete();
-      // refresh();
-      // firebaseService
-      //   .remove(docRef, arrayName, detailsCollection, id)
-      //   .then(refresh);
     });
   };
   const route = item => {

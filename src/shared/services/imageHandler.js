@@ -15,6 +15,7 @@ class InnerImageHandler {
   imageProcessor;
   firebaseService;
   cloudinaryService;
+  cloudinarySyncService;
 
   constructor() {
     this.imagePicker = ImagePickerService.getInstance();
@@ -41,8 +42,6 @@ class InnerImageHandler {
         image = uri,
         note,
       ) => {
-        console.log('inside', image);
-        console.log('percentages', percentages);
         const imageId = uuidv4();
         this.saveImageLocally(imageId, image);
         return this.saveImageInTheCloud(
@@ -84,22 +83,34 @@ class InnerImageHandler {
     AsyncStorage.setItem(imageId, uri);
   }
   async saveImageInTheCloud(imageId, uri, percentages, saveConfig, note) {
-    const secure_url = await this.cloudinaryService.uploadPhoto(uri);
+    let secure_url = '';
+    await addPhotoToSync({
+      imageId,
+      id: saveConfig.docRef.id,
+      isBefore: !saveConfig.beforeId,
+      collectionName: saveConfig.docRef._documentPath._parts[0],
+      uri,
+    });
+    secure_url = await this.cloudinaryService
+      .uploadPhoto(uri)
+      .then(secure_url => {
+        console.log('Entra then');
+        removeSyncPhoto(imageId);
+        return secure_url;
+      })
+      .catch(console.log);
+
     const imageToAdd = {
       id: imageId,
       percentages,
       uri: secure_url,
       note,
     };
-    console.log('percentages', percentages);
-    const percentagesPromise = this.recalculateNewPercentages(
+    this.recalculateNewPercentages(
       percentages,
       !saveConfig.beforeId ? 'Before' : 'After',
     ).commit();
-    const uploadPromise = this.firebaseService.uploadPhoto(
-      saveConfig,
-      imageToAdd,
-    );
+    this.firebaseService.uploadPhoto(saveConfig, imageToAdd);
     return Promise.all([]);
   }
 

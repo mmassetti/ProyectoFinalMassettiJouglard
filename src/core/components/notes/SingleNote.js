@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   deleteIcon: {
     color: warnThemeColor(0.7),
-    fontSize: 18,
+    fontSize: 21,
   },
 });
 

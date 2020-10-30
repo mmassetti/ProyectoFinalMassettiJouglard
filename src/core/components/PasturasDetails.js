@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {
   withFirebase,
   withImageHandler,
@@ -6,7 +6,6 @@ import {
   ImagesTaken,
   BottomRightButton,
   NavDeleteButton,
-  DocRefContextProvider,
   Info,
   BackgroundProvider,
 } from '../../shared';
@@ -43,9 +42,8 @@ function InnerPasturasDetails({
                 '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ',
               )
               .then(() => {
-                firebaseService
-                  .remove(lote.docRef, 'pasturas', 'pasturasDetails', item.id)
-                  .then(navigation.goBack);
+                firebaseService.deletePastura(item);
+                navigation.goBack();
               });
           }}
         />
@@ -54,14 +52,12 @@ function InnerPasturasDetails({
   }, []);
 
   useFocusEffect(
-    React.useCallback(() => {
-      console.log('Focus');
-      firebaseService
-        .getDocRefInnerId('pasturasDetails', item.id)
-        .then(({docRef, data}) => {
-          setImages(data.images);
-          setPastura({docRef, data});
-        });
+    useCallback(() => {
+      item.ref.get().then(doc => {
+        const data = doc.data();
+        setImages(data.images);
+        setPastura({docRef: item.ref, data});
+      });
       return () => {};
     }, [item.id, refresh]),
   );
@@ -69,12 +65,16 @@ function InnerPasturasDetails({
   const routeWithImage = picker => async () => {
     const imageResponse = await imageHandler.pickImage({
       docRef: pastura.docRef,
+      prevImages: images,
     })(picker);
     navigation.navigate('Imagen', imageResponse);
   };
 
   const deleteImage = item => isBefore => () => {
-    alerts.showConfirmDialog('Atencion! Se eliminara la imagen').then(() => {
+    const message = isBefore
+      ? 'Atencion! Se eliminara tanto la imagen de antes como la de despues.'
+      : 'Atencion! Se eliminar la imagen del despues';
+    alerts.showConfirmDialog(message).then(() => {
       imageHandler
         .deletePhoto(item, isBefore ? 'Before' : 'After')
         .then(toggleRefresh);
@@ -82,27 +82,25 @@ function InnerPasturasDetails({
   };
 
   return (
-    <DocRefContextProvider docRef={pastura.docRef}>
-      <BackgroundProvider>
-        <Info item={item} />
-        <ImagesTaken images={images} deleteImage={deleteImage} />
-        <BottomRightButton
-          withBackground={true}
-          buttons={[
-            {
-              name: 'upload',
-              type: 'FontAwesome5',
-              onPress: routeWithImage('Gallery'),
-            },
-            {
-              name: 'camera-retro',
-              type: 'FontAwesome5',
-              onPress: routeWithImage('Camera'),
-            },
-          ]}
-        />
-      </BackgroundProvider>
-    </DocRefContextProvider>
+    <BackgroundProvider>
+      <Info item={item} />
+      <ImagesTaken images={images} deleteImage={deleteImage} />
+      <BottomRightButton
+        withBackground={true}
+        buttons={[
+          {
+            name: 'upload',
+            type: 'FontAwesome5',
+            onPress: routeWithImage('Gallery'),
+          },
+          {
+            name: 'camera-retro',
+            type: 'FontAwesome5',
+            onPress: routeWithImage('Camera'),
+          },
+        ]}
+      />
+    </BackgroundProvider>
   );
 }
 

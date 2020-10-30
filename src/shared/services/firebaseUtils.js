@@ -49,9 +49,7 @@ export class FirebaseUtils {
     });
   };
 
-  removeItemFromArray = async (docRef, attribute, idToRemove) => {
-    const response = await docRef.get();
-    const oldArray = response.data()[attribute];
+  removeItemFromArray = async (docRef, oldArray, attribute, idToRemove) => {
     const newArray = oldArray.filter(item => item.id !== idToRemove);
     return docRef.update({
       [attribute]: newArray,
@@ -71,13 +69,12 @@ export class FirebaseUtils {
     });
   };
 
-  uploadPhoto = async ({docRef, beforeId}, imageToAdd) => {
+  uploadPhoto = async ({docRef, beforeId, prevImages = []}, imageToAdd) => {
     let newImages;
     if (!beforeId) {
-      newImages = firestore.FieldValue.arrayUnion({before: imageToAdd});
+      newImages = prevImages.concat([{before: imageToAdd}]);
     } else {
-      const data = (await docRef.get()).data();
-      newImages = data.images.map(image => {
+      newImages = prevImages.map(image => {
         return image.before.id == beforeId
           ? {...image, after: imageToAdd}
           : image;
@@ -117,5 +114,25 @@ export class FirebaseUtils {
   appendUpdateToBatch(docRef, obj, batch = firestore().batch()) {
     batch.update(docRef, obj);
     return batch;
+  }
+  updatePhotoPic({id, imageId, isBefore, collectionName}, url) {
+    const docRef = firestore()
+      .collection(collectionName)
+      .doc(id);
+
+    return firestore().runTransaction(transaction => {
+      return transaction.get(docRef).then(doc => {
+        const images = doc.data().images;
+        const newImages = images.map(img => {
+          if (img.before.id == imageId) {
+            img.before.uri = url;
+          } else if (img.after.id == imageId) {
+            img.after.uri = url;
+          }
+          return img;
+        });
+        return transaction.update(docRef, {images: newImages});
+      });
+    });
   }
 }

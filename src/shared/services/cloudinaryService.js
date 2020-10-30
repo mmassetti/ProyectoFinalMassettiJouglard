@@ -33,10 +33,7 @@ class InnerCloudinaryService {
         ),
       )
       .then(response => response.json())
-      .then(({secure_url}) => secure_url)
-      .catch(err => {
-        // console.log('Error cloudinary', err);
-      });
+      .then(({secure_url}) => secure_url);
   }
 
   async getSignature(timestamp, secret) {

@@ -9,10 +9,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
   const [originalImage, setOriginalImage] = useState(params.originalImage);
   const [processedImage, setProcessedImage] = useState(params.processedImage);
   const [percentages, setPercentages] = useState(params.percentages);
-  let note;
-  const setNote = text => {
-    note = text;
-  };
+  const [note, setNote] = useState('');
 
   const updateOriginalImage = async newUri => {
     let {
@@ -59,7 +56,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
       {onSave ? (
         <Tabs
           FirstScreen={getImageView}
-          SecondScreen={() => <ImageNotes updateNote={setNote} />}
+          SecondScreen={() => <ImageNotes value={note} updateNote={setNote} />}
           secondTitle="Notas"
           firstTitle="Analisis"
         />

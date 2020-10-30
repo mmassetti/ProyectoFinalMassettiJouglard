@@ -1,6 +1,12 @@
 import React from 'react';
-import {MyInput} from '../Input';
+import {Input} from '../CustomInput';
 
-export function ImageNotes({updateNote}) {
-  return <MyInput placeholder="Escriba una nota..." onChange={updateNote} />;
+export function ImageNotes({value, updateNote}) {
+  return (
+    <Input
+      placeholder="Escriba una nota..."
+      value={value}
+      onChange={updateNote}
+    />
+  );
 }
