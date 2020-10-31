@@ -37,7 +37,6 @@ function SessionDetails({
       setLote({});
       async function retrieveDetails() {
         const data = (await item.ref.get()).data();
-        console.log(data);
         setLotes(data.lotes.reverse() || []);
         setSession({docRef: item.ref, data});
       }
@@ -115,7 +114,6 @@ function SessionDetails({
                 detailsCollection="lotesDetails"
                 // @ts-ignore
                 customDelete={item => {
-                  console.log('lote', item.ref);
                   firebaseService
                     .deleteLote({...item, pasturas: []})
                     .then(toggleRefresh);
@@ -131,7 +129,7 @@ function SessionDetails({
           )}
           SecondScreen={() => (
             <Notes
-              sessionData={session.data}
+              notes={session.data?.notes}
               docRef={session.docRef}
               refresh={toggleRefresh}
             />

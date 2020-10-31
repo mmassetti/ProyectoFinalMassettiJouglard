@@ -115,7 +115,7 @@ export class FirebaseUtils {
     batch.update(docRef, obj);
     return batch;
   }
-  updatePhotoPic({id, imageId, isBefore, collectionName}, url) {
+  updatePhotoPic({id, imageId, collectionName}, url) {
     const docRef = firestore()
       .collection(collectionName)
       .doc(id);
@@ -126,7 +126,7 @@ export class FirebaseUtils {
         const newImages = images.map(img => {
           if (img.before.id == imageId) {
             img.before.uri = url;
-          } else if (img.after.id == imageId) {
+          } else if (img.after?.id == imageId) {
             img.after.uri = url;
           }
           return img;

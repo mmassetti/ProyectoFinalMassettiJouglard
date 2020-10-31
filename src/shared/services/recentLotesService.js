@@ -1,26 +1,27 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-async function addLoteToStorage(session, lote) {
+export async function addLoteToStorage(session, lote) {
   return transformRecent(arrayOfLotes => {
     const arrayWithoutLote = arrayOfLotes.filter(
-      prev => prev.lote.id !== lote.id,
+      prev => prev.lote.id !== lote.ref.id,
     );
     lote.date = lote.creationDate.toDate();
     arrayWithoutLote.push({
-      session: {data: session.data, id: session.docRef.id},
-      lote,
+      session: {id: session.docRef.id},
+      lote: {id: lote.ref.id},
     });
+    arrayWithoutLote.map(console.log);
     return arrayWithoutLote.slice(-10);
   });
 }
 
-async function removeLoteFromArray(id) {
+export async function removeLoteFromArray(id) {
   return transformRecent(arrayOfLotes =>
     arrayOfLotes.filter(prev => prev.lote.id !== id),
   );
 }
 
-async function removeSetOfLotes(ids) {
+export async function removeSetOfLotes(ids) {
   return transformRecent(arrayRecents => {
     const recentsWithOutLote = arrayRecents.filter(
       item => ids.findIndex(id => id == item.lote.id) < 0,
@@ -28,10 +29,12 @@ async function removeSetOfLotes(ids) {
     return recentsWithOutLote;
   });
 }
-async function transformRecent(fn) {
+export async function transformRecent(fn) {
   return AsyncStorage.getItem('recentLotes').then(recent => {
     const arrayRecents = JSON.parse(recent) || [];
-    AsyncStorage.setItem('recentLotes', JSON.stringify(fn(arrayRecents)));
+    const transformedArray = fn(arrayRecents);
+    console.log('transformedArray', transformedArray);
+    AsyncStorage.setItem('recentLotes', JSON.stringify(transformedArray));
   });
 }
 async function recentsLotes() {

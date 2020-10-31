@@ -23,14 +23,11 @@ export async function getPhotosToSync() {
 
 export async function syncPhotosWithCloudinary() {
   const photos = (await getPhotosToSync()) || [];
-  console.log('Photos', photos);
   for (pic of photos) {
-    console.log('PIC', pic);
-    cloudinaryService.uploadPhoto(pic.uri).then(secure_url => {
+    cloudinaryService.uploadPhotoWithoutSpinner(pic.uri).then(secure_url => {
       console.log('SecureURL', secure_url);
-      firebaseService.updatePhotoPic(pic, secure_url).then(() => {
-        removeSyncPhoto(pic.imageId);
-      });
+      firebaseService.updatePhotoPic(pic, secure_url);
+      removeSyncPhoto(pic.imageId);
     });
   }
 }

@@ -31,6 +31,7 @@
     "react-combine-reducers": "^1.0.4",
     "react-native": "^0.63.2",
     "react-native-app-intro-slider": "^3.0.0",
+    "react-native-background-timer": "^2.4.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.1",

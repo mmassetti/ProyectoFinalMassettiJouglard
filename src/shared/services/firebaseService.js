@@ -4,6 +4,7 @@ import {Singleton} from './singletonService';
 import {FirebaseUtils} from './firebaseUtils';
 import {uuidv4 as uniqueId} from './uuidService';
 import {store} from '../../store';
+import {removeLoteFromArray, removeSetOfLotes} from './recentLotesService';
 
 export class InnerFirebaseService extends FirebaseUtils {
   async remove(sessionRef, attribute, detailsCollection, id) {
@@ -48,6 +49,8 @@ export class InnerFirebaseService extends FirebaseUtils {
   deleteLote(lote) {
     const {session} = store.getState();
     this.deleteInBatch(lote.pasturas);
+    removeLoteFromArray(lote.ref.id);
+    console.log('lote', lote);
     lote.ref.delete();
     return this.removeItemFromArray(
       session.docRef,
@@ -69,6 +72,9 @@ export class InnerFirebaseService extends FirebaseUtils {
 
   deleteSession(session) {
     this.deleteInBatch(session.lotes);
+    const lotesIds = session.lotes.map(lote => lote.ref.id);
+    console.log('lotesIds', lotesIds);
+    removeSetOfLotes(lotesIds);
     this.getDocRefFromId('sessions', session.id).delete();
     return session.ref.delete();
   }

@@ -84,21 +84,20 @@ class InnerImageHandler {
   }
   async saveImageInTheCloud(imageId, uri, percentages, saveConfig, note) {
     let secure_url = '';
-    await addPhotoToSync({
-      imageId,
-      id: saveConfig.docRef.id,
-      isBefore: !saveConfig.beforeId,
-      collectionName: saveConfig.docRef._documentPath._parts[0],
-      uri,
-    });
     secure_url = await this.cloudinaryService
       .uploadPhoto(uri)
       .then(secure_url => {
-        console.log('Entra then');
-        removeSyncPhoto(imageId);
         return secure_url;
       })
-      .catch(console.log);
+      .catch(() => {
+        addPhotoToSync({
+          imageId,
+          id: saveConfig.docRef.id,
+          isBefore: !saveConfig.beforeId,
+          collectionName: saveConfig.docRef._documentPath._parts[0],
+          uri,
+        });
+      });
 
     const imageToAdd = {
       id: imageId,

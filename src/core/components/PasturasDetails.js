@@ -75,9 +75,8 @@ function InnerPasturasDetails({
       ? 'Atencion! Se eliminara tanto la imagen de antes como la de despues.'
       : 'Atencion! Se eliminar la imagen del despues';
     alerts.showConfirmDialog(message).then(() => {
-      imageHandler
-        .deletePhoto(item, isBefore ? 'Before' : 'After')
-        .then(toggleRefresh);
+      imageHandler.deletePhoto(item, isBefore ? 'Before' : 'After');
+      toggleRefresh();
     });
   };
 
