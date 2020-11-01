@@ -148,7 +148,8 @@ function LoteDetails({
                 detailsCollection="pasturasDetails"
                 customDelete={item => {
                   imageHandler.deletePasturaPercentageFromLote(item);
-                  firebase.deletePastura(item).then(toggleRefresh);
+                  firebase.deletePastura(item);
+                  toggleRefresh();
                 }}
                 refresh={toggleRefresh}
                 defaultObj={{}}

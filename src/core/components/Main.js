@@ -61,7 +61,6 @@ function TabNavigator() {
         options={{
           tabBarIcon: iconForTab(tabBarIcons['fastProcess']),
           tabBarLabel: showTitle('Proceso rapido'),
-          title: 'Proceso rápido',
         }}
       />
     </Tab.Navigator>

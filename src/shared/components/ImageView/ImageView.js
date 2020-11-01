@@ -34,6 +34,7 @@ export function ImageView({
         onImageAdjusted={updateOriginalImage}
         imageToEdit={staticOriginal}
         shouldRotate={shouldRotate}
+        nonProcessedImage={originalImage}
         imageToShow={getImage()}
       />
       <Percentages percentages={percentages} />

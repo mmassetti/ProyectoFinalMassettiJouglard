@@ -114,9 +114,8 @@ function SessionDetails({
                 detailsCollection="lotesDetails"
                 // @ts-ignore
                 customDelete={item => {
-                  firebaseService
-                    .deleteLote({...item, pasturas: []})
-                    .then(toggleRefresh);
+                  firebaseService.deleteLote({...item, pasturas: []});
+                  toggleRefresh();
                   // // @ts-ignore
                   // removeLote(item.id);
                 }}
