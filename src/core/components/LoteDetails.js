@@ -77,8 +77,8 @@ function LoteDetails({
 
   const deleteImage = item => isBefore => () => {
     const message = isBefore
-      ? 'Atencion! Se eliminara tanto la imagen de antes como la de despues.'
-      : 'Atencion! Se eliminar la imagen del despues';
+      ? '¡Atención! Se eliminará tanto la imágen del antes como la del después (en caso de existir).'
+      : '¡Atención! Se eliminará la imágen del después';
     alerts.showConfirmDialog(message).then(() => {
       imageHandler.deletePhoto(item, isBefore ? 'Before' : 'After');
       toggleRefresh();
@@ -90,7 +90,7 @@ function LoteDetails({
       docRef: lote.docRef,
       prevImages: images,
     })(picker);
-    navigation.navigate('Imagen', imageResponse);
+    navigation.navigate('Imágen', imageResponse);
   };
 
   return (
@@ -99,7 +99,7 @@ function LoteDetails({
         <Info item={item} />
         <Tabs
           secondTitle={`Pasturas (${pasturas.length})`}
-          firstTitle={`Imagenes (${images.length})`}
+          firstTitle={`Imágenes (${images.length})`}
           FirstScreen={() => (
             <>
               {!images || images.length === 0 ? (

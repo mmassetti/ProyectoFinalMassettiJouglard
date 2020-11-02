@@ -6,7 +6,7 @@ import {mainThemeColor} from '../../../configuration';
 import {Background} from '../BackgroundFull';
 import {PopoverInfo} from './Popover';
 
-export function Info({item}) {
+export function Info({item, isPastura}) {
   const [showInfo, setShowInfo] = useState(false);
 
   const toggleInfo = showInfo => () => {
@@ -31,7 +31,8 @@ export function Info({item}) {
           {item?.description}
         </Text>
         <Text style={{fontWeight: 'bold', color: 'grey'}}>
-          Creado el {moment(item?.creationDate.toDate())?.format('L')}
+          {isPastura ? 'Creada' : 'Creado'} el{' '}
+          {moment(item?.creationDate.toDate())?.format('L')}
         </Text>
       </View>
       <TouchableOpacity onPress={toggleInfo(true)} style={styles.button}>

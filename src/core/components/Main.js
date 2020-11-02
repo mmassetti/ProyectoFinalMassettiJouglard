@@ -60,7 +60,7 @@ function TabNavigator() {
         component={GalleryCamera}
         options={{
           tabBarIcon: iconForTab(tabBarIcons['fastProcess']),
-          tabBarLabel: showTitle('Proceso rapido'),
+          tabBarLabel: showTitle('Proceso rápido'),
         }}
       />
     </Tab.Navigator>

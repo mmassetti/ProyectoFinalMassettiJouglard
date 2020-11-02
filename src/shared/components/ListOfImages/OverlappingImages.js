@@ -105,7 +105,7 @@ export function OverlappingEntries({item, deleteImage}) {
       {item.after ? (
         <OurImage
           reference={ref => (image2 = ref)}
-          text={opened ? 'Despues' : ''}
+          text={opened ? 'Después' : ''}
           style={[backEntryStyles, {opacity}]}
           image={item.after}
           onPress={() => setBackground(item.before.id)}

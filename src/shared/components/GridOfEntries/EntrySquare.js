@@ -30,7 +30,7 @@ export function EntrySquare({onDelete, item, onPress}) {
         })}
       </View>
       <Text>% promedio Antes</Text>
-      <Text>Imagenes Antes: {item.totalImagesBefore}</Text>
+      <Text>Imágenes Antes: {item.totalImagesBefore}</Text>
     </TouchableOpacity>
   );
 }

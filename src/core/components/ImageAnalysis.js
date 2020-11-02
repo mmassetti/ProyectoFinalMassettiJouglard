@@ -58,7 +58,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
           FirstScreen={getImageView}
           SecondScreen={() => <ImageNotes value={note} updateNote={setNote} />}
           secondTitle="Notas"
-          firstTitle="Analisis"
+          firstTitle="Análisis"
         />
       ) : (
         getImageView()

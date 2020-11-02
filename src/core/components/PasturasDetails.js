@@ -72,8 +72,8 @@ function InnerPasturasDetails({
 
   const deleteImage = item => isBefore => () => {
     const message = isBefore
-      ? 'Atencion! Se eliminara tanto la imagen de antes como la de despues.'
-      : 'Atencion! Se eliminar la imagen del despues';
+      ? '¡Atencion! Se eliminará tanto la imágen de antes como la de después.'
+      : '¡Atencion! Se eliminará la imágen del después';
     alerts.showConfirmDialog(message).then(() => {
       imageHandler.deletePhoto(item, isBefore ? 'Before' : 'After');
       toggleRefresh();
@@ -82,7 +82,7 @@ function InnerPasturasDetails({
 
   return (
     <BackgroundProvider>
-      <Info item={item} />
+      <Info item={item} isPastura={true} />
       <ImagesTaken images={images} deleteImage={deleteImage} />
       <BottomRightButton
         withBackground={true}

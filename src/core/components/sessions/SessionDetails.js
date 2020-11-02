@@ -96,10 +96,12 @@ function SessionDetails({
         <SessionHeader item={item} />
         <Tabs
           firstTitle={`Lotes (${lotes.length})`}
-          secondTitle={`Notas (${session.data?.notes.length})`}
+          secondTitle={`Notas (${
+            session.data ? session.data.notes.length : 0
+          })`}
           FirstScreen={() => (
             <>
-              {!lotes || lotes.length == 0 ? (
+              {!lotes || lotes.length === 0 ? (
                 <View style={styles.centeredTextStyle}>
                   <Text>Esta sesión todavía no tiene lotes.</Text>
                 </View>
