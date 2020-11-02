@@ -30,7 +30,7 @@ export function Promedio({averages, title, totalImages}) {
           fontSize: 15,
           marginRight: '5%',
         }}>
-        Cantidad de imagenes: {totalImages}
+        Cantidad de imágenes: {totalImages}
       </Text>
     </View>
   );
@@ -39,7 +39,7 @@ export function Promedio({averages, title, totalImages}) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
     width: '100%',
   },
   percentagesContainer: {
