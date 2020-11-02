@@ -32,7 +32,9 @@ function NewSession(props) {
   const showDatePicker = () => {
     return (
       <View style={{width: '100%', alignItems: 'center'}}>
-        <Label style={{marginBottom: 10}}>Fecha de creacion</Label>
+        <Label style={{marginBottom: 10, fontWeight: 'bold'}}>
+          Fecha de creacion:
+        </Label>
         <DatePicker
           style={{width: 200, marginBottom: 15}}
           date={date}
@@ -64,9 +66,8 @@ function NewSession(props) {
   const showDescription = () => {
     return (
       <View style={{width: '100%', alignItems: 'center'}}>
-        <Label>Descripcion</Label>
+        <Label style={{fontWeight: 'bold'}}>Descripción</Label>
         <Input
-          // autoFocus
           placeholder="Escribir una breve descripción de la sesión..."
           value={description}
           onChange={setDescription}
@@ -74,24 +75,11 @@ function NewSession(props) {
       </View>
     );
   };
-  const showName = () => {
-    return (
-      <View style={{width: '100%', alignItems: 'center'}}>
-        <Label>Nombre de la sesion</Label>
-        <Input
-          // autoFocus
-          placeholder="Escribir un nombre..."
-          maxLength={20}
-          value={sessionName}
-          onChange={setSessionName}
-        />
-      </View>
-    );
-  };
+
   const showCreatedBy = () => {
     return (
       <View style={{width: '100%', alignItems: 'center'}}>
-        <Label>Creada por</Label>
+        <Label style={{fontWeight: 'bold'}}>Creada por:</Label>
         <Item>
           <NativeInput
             maxLength={15}
@@ -170,8 +158,9 @@ function NewSession(props) {
           borderColor: '#aaa',
           borderBottomWidth: 2,
           marginBottom: 30,
+          paddingLeft: 10,
         }}>
-        Formulario para crear nueva sesion
+        Formulario para crear nueva sesión
       </Text>
       <Form
         style={{
