@@ -29,7 +29,7 @@ function SessionDetails({
   const {item, itemId} = route.params;
   const [lotes, setLotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [, removeLote, removeLotes] = useRecentLotes();
+  const [removeLote, removeLotes] = useRecentLotes();
   const toggleRefresh = () => setRefresh(prev => !prev);
 
   useFocusEffect(
@@ -96,7 +96,7 @@ function SessionDetails({
         <SessionHeader item={item} />
         <Tabs
           firstTitle={`Lotes (${lotes.length})`}
-          secondTitle={`Notas`}
+          secondTitle={`Notas (${session.data?.notes.length})`}
           FirstScreen={() => (
             <>
               {!lotes || lotes.length == 0 ? (

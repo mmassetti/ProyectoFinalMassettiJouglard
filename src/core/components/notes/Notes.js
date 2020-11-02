@@ -1,12 +1,8 @@
 import React, {useState} from 'react';
-import {Text, View, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import {
-  withAlertService,
-  withFirebase,
-} from '../../../shared/components/HOCForInjection/WithService';
+import {Text, View, FlatList, StyleSheet} from 'react-native';
+import {withFirebase} from '../../../shared/components/HOCForInjection/WithService';
 import SingleNote from './SingleNote';
-import {mainThemeColor} from '../../../configuration/colors';
-import {MyInput, Input} from '../../../shared';
+import {Input} from '../../../shared';
 import {Button} from 'native-base';
 
 function Notes({notes, firebaseService, alertService, docRef, refresh}) {
@@ -37,12 +33,8 @@ function Notes({notes, firebaseService, alertService, docRef, refresh}) {
   };
 
   const onNewNotePress = () => {
-    alertService
-      .showConfirmDialog('Seguro/a que quiere guardar esta nota?')
-      .then(() => {
-        firebaseService.addObjToArray(docRef, 'notes', newNote).then(refresh);
-        setNewNote('');
-      });
+    firebaseService.addObjToArray(docRef, 'notes', newNote).then(refresh);
+    setNewNote('');
   };
 
   return (
@@ -74,7 +66,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     padding: 10,
   },
-  containerStyle: {},
+  containerStyle: {flex: 1},
   button: {
     alignSelf: 'flex-end',
     borderRadius: 10,
@@ -88,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAlertService(withFirebase(Notes));
+export default withFirebase(Notes);
