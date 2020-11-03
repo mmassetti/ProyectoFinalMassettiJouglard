@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import SessionsList from './sessions/SessionsList';
 import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
@@ -14,6 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {PasturasDetail} from './PasturasDetails';
 import {Recents} from './Recents';
 import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
+import InfoHelp from './InfoHelp';
 
 const iconForTab = icon => ({focused}) => {
   return (
@@ -85,7 +86,7 @@ function RootStack(props) {
     <Stack.Navigator initialRouteName="Main" gestureEnabled="false">
       <Stack.Screen
         name="Main"
-        component={TabNavigator}
+        component={showInfo ? InfoHelp : TabNavigator}
         options={{
           title: 'CoverApp',
           headerStyle: {
@@ -111,13 +112,6 @@ function RootStack(props) {
                 <MenuItem onPress={showMenuInfo}>Ayuda</MenuItem>
               </Menu>
             </View>
-            // <TouchableOpacity onPress={props.onHideTour(null)}>
-            //   <Icon
-            //     style={styles.menuIcon}
-            //     type="FontAwesome5"
-            //     name="question-circle"
-            //   />
-            // </TouchableOpacity>
           ),
         }}
       />
@@ -135,6 +129,13 @@ function RootStack(props) {
 }
 
 export default function Main(props) {
+  // useEffect(() => {
+  //   if (route && route?.params?.showInfo && route.params.showInfo === false) {
+  //     console.log('VIno false');
+  //   }
+  //   return () => {};
+  // }, []);
+
   return (
     <NavigationContainer>
       <RootStack onHideTour={props.onHideTour} />
