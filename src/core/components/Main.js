@@ -2,10 +2,10 @@ import React from 'react';
 import SessionsList from './sessions/SessionsList';
 import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import ImageAnalysis from './ImageAnalysis';
 import SessionDetails from './sessions/SessionDetails';
-import {tabBarIcons} from '../../configuration';
+import {tabBarIcons, mainThemeColor} from '../../configuration';
 import LoteDetails from './LoteDetails';
 import {Icon} from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -68,13 +68,29 @@ function TabNavigator() {
 }
 const Stack = createStackNavigator();
 
-function RootStack() {
+function RootStack(props) {
   return (
     <Stack.Navigator initialRouteName="Main" gestureEnabled="false">
       <Stack.Screen
-        name="Main"
+        name="IntApp"
         component={TabNavigator}
-        options={{headerShown: false}}
+        options={{
+          showTitle: false,
+          headerStyle: {
+            elevation: 0,
+            backgroundColor: mainThemeColor(1),
+          },
+          headerTintColor: '#f5f7f7',
+          headerRight: () => (
+            <TouchableOpacity onPress={props.onHideTour(null)}>
+              <Icon
+                style={styles.menuIcon}
+                type="FontAwesome5"
+                name="question-circle"
+              />
+            </TouchableOpacity>
+          ),
+        }}
       />
       <Stack.Screen name="Imagen" component={ImageAnalysis} />
       <Stack.Screen
@@ -89,10 +105,10 @@ function RootStack() {
   );
 }
 
-export default function Main() {
+export default function Main(props) {
   return (
     <NavigationContainer>
-      <RootStack />
+      <RootStack onHideTour={props.onHideTour} />
     </NavigationContainer>
   );
 }
@@ -106,5 +122,6 @@ const styles = StyleSheet.create({
   menuIcon: {
     color: '#C6C6C5',
     fontSize: 27,
+    padding: 10,
   },
 });

@@ -19,10 +19,8 @@ function App() {
 
   useEffect(() => {
     if (!netStatus) {
-      console.log('disabled');
       firestore().disableNetwork();
     } else {
-      console.log('enabled');
       firestore().enableNetwork();
     }
   });
@@ -83,7 +81,7 @@ function App() {
     return (
       <Provider store={store}>
         {!netStatus ? <NetStatusBar /> : null}
-        <Main />
+        <Main onHideTour={hideTour} />
         <OurSpinner show={spinner} />
       </Provider>
     );
