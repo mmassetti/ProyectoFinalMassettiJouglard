@@ -73,6 +73,7 @@ function LoteDetails({
 
   useEffect(() => {
     addLoteToStorage(session, item);
+    return () => {};
   }, []);
 
   const deleteImage = item => isBefore => () => {
@@ -90,7 +91,7 @@ function LoteDetails({
       docRef: lote.docRef,
       prevImages: images,
     })(picker);
-    navigation.navigate('Imágen', imageResponse);
+    navigation.navigate('Imagen', imageResponse);
   };
 
   return (
