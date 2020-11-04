@@ -18,7 +18,7 @@ const dataArray = [
     title: '¿Cúal es la página web para ver la info de la app?',
     content: (
       <HyperLink linkDefault={true} linkStyle={{color: 'blue'}}>
-        <Text style={{fontSize: 15}}>La web es: https://holajj.vercel.app</Text>
+        <Text>La web es: https://holajj.vercel.app</Text>
       </HyperLink>
     ),
   },
@@ -68,7 +68,23 @@ const dataArray = [
       </Text>
     ),
   },
-  {title: '¿Qué puedo hacer en la web?', content: 'Lorem ipsum dolor sit amet'},
+  {
+    title: '¿Qué puedo hacer en la web?',
+    content: (
+      <Text>
+        En la web podrás ver toda la información de las sesiones de una manera
+        mas organizada y gráfica. {'\n'}Además, podrás{' '}
+        <Text style={{fontWeight: 'bold'}}>descargar un archivo PDF </Text>con
+        la información asociada a una sesión elegida. {'\n'}Por otro lado,
+        podrás
+        <Text style={{fontWeight: 'bold'}}> editar</Text> descripciones de las
+        sesiones, lotes y pasturas, como así también las notas.{'\n'}A
+        diferencia de esta aplicación móvil, en la página web no permitiremos
+        eliminar sesiones, lotes, pasturas, imágenes o notas, hasta que no se
+        implemente el sistema de Registro y Logueo de usuarios
+      </Text>
+    ),
+  },
 ];
 
 function InfoHelp({navigation}) {
