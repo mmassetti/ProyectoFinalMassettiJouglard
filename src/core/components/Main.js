@@ -1,19 +1,19 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import SessionsList from './sessions/SessionsList';
 import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import ImageAnalysis from './ImageAnalysis';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons, mainThemeColor} from '../../configuration';
 import LoteDetails from './LoteDetails';
 import {Icon} from 'native-base';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {PasturasDetail} from './PasturasDetails';
 import {Recents} from './Recents';
-import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
+import Menu, {MenuItem} from 'react-native-material-menu';
 import InfoHelp from './InfoHelp';
 
 const iconForTab = icon => ({focused}) => {
@@ -82,63 +82,83 @@ function RootStack(props) {
     hideMenu();
   };
 
-  return (
-    <Stack.Navigator initialRouteName="Main" gestureEnabled="false">
-      <Stack.Screen
-        name="Main"
-        component={showInfo ? InfoHelp : TabNavigator}
-        options={{
-          title: 'CoverApp',
-          headerStyle: {
-            elevation: 0,
-            backgroundColor: mainThemeColor(1),
-          },
-          headerTintColor: '#f5f7f7',
-          headerRight: () => (
-            <View style={styles.headerRightMenu}>
-              <Menu
-                ref={menu}
-                button={
-                  <Icon
-                    style={styles.menuIcon}
-                    type="MaterialIcons"
-                    name="menu"
-                    onPress={showMenu}
-                  />
-                }>
-                <MenuItem onPress={props.onHideTour(null)}>
-                  Ver tutorial
-                </MenuItem>
-                <MenuItem onPress={showMenuInfo}>Ayuda</MenuItem>
-              </Menu>
-            </View>
-          ),
-        }}
-      />
-      <Stack.Screen name="Imagen" component={ImageAnalysis} />
-      <Stack.Screen
-        name="NewSession"
-        component={NewSession}
-        options={{title: 'Nueva sesión'}}
-      />
-      <Stack.Screen name="SessionDetails" component={SessionDetails} />
-      <Stack.Screen name="LoteDetails" component={LoteDetails} />
-      <Stack.Screen name="PasturasDetails" component={PasturasDetail} />
-    </Stack.Navigator>
-  );
+  if (showInfo) {
+    return (
+      <Stack.Navigator initialRouteName="InfoHelp" gestureEnabled="false">
+        <Stack.Screen
+          name="InfoHelp"
+          component={InfoHelp}
+          options={{
+            title: 'Ayuda',
+            headerStyle: {
+              elevation: 0,
+              backgroundColor: mainThemeColor(1),
+            },
+            headerTintColor: 'white',
+            headerLeft: props => (
+              <HeaderBackButton
+                {...props}
+                onPress={() => {
+                  setShowInfo(false);
+                }}
+              />
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    );
+  } else {
+    return (
+      <Stack.Navigator initialRouteName="Main" gestureEnabled="false">
+        <Stack.Screen
+          name="Main"
+          component={TabNavigator}
+          options={{
+            title: 'CoverApp',
+            headerStyle: {
+              elevation: 0,
+              backgroundColor: mainThemeColor(1),
+            },
+            headerTintColor: '#f5f7f7',
+            headerRight: () => (
+              <View style={styles.headerRightMenu}>
+                <Menu
+                  ref={menu}
+                  button={
+                    <Icon
+                      style={styles.menuIcon}
+                      type="MaterialIcons"
+                      name="menu"
+                      onPress={showMenu}
+                    />
+                  }>
+                  <MenuItem onPress={props.onHideTour(null)}>
+                    Ver tutorial
+                  </MenuItem>
+                  <MenuItem onPress={showMenuInfo}>Ayuda</MenuItem>
+                </Menu>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen name="Imagen" component={ImageAnalysis} />
+        <Stack.Screen
+          name="NewSession"
+          component={NewSession}
+          options={{title: 'Nueva sesión'}}
+        />
+        <Stack.Screen name="SessionDetails" component={SessionDetails} />
+        <Stack.Screen name="LoteDetails" component={LoteDetails} />
+        <Stack.Screen name="PasturasDetails" component={PasturasDetail} />
+      </Stack.Navigator>
+    );
+  }
 }
 
-export default function Main(props) {
-  // useEffect(() => {
-  //   if (route && route?.params?.showInfo && route.params.showInfo === false) {
-  //     console.log('VIno false');
-  //   }
-  //   return () => {};
-  // }, []);
-
+export default function Main({onHideTour, route}) {
   return (
     <NavigationContainer>
-      <RootStack onHideTour={props.onHideTour} />
+      <RootStack onHideTour={onHideTour} />
     </NavigationContainer>
   );
 }

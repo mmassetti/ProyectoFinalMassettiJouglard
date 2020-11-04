@@ -33,7 +33,6 @@ export async function transformRecent(fn) {
   return AsyncStorage.getItem('recentLotes').then(recent => {
     const arrayRecents = JSON.parse(recent) || [];
     const transformedArray = fn(arrayRecents);
-    console.log('transformedArray', transformedArray);
     AsyncStorage.setItem('recentLotes', JSON.stringify(transformedArray));
   });
 }

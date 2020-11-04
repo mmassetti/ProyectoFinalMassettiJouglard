@@ -16,7 +16,6 @@ function InnerRecents({firebaseService}) {
     React.useCallback(() => {
       recentsStorage().then(lotes => {
         const lotesPromises = lotes.map(item => {
-          console.log('RecentsItem', item);
           const sessionRef = firebaseService.getDocRefFromId(
             'sessionsDetails',
             item.session.id,

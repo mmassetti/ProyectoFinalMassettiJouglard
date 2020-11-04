@@ -73,7 +73,6 @@ function App() {
   }, [userName]);
 
   const hideTour = show => () => {
-    console.log('entro al hide tour de app');
     setShowApp(show);
     AsyncStorage.setItem('@OldUser', 'true');
   };

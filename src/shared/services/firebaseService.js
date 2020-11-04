@@ -50,7 +50,6 @@ export class InnerFirebaseService extends FirebaseUtils {
     const {session} = store.getState();
     this.deleteInBatch(lote.pasturas);
     removeLoteFromArray(lote.ref.id);
-    console.log('lote', lote);
     lote.ref.delete();
     return this.removeItemFromArray(
       session.docRef,
@@ -73,7 +72,6 @@ export class InnerFirebaseService extends FirebaseUtils {
   deleteSession(session) {
     this.deleteInBatch(session.lotes);
     const lotesIds = session.lotes.map(lote => lote.ref.id);
-    console.log('lotesIds', lotesIds);
     removeSetOfLotes(lotesIds);
     this.getDocRefFromId('sessions', session.id).delete();
     return session.ref.delete();
