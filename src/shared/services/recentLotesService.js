@@ -10,7 +10,6 @@ export async function addLoteToStorage(session, lote) {
       session: {id: session.docRef.id},
       lote: {id: lote.ref.id},
     });
-    arrayWithoutLote.map(console.log);
     return arrayWithoutLote.slice(-10);
   });
 }

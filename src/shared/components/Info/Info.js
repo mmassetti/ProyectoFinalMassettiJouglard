@@ -25,9 +25,10 @@ export function Info({item, isPastura}) {
       <View
         style={{
           justifyContent: 'space-evenly',
+          flex: 7,
           paddingLeft: 10,
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: 20}}>
+        <Text numberOfLines={3} style={{fontWeight: 'bold', fontSize: 20}}>
           {item?.description}
         </Text>
         <Text style={{fontWeight: 'bold', color: 'grey'}}>
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 16,
+    flex: 3,
   },
   icon: {
     color: 'white',

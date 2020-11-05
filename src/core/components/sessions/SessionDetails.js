@@ -52,9 +52,8 @@ function SessionDetails({
           '¡Atención! Se eliminará esta sesión y toda la información asociada a ella. ',
         )
         .then(async () => {
-          firebaseService.deleteInBatch(lotes);
+          firebaseService.deleteSession(session);
           firebaseService.getDocRefFromId('sessions', itemId).delete();
-          item.ref.delete();
           // @ts-ignore
           removeLotes(lotes.map(lote => lote.id));
           navigation.navigate('Main');

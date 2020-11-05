@@ -14,7 +14,9 @@ export function EntrySquare({onDelete, item, onPress}) {
         onPress={onDelete.bind(null, item)}>
         <Icon style={styles.crossIcon} name="trash-alt" type="FontAwesome5" />
       </TouchableOpacity>
-      <Text style={styles.text}>{item.description}</Text>
+      <Text numberOfLines={1} style={styles.text}>
+        {item.description}
+      </Text>
       <View style={styles.percentagesContainer}>
         {percentages.map((percentage, index) => {
           return (
@@ -64,5 +66,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 20,
+    maxWidth: '80%',
+    textAlign: 'center',
   },
 });

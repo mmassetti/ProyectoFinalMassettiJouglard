@@ -70,11 +70,22 @@ export class InnerFirebaseService extends FirebaseUtils {
   }
 
   deleteSession(session) {
-    this.deleteInBatch(session.lotes);
-    const lotesIds = session.lotes.map(lote => lote.ref.id);
+    this.deleteLotesOfSession(session.data.lotes);
+    this.deleteInBatch(session.data.lotes);
+    const lotesIds = session.data.lotes.map(lote => lote.ref.id);
     removeSetOfLotes(lotesIds);
     this.getDocRefFromId('sessions', session.id).delete();
-    return session.ref.delete();
+    return session.docRef.delete();
+  }
+
+  async deleteLotesOfSession(lotes) {
+    const dataMap = lotes.map(lote => lote.ref.get());
+    return Promise.all(dataMap).then(allData => {
+      const allPasturas = allData.reduce((arr, item) => {
+        return arr.concat(item.data().pasturas);
+      }, []);
+      this.deleteInBatch(allPasturas);
+    });
   }
 }
 
