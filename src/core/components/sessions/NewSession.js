@@ -33,7 +33,7 @@ function NewSession(props) {
     return (
       <View style={{width: '100%', alignItems: 'center'}}>
         <Label style={{marginBottom: 10, fontWeight: 'bold'}}>
-          Fecha de creacion:
+          Fecha de creación:
         </Label>
         <DatePicker
           style={{width: 200, marginBottom: 15}}

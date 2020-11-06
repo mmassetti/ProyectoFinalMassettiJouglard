@@ -63,7 +63,7 @@ function SessionsList(props) {
           <SearchInput
             onChangeText={setSearchTerm}
             style={styles.searchInput}
-            placeholder="Buscar por nombre, descripción, mes ..."
+            placeholder="Buscar por descripción o nombre del creador..."
           />
 
           <FlatList
