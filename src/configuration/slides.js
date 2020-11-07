@@ -99,8 +99,8 @@ export const slides = [
     key: 's13',
     title: 'Página web',
     text:
-      'Creamos una web desde donde podrá ver los resultados de las sesiones, editar información y descargar informes en formato PDF. Puede visitarla en: LINK A LA WEB',
+      'Creamos una web desde donde podrá ver los resultados de las sesiones, editar información y descargar informes en formato CSV y PDF. Puede visitarla en: LINK A LA WEB',
     image: require('../guided-tour/assets/WebHome.jpeg'),
-    backgroundColor: '#22bcb5',
+    backgroundColor: '#3395ff',
   },
 ];
