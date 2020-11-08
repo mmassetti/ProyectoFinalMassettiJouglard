@@ -18,19 +18,22 @@ export class InnerFirebaseService extends FirebaseUtils {
   async add(docRef, attribute, detailsCollection, objToAdd, detailsObj) {
     const id = uniqueId();
     const creationDate = firestore.Timestamp.fromDate(new Date());
-    const addToCollection = await this.addObjToCollection(detailsCollection, {
+    this.addObjToCollection(detailsCollection, {
       id,
       ...objToAdd,
       creationDate,
       ...detailsObj,
     });
-    this.addObjToArray(docRef, attribute, {
-      id,
-      ref: addToCollection,
-      ...objToAdd,
-      creationDate,
-    });
-    return Promise.all([]);
+    return this.getDocRefInnerId(detailsCollection, id).then(
+      ({docRef: ref}) => {
+        this.addObjToArray(docRef, attribute, {
+          id,
+          ref,
+          ...objToAdd,
+          creationDate,
+        });
+      },
+    );
     // return this.generatePromise(addToSession, addToCollection)
     //   .then(() => {
     //     console.log('Connection');

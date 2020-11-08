@@ -37,7 +37,7 @@ export async function transformRecent(fn) {
 }
 async function recentsLotes() {
   return AsyncStorage.getItem('recentLotes').then(recent => {
-    return JSON.parse(recent);
+    return JSON.parse(recent) || [];
   });
 }
 
