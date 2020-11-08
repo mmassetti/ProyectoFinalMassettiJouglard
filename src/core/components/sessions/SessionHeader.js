@@ -18,12 +18,9 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
           <Text style={styles.boldText}>Creada por:</Text> {user}
         </Text>
         <Text>
-          <Text style={styles.boldText}>Visibilidad: </Text> {visibility}
-        </Text>
-        <Text>
           <Text style={styles.boldText}>Descripción: </Text>
         </Text>
-        <ReadMoreText text={description} style={styles.titleText} />
+        <ReadMoreText text={description} />
       </>
     </View>
   );

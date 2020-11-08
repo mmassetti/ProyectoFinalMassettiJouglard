@@ -33,7 +33,7 @@ function NewSession(props) {
     return (
       <View style={{width: '100%', alignItems: 'center'}}>
         <Label style={{marginBottom: 10, fontWeight: 'bold'}}>
-          Fecha de creacion:
+          Fecha de creación:
         </Label>
         <DatePicker
           style={{width: 200, marginBottom: 15}}
@@ -113,7 +113,6 @@ function NewSession(props) {
       date: date,
       description: description,
       user: props.userName,
-      visibility: switchValue ? 'Pública' : 'Privada',
     };
     return props.firebaseService
       .addObjToCollection('sessionsDetails', {
@@ -216,10 +215,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-  },
-  visibility: {
-    flexDirection: 'row',
-    marginBottom: 15,
   },
 });
 function mapStateToProps(state) {

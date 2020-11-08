@@ -74,9 +74,11 @@ const dataArray = [
       <Text>
         En la web podrás ver toda la información de las sesiones de una manera
         mas organizada y gráfica. {'\n'}Además, podrás{' '}
-        <Text style={{fontWeight: 'bold'}}>descargar un archivo PDF </Text>con
-        la información asociada a una sesión elegida. {'\n'}Por otro lado,
-        podrás
+        <Text style={{fontWeight: 'bold'}}>
+          descargar informes en formato CSV o PDF{' '}
+        </Text>
+        con la información asociada a todas las sesiones o a alguna en
+        particular. {'\n'}Por otro lado, podrás
         <Text style={{fontWeight: 'bold'}}> editar</Text> descripciones de las
         sesiones, lotes y pasturas, como así también las notas.{'\n'}A
         diferencia de esta aplicación móvil, en la página web no permitiremos
