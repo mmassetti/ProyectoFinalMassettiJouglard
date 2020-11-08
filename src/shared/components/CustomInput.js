@@ -30,7 +30,7 @@ export function Input({
       <Text
         style={{
           color: 'gray',
-          alignSelf: 'flex-end',
+          alignSelf: 'flex-start',
           marginRight: 15,
           fontSize: 14,
         }}>

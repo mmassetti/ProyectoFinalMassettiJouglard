@@ -6,7 +6,7 @@ import {Dimensions, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import {lightGray} from '../../configuration/colors';
 import {withFirebase, useRecentLotes} from '../../shared';
-import {setSession} from '../../store/actions';
+import {setSession, setLote} from '../../store/actions';
 
 function InnerRecents({firebaseService}) {
   const [recentLotes, setLotes] = useState([]);
@@ -20,25 +20,16 @@ function InnerRecents({firebaseService}) {
             'sessionsDetails',
             item.session.id,
           );
-          const loteRef = firebaseService.getDocRefFromId(
-            'lotesDetails',
-            item.lote.id,
-          );
-          const sessionPromise = sessionRef.get();
-          const lotesPromise = loteRef.get();
-          return Promise.all([sessionPromise, lotesPromise])
-            .then(([sessionData, loteData]) => {
-              if (!sessionData.exists || !loteData.exists)
-                removeLoteFromArray(item.lote.id);
-              return {
-                session: {docRef: sessionRef, data: sessionData.data()},
-                lote: {docRef: loteRef, data: loteData.data()},
-              };
-            })
-            .catch(err => {
-              console.log('ERR', err);
-              removeLoteFromArray(item.lote.id);
-            });
+          return sessionRef.get().then(sessionDoc => {
+            const session = sessionDoc.data();
+            const loteToShow = session.lotes.find(
+              lote => lote.ref.id === item.lote.id,
+            );
+            return {
+              session: {data: session, docRef: sessionDoc.ref},
+              loteToShow,
+            };
+          });
         });
         Promise.all(lotesPromises).then(lotes => {
           setLotes(lotes.reverse());
@@ -59,7 +50,7 @@ function InnerRecents({firebaseService}) {
         Lotes accedidos recientemente
       </Text>
       <FlatList
-        keyExtractor={item => item.lote.id}
+        keyExtractor={item => item.loteToShow.ref.id}
         data={recentLotes}
         renderItem={({item, index}) => {
           return <RecentEntry item={item} index={index} />;
@@ -69,20 +60,21 @@ function InnerRecents({firebaseService}) {
   );
 }
 
-function InnerRecentEntry({item: {session, lote}, index, setSession}) {
+function InnerRecentEntry({item: {session, loteToShow}, index, setSession}) {
   const navigation = useNavigation();
   const navigate = () => {
     const docRef = session.docRef;
     setSession({docRef, data: session.data});
-    lote.data.creationDate.toDate = () => lote.date;
+    // setLote({data: lote.data, docRef: lote.docRef});
+    // lote.data.creationDate.toDate = () => lote.date;
     navigation.navigate('LoteDetails', {
-      item: {...lote.data, ref: lote.docRef},
+      item: loteToShow,
     });
   };
 
   return (
     <TouchableOpacity
-      key={lote.docRef.id}
+      key={loteToShow.ref.id}
       onPress={navigate}
       style={{
         height: Dimensions.get('window').height * 0.1,
@@ -94,10 +86,10 @@ function InnerRecentEntry({item: {session, lote}, index, setSession}) {
       }}>
       <View style={{justifyContent: 'space-evenly', width: '100%'}}>
         <Text style={{fontWeight: 'bold', fontSize: 16}}>
-          {lote.data.description}
+          {loteToShow.description}
         </Text>
         <Text style={{color: 'grey', fontWeight: 'bold'}}>
-          Creado el {moment(lote.date).format('L')}
+          Creado el {moment(loteToShow.date).format('L')}
         </Text>
         <Text numberOfLines={1} style={{maxWidth: '90%'}}>
           Sesion: {session.data.description}
@@ -109,6 +101,7 @@ function InnerRecentEntry({item: {session, lote}, index, setSession}) {
 
 const mapDispatchToProps = {
   setSession,
+  setLote,
 };
 export const Recents = withFirebase(InnerRecents);
 const RecentEntry = connect(

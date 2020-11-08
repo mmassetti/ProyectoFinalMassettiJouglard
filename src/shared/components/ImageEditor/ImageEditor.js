@@ -20,6 +20,10 @@ export class ImageEditor extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.unmounted = true;
+  }
+
   render() {
     return (
       <Popover
@@ -87,9 +91,10 @@ export class ImageEditor extends Component {
   };
 
   resetState = () => {
-    this.setState({
-      saveImg: false,
-    });
+    if (!this.unmounted)
+      this.setState({
+        saveImg: false,
+      });
   };
 
   updateValue = type => value => {

@@ -1,15 +1,7 @@
-import {Button} from 'native-base';
 import React, {useState, useEffect} from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Popover from 'react-native-popover-view';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {ImageWithZoom} from '../ImageWithZoom';
 
 export function ImageWithPopUp({style, additionalInfo, imageId, source}) {
   const [popped, setPopped] = useState(false);
@@ -29,23 +21,13 @@ export function ImageWithPopUp({style, additionalInfo, imageId, source}) {
   }, [imageId, source]);
   return (
     <View style={style}>
-      <Popover isVisible={popped}>
-        <View
-          style={{
-            width: Dimensions.get('window').width * 0.9,
-            height: Dimensions.get('window').height * 0.9,
-          }}>
-          <Image
-            source={{uri: src}}
-            defaultSource={require('../../../../captures/Default.jpg')}
-            style={{resizeMode: 'contain', flex: 3}}
-          />
-          {additionalInfo()}
-          <Button style={styles.button} onPress={triggerPopUp(false)} primary>
-            <Text style={styles.buttonText}>Cerrar</Text>
-          </Button>
-        </View>
-      </Popover>
+      <ImageWithZoom
+        visible={popped}
+        close={triggerPopUp(false)}
+        imageToShow={src}
+        additionalInfo={additionalInfo}
+        heightAdjustment={0.7}
+      />
       <TouchableOpacity style={{flex: 1}} onPress={triggerPopUp(true)}>
         <Image style={{resizeMode: 'cover', flex: 1}} source={{uri: src}} />
       </TouchableOpacity>

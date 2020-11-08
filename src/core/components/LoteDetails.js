@@ -37,6 +37,11 @@ function LoteDetails({
   const [, removeLoteFromStorage, , addLoteToStorage] = useRecentLotes();
 
   useEffect(() => {
+    setImages(lote.data?.images || []);
+    setPasturas(lote.data?.pasturas || []);
+  }, [lote]);
+
+  useEffect(() => {
     navigation.setOptions({
       title: 'Detalles del lote',
       headerRight: () => (
@@ -63,8 +68,6 @@ function LoteDetails({
       setPastura({});
       item.ref.get().then(data => {
         const info = data.data();
-        setImages(info.images);
-        setPasturas(info.pasturas);
         setLote({docRef: item.ref, data: info});
       });
       return () => {};

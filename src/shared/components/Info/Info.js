@@ -1,14 +1,13 @@
 import moment from 'moment';
 import 'moment/locale/es';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {mainThemeColor} from '../../../configuration';
 import {Background} from '../BackgroundFull';
 import {PopoverInfo} from './Popover';
 
-export function Info({item, isPastura}) {
+export function Info({item, isPastura = false}) {
   const [showInfo, setShowInfo] = useState(false);
-
   const toggleInfo = showInfo => () => {
     setShowInfo(showInfo);
   };

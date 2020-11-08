@@ -37,3 +37,4 @@ export {ImageNotes} from './components/ImageView/ImageNotes';
 export {useRecentLotes} from './services/recentLotesService';
 export {MyInput} from './components/Input';
 export {Input} from './components/CustomInput';
+export {ImageWithZoom} from './components/ImageWithZoom';
