@@ -1,7 +1,7 @@
 //@ts-check
 import React, {useState, useEffect} from 'react';
 
-import {StyleSheet, View, TextInput, Switch} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   Button,
   Text,
@@ -19,13 +19,7 @@ import {connect} from 'react-redux';
 function NewSession(props) {
   const [date, setDate] = useState(new Date());
   const [description, setDescription] = useState('');
-  const [sessionName, setSessionName] = useState('');
   const [createdBy, setCreatedBy] = useState(props.userName);
-  const [switchValue, setSwitchValue] = useState(true);
-
-  const toggleSwitch = value => {
-    setSwitchValue(value);
-  };
 
   useEffect(() => {}, []);
 
@@ -91,11 +85,6 @@ function NewSession(props) {
     );
   };
 
-  function goBackToSessions() {
-    const {navigation} = props;
-    navigation.goBack();
-  }
-
   function goToSessionDetails(sessionData, id) {
     const {navigation} = props;
     navigation.navigate('SessionDetails', {
@@ -112,7 +101,7 @@ function NewSession(props) {
       active: true,
       date: date,
       description: description,
-      user: props.userName,
+      user: createdBy,
     };
     return props.firebaseService
       .addObjToCollection('sessionsDetails', {
