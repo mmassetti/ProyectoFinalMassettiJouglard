@@ -1,5 +1,5 @@
 //@ts-check
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {SaveImage, ImageView, Tabs, ImageNotes} from '../../shared';
 import {withImageProcessing} from '../../shared';
@@ -10,6 +10,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
   const [processedImage, setProcessedImage] = useState(params.processedImage);
   const [percentages, setPercentages] = useState(params.percentages);
   const [note, setNote] = useState('');
+  const staticOriginal = useRef(params.originalImage.clone());
 
   const updateOriginalImage = async newUri => {
     let {
@@ -45,7 +46,7 @@ function ImageAnalysis({route: {params}, imageProcessor}) {
       shouldRotate={params.shouldRotate}
       updateOriginalImage={updateOriginalImage}
       originalImage={originalImage}
-      staticOriginal={params.originalImage.clone()}
+      staticOriginal={staticOriginal.current}
       processedImage={processedImage}
       percentages={percentages}
     />
