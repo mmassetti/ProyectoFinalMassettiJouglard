@@ -73,7 +73,10 @@ const dataArray = [
     content: (
       <Text>
         En la web podrás ver toda la información de las sesiones de una manera
-        mas organizada y gráfica. {'\n'}Además, podrás{' '}
+        mas organizada y gráfica. Tendrás la posibilidad de{' '}
+        <Text style={{fontWeight: 'bold'}}>buscar, filtrar y ordenar</Text> las
+        sesiones por descripción, nombre del creador o creadora, fecha, etc.
+        {'\n'}Además, podrás{' '}
         <Text style={{fontWeight: 'bold'}}>
           descargar informes en formato CSV o PDF{' '}
         </Text>
