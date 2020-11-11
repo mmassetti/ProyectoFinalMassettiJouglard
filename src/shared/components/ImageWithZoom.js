@@ -35,7 +35,7 @@ export function ImageWithZoom({
           <Icon
             type="Entypo"
             name="circle-with-cross"
-            style={{color: 'gray', fontSize: 38}}
+            style={{color: 'black', fontSize: 38}}
           />
         </TouchableOpacity>
       </View>

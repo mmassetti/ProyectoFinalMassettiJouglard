@@ -44,7 +44,8 @@ function NewImage({
 }
 
 const mapStateToProps = state => {
-  if (state.pastura.data) return {images: state.pastura.data.images};
+  if (state.pastura.data)
+    return {images: state.pastura.data.images, docRef: state.pastura.docRef};
   else return {images: state.lote.data?.images, docRef: state.lote.docRef};
 };
 

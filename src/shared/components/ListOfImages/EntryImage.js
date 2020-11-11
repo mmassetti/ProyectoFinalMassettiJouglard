@@ -30,6 +30,9 @@ export function OurImage({
   isBefore,
 }) {
   const formatText = progress => () => {
+    if (progress < 3) {
+      return '< 3%';
+    }
     return `${progress}%`;
   };
   const refer = useRef();
