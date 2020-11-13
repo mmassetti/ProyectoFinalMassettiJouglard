@@ -81,8 +81,8 @@ function LoteDetails({
 
   const deleteImage = item => isBefore => () => {
     const message = isBefore
-      ? '¡Atención! Se eliminará tanto la imágen del antes como la del después (en caso de existir).'
-      : '¡Atención! Se eliminará la imágen del después';
+      ? '¡Atención! Se eliminará tanto la imagen del antes como la del después (en caso de existir).'
+      : '¡Atención! Se eliminará la imagen del después';
     alerts.showConfirmDialog(message).then(() => {
       imageHandler.deletePhoto(item, isBefore ? 'Before' : 'After');
       toggleRefresh();
@@ -110,7 +110,7 @@ function LoteDetails({
                 <View style={styles.centeredTextStyle}>
                   <Text>
                     Este lote todavía no tiene imágenes.{'\n'}
-                    {'\n'}Podés sacar una foto, cargar una imágen desde la
+                    {'\n'}Podés sacar una foto, cargar una imagen desde la
                     galería, o bien crear una nueva pastura para este lote .
                   </Text>
                 </View>
