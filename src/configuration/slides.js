@@ -100,7 +100,7 @@ export const slides = [
     key: 's13',
     title: 'Página web',
     text:
-      'Creamos una web desde donde podrás ver los resultados de las sesiones, editar información y descargar informes en formato CSV y PDF. Podes visitarla en: LINK A LA WEB',
+      'Creamos una web desde donde podrás ver los resultados de las sesiones, editar información y descargar informes en formato CSV y PDF. Podes visitarla en: cgsweb.vercel.app',
     image: require('../guided-tour/assets/WebHome.jpeg'),
     backgroundColor: '#3395ff',
   },

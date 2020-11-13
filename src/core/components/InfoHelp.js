@@ -1,24 +1,15 @@
 //@ts-check
-import React, {Component} from 'react';
-import {StyleSheet, Linking} from 'react-native';
+import React from 'react';
+import {StyleSheet, Image} from 'react-native';
 
-import {
-  Container,
-  Header,
-  Content,
-  Icon,
-  Accordion,
-  Text,
-  View,
-} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Container, Content, Icon, Accordion, Text, View} from 'native-base';
 import HyperLink from 'react-native-hyperlink';
 const dataArray = [
   {
     title: '¿Cúal es la página web para ver la info de la app?',
     content: (
       <HyperLink linkDefault={true} linkStyle={{color: 'blue'}}>
-        <Text>La web es: https://holajj.vercel.app</Text>
+        <Text>La web es: https://cgsweb.vercel.app</Text>
       </HyperLink>
     ),
   },
@@ -122,12 +113,20 @@ function InfoHelp({navigation}) {
   return (
     <Container>
       <Content padder style={{backgroundColor: 'white'}}>
-        <Accordion
-          dataArray={dataArray}
-          expanded={0}
-          renderHeader={renderHeader}
-          renderContent={renderContent}
-        />
+        <>
+          <View style={styles.centeredImage}>
+            <Image
+              style={styles.logo}
+              source={require('../../guided-tour/assets/Logo-Black.png')}
+            />
+          </View>
+          <Accordion
+            dataArray={dataArray}
+            expanded={0}
+            renderHeader={renderHeader}
+            renderContent={renderContent}
+          />
+        </>
       </Content>
     </Container>
   );
@@ -146,5 +145,14 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+  },
+  centeredImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  logo: {
+    width: 250,
+    height: 250,
   },
 });
