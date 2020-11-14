@@ -16,6 +16,7 @@ export class InnerFirebaseService extends FirebaseUtils {
   }
 
   async add(docRef, attribute, detailsCollection, objToAdd, detailsObj) {
+    console.log(docRef);
     const id = uniqueId();
     const creationDate = firestore.Timestamp.fromDate(new Date());
     this.addObjToCollection(detailsCollection, {
@@ -24,16 +25,22 @@ export class InnerFirebaseService extends FirebaseUtils {
       creationDate,
       ...detailsObj,
     });
-    return this.getDocRefInnerId(detailsCollection, id).then(
-      ({docRef: ref}) => {
-        this.addObjToArray(docRef, attribute, {
-          id,
-          ref,
-          ...objToAdd,
-          creationDate,
-        });
-      },
-    );
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        return this.getDocRefInnerId(detailsCollection, id).then(
+          ({docRef: ref}) => {
+            this.addObjToArray(docRef, attribute, {
+              id,
+              ref,
+              ...objToAdd,
+              creationDate,
+            });
+            resolve();
+          },
+        );
+      }, 0);
+    });
     // return this.generatePromise(addToSession, addToCollection)
     //   .then(() => {
     //     console.log('Connection');

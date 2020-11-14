@@ -22,6 +22,10 @@ function InnerRecents({firebaseService}) {
           );
           return sessionRef.get().then(sessionDoc => {
             const session = sessionDoc.data();
+            if (!session) {
+              removeLoteFromArray(item.lote.id);
+              return;
+            }
             const loteToShow = session.lotes.find(
               lote => lote.ref.id === item.lote.id,
             );
@@ -32,7 +36,7 @@ function InnerRecents({firebaseService}) {
           });
         });
         Promise.all(lotesPromises).then(lotes => {
-          setLotes(lotes.reverse());
+          setLotes(lotes.filter(item => item).reverse());
         });
       });
     }, []),

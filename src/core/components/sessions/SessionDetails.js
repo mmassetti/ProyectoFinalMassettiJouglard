@@ -35,10 +35,20 @@ function SessionDetails({
   useFocusEffect(
     React.useCallback(() => {
       setLote({});
+      item.ref.onSnapshot(doc => console.log('Snapshot', doc));
+      item.ref.update({description: 'Actualizada'});
       async function retrieveDetails() {
-        const data = (await item.ref.get()).data();
-        setLotes(data.lotes.reverse() || []);
-        setSession({docRef: item.ref, data});
+        let data;
+        try {
+          const json = await item.ref.get();
+          console.log('json', json);
+          data = json.data();
+        } catch {
+          console.log('Error');
+        } finally {
+          setLotes(data?.lotes.reverse() || []);
+          setSession({docRef: item.ref, data});
+        }
       }
       retrieveDetails();
       return () => {};
@@ -123,13 +133,13 @@ function SessionDetails({
                 arrayName="lotes"
                 defaultObj={{pasturas: []}}
                 nextScreen="LoteDetails"
-                docRef={session.docRef}
+                docRef={item.ref}
               />
             </>
           )}
           SecondScreen={() => (
             <Notes
-              notes={session.data?.notes}
+              notes={session.data?.notes || []}
               docRef={session.docRef}
               refresh={toggleRefresh}
             />

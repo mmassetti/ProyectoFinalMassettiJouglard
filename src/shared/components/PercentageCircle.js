@@ -4,6 +4,7 @@ import ProgressCircle from 'react-native-progress/Circle';
 
 export function Percentage(props) {
   const formatText = progress => () => {
+    if (props.hidePercentage) return '-';
     if (progress < 3) {
       return '< 3%';
     }
