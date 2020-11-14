@@ -2,7 +2,7 @@ import React from 'react';
 import ReadMore from 'react-native-read-more-text';
 import {Text} from 'react-native';
 
-export function ReadMoreText({text}) {
+export function ReadMoreText({text, children}) {
   const renderTruncatedFooter = handlePress => {
     return (
       <Text style={{color: 'dodgerblue', marginTop: 1}} onPress={handlePress}>
@@ -24,7 +24,7 @@ export function ReadMoreText({text}) {
       numberOfLines={3}
       renderTruncatedFooter={renderTruncatedFooter}
       renderRevealedFooter={renderRevealedFooter}>
-      <Text>{text}</Text>
+      {children}
     </ReadMore>
   );
 }

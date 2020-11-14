@@ -8,19 +8,19 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
   return (
     <View style={styles.inputContainer}>
       <>
-        <Text>
-          <Text style={styles.boldText}>Fecha:</Text>{' '}
+        <Text style={styles.text}>
+          <Text style={[styles.boldText, styles.text]}>Fecha:</Text>{' '}
           {date instanceof Date
             ? moment(date).format('L')
             : moment(date.toDate()).format('L')}
         </Text>
-        <Text>
-          <Text style={styles.boldText}>Creada por:</Text> {user}
+        <Text style={styles.text}>
+          <Text style={[styles.boldText, styles.text]}>Creada por:</Text> {user}
         </Text>
-        <Text>
-          <Text style={styles.boldText}>Descripción: </Text>
-        </Text>
-        <ReadMoreText text={description} />
+        <ReadMoreText text={description}>
+          <Text style={[styles.boldText, styles.text]}>Descripción: </Text>
+          <Text style={styles.text}>{description}</Text>
+        </ReadMoreText>
       </>
     </View>
   );
@@ -28,9 +28,12 @@ export function SessionHeader({item: {date, user, description, visibility}}) {
 const styles = StyleSheet.create({
   inputContainer: {
     margin: 20,
-    width: '100%',
+    width: '90%',
   },
   boldText: {
     fontWeight: 'bold',
+  },
+  text: {
+    fontSize: 15,
   },
 });
