@@ -11,6 +11,6 @@ exports[`NetStatus component Renders correctly 1`] = `
     }
   }
 >
-  Trabajando sin conexion
+  Trabajando sin conexión
 </Text>
 `;

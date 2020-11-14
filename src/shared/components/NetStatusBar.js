@@ -11,7 +11,7 @@ export function NetStatusBar() {
         fontWeight: 'bold',
         textAlign: 'center',
       }}>
-      Trabajando sin conexion
+      Trabajando sin conexión
     </Text>
   );
 }

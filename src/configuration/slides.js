@@ -59,7 +59,7 @@ export const slides = [
     key: 's8',
     title: 'Imagen procesada',
     text:
-      'Aquí podrás observar que partes de la imagen han sido detectadas como vegetación. Los sectores que aparecen en negro son detectados como suelo desnudo. También podrás observar la imagen original.',
+      'Aquí podrás observar qué partes de la imagen han sido detectadas como vegetación. Los sectores que aparecen en negro son detectados como suelo desnudo. También podrás observar la imagen original.',
     image: require('../guided-tour/assets/ProcessedImage.png'),
     backgroundColor: '#DB6C79',
   },
