@@ -10,6 +10,7 @@ import {
 import SearchInput, {createFilter} from 'react-native-search-filter';
 import SessionItem from './SessionItem';
 import {useFocusEffect} from '@react-navigation/native';
+import {OurSpinner} from './../Spinner';
 
 function SessionsList(props) {
   const [sessions, setSessions] = useState([]);
@@ -77,7 +78,7 @@ function SessionsList(props) {
             }
           />
         </>
-      ) : (
+      ) : sessions && sessions.length === 0 && !refreshing ? (
         <View style={styles.centeredTextStyle}>
           <Text>
             {'\n'}
@@ -88,6 +89,8 @@ function SessionsList(props) {
             derecha.
           </Text>
         </View>
+      ) : (
+        <OurSpinner show={true} />
       )}
 
       <BottomRightButton
