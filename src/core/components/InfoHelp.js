@@ -1,24 +1,15 @@
 //@ts-check
-import React, {Component} from 'react';
-import {StyleSheet, Linking} from 'react-native';
+import React from 'react';
+import {StyleSheet, Image} from 'react-native';
 
-import {
-  Container,
-  Header,
-  Content,
-  Icon,
-  Accordion,
-  Text,
-  View,
-} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Container, Content, Icon, Accordion, Text, View} from 'native-base';
 import HyperLink from 'react-native-hyperlink';
 const dataArray = [
   {
     title: '¿Cúal es la página web para ver la info de la app?',
     content: (
       <HyperLink linkDefault={true} linkStyle={{color: 'blue'}}>
-        <Text>La web es: https://holajj.vercel.app</Text>
+        <Text>La web es: https://cgsweb.vercel.app</Text>
       </HyperLink>
     ),
   },
@@ -26,10 +17,10 @@ const dataArray = [
     title: '¿Qué puedo hacer en esta app?',
     content: (
       <Text>
-        Con esta app podrás determinar el porcentaje de cubrimiento de un suelo.
+        Con esta app podrás determinar el porcentaje de cobertura de un suelo.
         Para ello podés elegir entre un{' '}
         <Text style={{fontWeight: 'bold'}}>'Proceso rápido'</Text>, donde la
-        aplicación simplemente te dirá los resultados para la imágen elegida, y
+        aplicación simplemente te dirá los resultados para la imagen elegida, y
         un manejo de <Text style={{fontWeight: 'bold'}}>'Sesiones'</Text>, donde
         los resultados se almacenarán para poder ser accedidos en cualquier
         momento. Una <Text style={{fontWeight: 'bold'}}>Sesión</Text> tiene{' '}
@@ -37,20 +28,20 @@ const dataArray = [
         cargar <Text style={{fontWeight: 'bold'}}>imágenes sueltas</Text> o bien{' '}
         <Text style={{fontWeight: 'bold'}}>pasturas</Text>, que tendrán asimismo
         imágenes. {'\n'}
-        {'\n'}A la hora de cargar una imágen, ya sea utilizando la cámara o la
+        {'\n'}A la hora de cargar una imagen, ya sea utilizando la cámara o la
         galería de tu celular, podrás{' '}
         <Text style={{fontWeight: 'bold'}}>
           ajustar brillo, saturación y contraste{' '}
         </Text>
         , para mejorar la calidad de la foto ante una falta de luz adecuada, por
         ejemplo. También podrás{' '}
-        <Text style={{fontWeight: 'bold'}}>hacer zoom</Text> a la imágen, para
+        <Text style={{fontWeight: 'bold'}}>hacer zoom</Text> a la imagen, para
         detectar cualquier detalle que no aparezca a simple vista. {'\n'}
         {'\n'}Además de los{' '}
         <Text style={{fontWeight: 'bold'}}>
           porcentajes de vivo, desnudo y sin cubrir
         </Text>{' '}
-        para cada imágen, podrás ver el{' '}
+        para cada imagen, podrás ver el{' '}
         <Text style={{fontWeight: 'bold'}}>promedio </Text>de cubrimiento para
         cada lote y pastura. Por otro lado, podrás hacer una comparación entre
         imágenes{' '}
@@ -61,7 +52,7 @@ const dataArray = [
         recorte de pastos).{'\n'}
         {'\n'}Por último, podrás agregar{' '}
         <Text style={{fontWeight: 'bold'}}>notas </Text>, ya sea al momento de
-        cargar una nueva imágen, donde podrás destacar lo que consideres
+        cargar una nueva imagen, donde podrás destacar lo que consideres
         necesario (altura de los pastos, anomalías, etc) o bien posteriormente,
         donde podrás agregar lo que consideres para la sesión en que estés
         trabajando.
@@ -122,12 +113,20 @@ function InfoHelp({navigation}) {
   return (
     <Container>
       <Content padder style={{backgroundColor: 'white'}}>
-        <Accordion
-          dataArray={dataArray}
-          expanded={0}
-          renderHeader={renderHeader}
-          renderContent={renderContent}
-        />
+        <>
+          <View style={styles.centeredImage}>
+            <Image
+              style={styles.logo}
+              source={require('../../guided-tour/assets/Logo-Black.png')}
+            />
+          </View>
+          <Accordion
+            dataArray={dataArray}
+            expanded={0}
+            renderHeader={renderHeader}
+            renderContent={renderContent}
+          />
+        </>
       </Content>
     </Container>
   );
@@ -146,5 +145,14 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+  },
+  centeredImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  logo: {
+    width: 250,
+    height: 250,
   },
 });

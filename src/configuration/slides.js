@@ -3,7 +3,7 @@ export const slides = [
     key: 's1',
     title: 'Bienvenidos',
     text:
-      'Esta app te ayudará a determinar el porcentaje de cubrimiento que presenta un suelo.',
+      'Esta app te ayudará a determinar el porcentaje de cobertura que presenta un suelo.',
     image: require('../guided-tour/assets/Logo.png'),
     backgroundColor: '#3395ff',
   },
@@ -33,9 +33,9 @@ export const slides = [
   },
   {
     key: 's5',
-    title: 'Cargar una imágen',
+    title: 'Cargar una imagen',
     text:
-      'En cada lote o pastura, podrás seleccionar una imágen desde la galería o tomar una foto en el momento utilizando la cámara.',
+      'En cada lote o pastura, podrás seleccionar una imagen desde la galería o tomar una foto en el momento utilizando la cámara.',
     image: require('../guided-tour/assets/LoadImage.jpeg'),
     backgroundColor: '#DB6C79',
   },
@@ -51,15 +51,15 @@ export const slides = [
     key: 's7',
     title: 'Porcentajes',
     text:
-      'Obtendrás el porcentaje de suelo que este cubierto con vegetación viva, seca o se encuentre sin cubrir. Además, podrás hacer zoom, retocar la imágen y agregar anotaciones.',
+      'Obtendrás el porcentaje de suelo que este cubierto con vegetación viva, seca o se encuentre sin cubrir. Además, podrás hacer zoom, retocar la imagen y agregar anotaciones.',
     image: require('../guided-tour/assets/ImageResultsZoomAndEdit.jpeg'),
     backgroundColor: '#DB6C79',
   },
   {
     key: 's8',
-    title: 'Imágen procesada',
+    title: 'Imagen procesada',
     text:
-      'Aquí podrás observar que partes de la imágen han sido detectadas como vegetación. Los sectores que aparecen en negro son detectados como suelo desnudo. También podrás observar la imágen original.',
+      'Aquí podrás observar qué partes de la imagen han sido detectadas como vegetación. Los sectores que aparecen en negro son detectados como suelo desnudo. También podrás observar la imagen original.',
     image: require('../guided-tour/assets/ProcessedImage.png'),
     backgroundColor: '#DB6C79',
   },
@@ -67,7 +67,7 @@ export const slides = [
     key: 's9',
     title: 'Ajustes',
     text:
-      'En los ajustes podrás modificar el brillo, saturación y contraste de la imágen, con el fin de poder mejorarla. Luego de presionar "Confirmar", se realizará nuevamente el procesamiento.',
+      'En los ajustes podrás modificar el brillo, saturación y contraste de la imagen, con el fin de poder mejorarla. Luego de presionar "Confirmar", se realizará nuevamente el procesamiento.',
     image: require('../guided-tour/assets/Adjustment.jpg'),
     backgroundColor: '#DB6C79',
   },
@@ -75,7 +75,7 @@ export const slides = [
     key: 's10',
     title: 'Antes y después',
     text:
-      'Para cada imágen tendrás la posibilidad de cargar otra luego de, por ejemplo, hacer un recorte de la vegetación. De esta forma podrás llevar registro de la diferencia antes y despúes del recorte',
+      'Para cada imagen tendrás la posibilidad de cargar otra luego de, por ejemplo, hacer un recorte de la vegetación. De esta forma podrás llevar registro de la diferencia antes y despúes del recorte',
     image: require('../guided-tour/assets/BeforeAfter.jpeg'),
     backgroundColor: '#DB6C79',
   },
@@ -100,7 +100,7 @@ export const slides = [
     key: 's13',
     title: 'Página web',
     text:
-      'Creamos una web desde donde podrás ver los resultados de las sesiones, editar información y descargar informes en formato CSV y PDF. Podes visitarla en: LINK A LA WEB',
+      'Creamos una web desde donde podrás ver los resultados de las sesiones, editar información y descargar informes en formato CSV y PDF. Podes visitarla en: cgsweb.vercel.app',
     image: require('../guided-tour/assets/WebHome.jpeg'),
     backgroundColor: '#3395ff',
   },

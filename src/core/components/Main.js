@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import SessionsList from './sessions/SessionsList';
 import NewSession from './sessions/NewSession';
 import GalleryCamera from './GalleryCamera';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import ImageAnalysis from './ImageAnalysis';
 import SessionDetails from './sessions/SessionDetails';
 import {tabBarIcons, mainThemeColor} from '../../configuration';
@@ -114,12 +114,18 @@ function RootStack(props) {
           name="Main"
           component={TabNavigator}
           options={{
-            title: 'CoverApp',
+            title: 'CGS',
             headerStyle: {
               elevation: 0,
               backgroundColor: mainThemeColor(1),
             },
             headerTintColor: '#f5f7f7',
+            headerLeft: () => (
+              <Image
+                style={{width: 40, height: 40, margin: 10}}
+                source={require('../../guided-tour/assets/mini-logo.png')}
+              />
+            ),
             headerRight: () => (
               <View style={styles.headerRightMenu}>
                 <Menu
