@@ -14,6 +14,42 @@ const dataArray = [
     ),
   },
   {
+    title: '¿Qué es CGS?',
+    content: (
+      <Text>
+        CGS es la sigla para{' '}
+        <Text style={{fontWeight: 'bold'}}>
+          "Cobertura y gestión de suelos"{' '}
+        </Text>{' '}
+        y consiste en esta aplicación para dispositivos Android en conjunto con
+        una página web. Ambas herramientas te ayudarán a llevar un registro del
+        cubrimiento de vegetación presente en un suelo. Este procesamiento se
+        lleva a cabo identificando en qué proporción aparecen los colores de las
+        gamas del verde, amarillo/gris y marrón en las distintas imágenes
+        analizadas. El resultado final que obtendrás para cada imagen será un
+        porcentaje de "Vivo", otro de "Seco" y otro de "Desnudo". Estas imágenes
+        las podrás asociar a distintas pasturas, lotes y sesiones, para poder
+        accederlas en cualquier momento desde esta aplicación o desde la web
+      </Text>
+    ),
+  },
+  {
+    title: '¿Cómo se llegó a desarrollar CGS?',
+    content: (
+      <Text>
+        CGS nace de la colaboración entre el INTA y el Departamento de Ciencias
+        e Ingeniería de la Computación de la Universidad Nacional del Sur, Bahía
+        Blanca. La idea original del proyecto es de Martin Larrea, en
+        representación del Departamento de Ciencias e Ingeniería de la
+        Computación y de Gerónimo De Leo , en representación del INTA, extensión
+        Bahía Blanca. Esta idea fue implementada como Proyecto Final de carrera
+        de la carrera Ingeniería en Sistemas de Información por los alumnos Juan
+        Jouglard y Matias Massetti, bajo la dirección de Martin Larrea y Dana
+        Uribarri.
+      </Text>
+    ),
+  },
+  {
     title: '¿Qué puedo hacer en esta app?',
     content: (
       <Text>
