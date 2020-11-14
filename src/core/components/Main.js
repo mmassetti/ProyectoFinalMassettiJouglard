@@ -122,7 +122,12 @@ function RootStack(props) {
             headerTintColor: '#f5f7f7',
             headerLeft: () => (
               <Image
-                style={{width: 40, height: 40, margin: 10}}
+                style={{
+                  width: 40,
+                  height: 40,
+                  marginBottom: 8,
+                  marginLeft: 30,
+                }}
                 source={require('../../guided-tour/assets/mini-logo.png')}
               />
             ),
