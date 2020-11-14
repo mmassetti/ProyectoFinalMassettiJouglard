@@ -15,6 +15,7 @@ import DatePicker from 'react-native-datepicker';
 import 'moment/locale/es';
 import {withFirebase, Input} from '../../../shared';
 import {connect} from 'react-redux';
+import {uuidv4 as uniqueId} from '../../../shared/services/uuidService';
 
 function NewSession(props) {
   const [date, setDate] = useState(new Date());
@@ -97,28 +98,36 @@ function NewSession(props) {
   }
 
   function createSession() {
+    const id = uniqueId();
     const sessionData = {
       active: true,
       date: date,
       description: description,
       user: createdBy,
+      id,
     };
-    return props.firebaseService
-      .addObjToCollection('sessionsDetails', {
-        ...sessionData,
-        lotes: [],
-        notes: [],
-      })
-      .then(doc => {
-        props.firebaseService
-          .addObjToCollection('sessions', {
+    props.firebaseService.addObjToCollection('sessionsDetails', {
+      ...sessionData,
+      lotes: [],
+      notes: [],
+    });
+    setTimeout(() => {
+      props.firebaseService
+        .getDocRefInnerId('sessionsDetails', id)
+        .then(({docRef: doc}) => {
+          props.firebaseService.addObjToCollection('sessions', {
             ...sessionData,
             ref: doc,
-          })
-          .then(simpleDoc =>
-            goToSessionDetails({...sessionData, ref: doc}, simpleDoc.id),
-          );
-      });
+          });
+          setTimeout(() => {
+            props.firebaseService
+              .getDocRefInnerId('sessions', id)
+              .then(({docRef: simpleDoc}) =>
+                goToSessionDetails({...sessionData, ref: doc}, simpleDoc.id),
+              );
+          }, 0);
+        });
+    }, 0);
   }
 
   const showButtons = () => {
