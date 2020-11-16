@@ -22,8 +22,8 @@ const dataArray = [
           "Cobertura y gestión de suelos"{' '}
         </Text>{' '}
         y consiste en esta aplicación para dispositivos Android en conjunto con
-        una página web. Ambas herramientas te ayudarán a llevar un registro del
-        cubrimiento de vegetación presente en un suelo. Este procesamiento se
+        una página web. Ambas herramientas te ayudarán a llevar un registro de
+        la cobertura de vegetación presente en un suelo. Este procesamiento se
         lleva a cabo identificando en qué proporción aparecen los colores de las
         gamas del verde, amarillo/gris y marrón en las distintas imágenes
         analizadas. El resultado final que obtendrás para cada imagen será un
@@ -78,7 +78,7 @@ const dataArray = [
           porcentajes de vivo, desnudo y sin cubrir
         </Text>{' '}
         para cada imagen, podrás ver el{' '}
-        <Text style={{fontWeight: 'bold'}}>promedio </Text>de cubrimiento para
+        <Text style={{fontWeight: 'bold'}}>promedio </Text>de cobertura para
         cada lote y pastura. Por otro lado, podrás hacer una comparación entre
         imágenes{' '}
         <Text style={{fontWeight: 'bold'}}>
