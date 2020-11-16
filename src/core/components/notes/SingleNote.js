@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {ReadMoreText} from '../../../shared/components/ReadMoreText';
 import {lightGray, warnThemeColor} from '../../../configuration/colors';
 import {Icon} from 'native-base';
@@ -13,6 +13,7 @@ function SingleNote({
   alertService,
   refresh,
 }) {
+  console.log(nota);
   function deleteNote() {
     alertService
       .showConfirmDialog('¡Atención! Se eliminará esta nota. ')
@@ -26,7 +27,9 @@ function SingleNote({
   return (
     <View style={[styles.container, index % 2 ? styles.odd : styles.even]}>
       <View style={styles.textContainer}>
-        <ReadMoreText text={index + 1 + ') ' + nota} />
+        <ReadMoreText>
+          <Text>{index + 1 + ') ' + nota}</Text>
+        </ReadMoreText>
         <TouchableOpacity
           transparent
           style={styles.deleteButton}
