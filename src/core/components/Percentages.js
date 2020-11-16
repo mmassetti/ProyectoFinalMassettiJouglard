@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     padding: 25,
     elevation: 3,
     paddingTop: 0,
-    paddingBottom: 5,
     marginBottom: 10,
+    paddingBottom: 30,
   },
   circlesContainer: {
     flex: 1,
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   },
   cover: {
     fontSize: 28,
+    paddingBottom: 15,
     color: 'white',
     fontWeight: 'bold',
   },
