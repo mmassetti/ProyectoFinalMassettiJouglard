@@ -9,7 +9,9 @@ const dataArray = [
     title: '¿Cúal es la página web para ver la info de la app?',
     content: (
       <HyperLink linkDefault={true} linkStyle={{color: 'blue'}}>
-        <Text>La web es: https://cgsweb.vercel.app</Text>
+        <Text>
+          La web para realizar pruebas es: https://cgsweb-test.vercel.app
+        </Text>
       </HyperLink>
     ),
   },
