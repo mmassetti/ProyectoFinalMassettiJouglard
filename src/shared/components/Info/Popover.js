@@ -13,7 +13,7 @@ export function PopoverInfo({isVisible, item, hide}) {
           height: Dimensions.get('window').height * 0.9,
           alignItems: 'center',
         }}>
-        <Text style={styles.percentagesTitle}>Promedio de Cubrimiento</Text>
+        <Text style={styles.percentagesTitle}>Promedio de Cobertura</Text>
         <View
           style={{
             borderRadius: 6,
