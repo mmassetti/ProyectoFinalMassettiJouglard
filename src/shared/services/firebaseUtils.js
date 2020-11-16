@@ -1,6 +1,7 @@
 //@ts-check
 import firestore from '@react-native-firebase/firestore';
 import {SpinnerService} from './spinnerService';
+import {uuidv4} from './uuidService';
 
 export class FirebaseUtils {
   withSpinner = SpinnerService.getInstance().callAsyncFunctionWithSpinner;
@@ -72,7 +73,7 @@ export class FirebaseUtils {
   uploadPhoto = async ({docRef, beforeId, prevImages = []}, imageToAdd) => {
     let newImages;
     if (!beforeId) {
-      newImages = prevImages.concat([{before: imageToAdd}]);
+      return this.addObjToArray(docRef, 'images', {before: imageToAdd});
     } else {
       newImages = prevImages.map(image => {
         return image.before.id == beforeId
@@ -134,5 +135,74 @@ export class FirebaseUtils {
         return transaction.update(docRef, {images: newImages});
       });
     });
+  }
+
+  setDummyReference(ref, objToAdd) {
+    const originalGet = ref.get.bind(ref);
+    const originalUpdate = ref.update.bind(ref);
+    const originalDelete = ref.delete.bind(ref);
+    const id = uuidv4();
+    // firestore()
+    //   .collection('toErase')
+    //   .doc(ref.id)
+    //   .set(objToAdd);
+    let oldDummy = firestore()
+      .collection('toErase')
+      .doc(ref.id);
+    // ref.get = () => {
+    //   console.log('GET');
+    //   return originalGet().catch(() => {
+    //     console.log('CATCH');
+    //     return oldDummy.get();
+    //   });
+    // };
+    // ref.update = obj => {
+    //   console.log('UPDATE');
+    //   oldDummy.update(obj);
+    //   return originalUpdate(obj);
+    // };
+    // ref.delete = () => {
+    //   console.log('DELETE');
+    //   oldDummy.delete();
+    //   return originalDelete();
+    // };
+
+    return oldDummy
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          firestore()
+            .collection('toErase')
+            .doc(ref.id)
+            .set(objToAdd);
+          oldDummy = firestore()
+            .collection('toErase')
+            .doc(ref.id);
+        }
+      })
+      .catch(() => {
+        firestore()
+          .collection('toErase')
+          .doc(ref.id)
+          .set(objToAdd);
+        oldDummy = firestore()
+          .collection('toErase')
+          .doc(ref.id);
+      })
+      .finally(() => {
+        ref.get = () => {
+          return originalGet().catch(() => {
+            return oldDummy.get({source: 'cache'});
+          });
+        };
+        ref.update = obj => {
+          oldDummy.update(obj);
+          return originalUpdate(obj);
+        };
+        ref.delete = () => {
+          oldDummy.delete();
+          return originalDelete();
+        };
+      });
   }
 }

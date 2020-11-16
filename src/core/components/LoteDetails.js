@@ -36,6 +36,34 @@ function LoteDetails({
   const toggleRefresh = () => setRefresh(prev => !prev);
   const [, removeLoteFromStorage, , addLoteToStorage] = useRecentLotes();
 
+  const retrieveDetails = async () => {
+    let data;
+    try {
+      data = (await item.ref.get()).data();
+    } catch {
+      console.log('Error');
+    } finally {
+      setLote({docRef: item.ref, data});
+    }
+  };
+
+  useEffect(() => {
+    const defaultAverage = {totalGreen: 0, totalYellow: 0, totalNaked: 0};
+    firebase
+      .setDummyReference(item.ref, {
+        pasturas: [],
+        images: [],
+        averageBefore: defaultAverage,
+        averageAfter: defaultAverage,
+        totalImageBefore: 0,
+        totalImageAfter: 0,
+      })
+      .then(() => {
+        setPastura({});
+        retrieveDetails();
+      });
+  }, []);
+
   useEffect(() => {
     setImages(lote.data?.images || []);
     setPasturas(lote.data?.pasturas || []);
@@ -66,10 +94,7 @@ function LoteDetails({
   useFocusEffect(
     React.useCallback(() => {
       setPastura({});
-      item.ref.get().then(data => {
-        const info = data.data();
-        setLote({docRef: item.ref, data: info});
-      });
+      retrieveDetails();
       return () => {};
     }, [item.id, refresh]),
   );
@@ -90,6 +115,7 @@ function LoteDetails({
   };
 
   const routeWithImage = picker => async () => {
+    console.log('Lote', lote);
     const imageResponse = await imageHandler.pickImage({
       docRef: lote.docRef,
       prevImages: images,
@@ -158,7 +184,7 @@ function LoteDetails({
                 refresh={toggleRefresh}
                 defaultObj={{}}
                 nextScreen="PasturasDetails"
-                docRef={lote.docRef}
+                docRef={item.ref}
                 esPastura
               />
             </>

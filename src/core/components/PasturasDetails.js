@@ -31,6 +31,29 @@ function InnerPasturasDetails({
     setRefresh(prev => !prev);
   };
 
+  const retrieveDetails = () => {
+    item.ref.get().then(doc => {
+      const data = doc.data();
+      setImages(data.images);
+      setPastura({docRef: item.ref, data});
+    });
+  };
+
+  useEffect(() => {
+    const defaultAverage = {totalGreen: 0, totalYellow: 0, totalNaked: 0};
+    firebaseService
+      .setDummyReference(item.ref, {
+        images: [],
+        averageBefore: defaultAverage,
+        averageAfter: defaultAverage,
+        totalImageBefore: 0,
+        totalImageAfter: 0,
+      })
+      .then(() => {
+        retrieveDetails();
+      });
+  }, []);
+
   useEffect(() => {
     navigation.setOptions({
       title: 'Detalles de la pastura',
@@ -53,11 +76,7 @@ function InnerPasturasDetails({
 
   useFocusEffect(
     useCallback(() => {
-      item.ref.get().then(doc => {
-        const data = doc.data();
-        setImages(data.images);
-        setPastura({docRef: item.ref, data});
-      });
+      retrieveDetails();
       return () => {};
     }, [item.id, refresh]),
   );

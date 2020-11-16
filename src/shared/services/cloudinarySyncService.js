@@ -17,17 +17,34 @@ export async function removeSyncPhoto(id) {
   return AsyncStorage.setItem('cloudinaryPics', JSON.stringify(filteredPics));
 }
 
+export async function removeSetOfPics(picsToRemove) {
+  const pics = (await getPhotosToSync()) || [];
+  const filteredPics = pics.filter(
+    pic => picsToRemove.indexOf(pic.imageId) < 0,
+  );
+  return AsyncStorage.setItem('cloudinaryPics', JSON.stringify(filteredPics));
+}
+
 export async function getPhotosToSync() {
   return JSON.parse(await AsyncStorage.getItem('cloudinaryPics'));
 }
 
 export async function syncPhotosWithCloudinary() {
   const photos = (await getPhotosToSync()) || [];
+  const photosToRemove = [];
+  let pro;
   for (pic of photos) {
-    cloudinaryService.uploadPhotoWithoutSpinner(pic.uri).then(secure_url => {
-      console.log('SecureURL', secure_url);
-      firebaseService.updatePhotoPic(pic, secure_url);
-      removeSyncPhoto(pic.imageId);
-    });
+    let picId = pic.imageId;
+    pro = cloudinaryService
+      .uploadPhotoWithoutSpinner(pic.uri)
+      .then(secure_url => {
+        console.log('SecureURL', secure_url);
+        firebaseService.updatePhotoPic(pic, secure_url);
+        return picId;
+      });
+    photosToRemove.push(pro);
   }
+  Promise.all(photosToRemove).then(pics => {
+    removeSetOfPics(pics);
+  });
 }

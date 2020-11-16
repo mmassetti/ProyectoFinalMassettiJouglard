@@ -16,6 +16,8 @@ import {HeaderBackButton} from '@react-navigation/stack';
 import {setSession, setLote} from '../../../store/actions';
 import {connect} from 'react-redux';
 import Notes from '../notes/Notes';
+import firestore from '@react-native-firebase/firestore';
+import {uuidv4} from '../../../shared/services/uuidService';
 
 function SessionDetails({
   navigation,
@@ -32,24 +34,30 @@ function SessionDetails({
   const [removeLote, removeLotes] = useRecentLotes();
   const toggleRefresh = () => setRefresh(prev => !prev);
 
+  const retrieveDetails = async () => {
+    let data;
+    try {
+      data = (await item.ref.get()).data();
+    } catch (e) {
+      console.log('Error', e);
+    } finally {
+      setSession({docRef: item.ref, data});
+      setLotes(data?.lotes.reverse() || []);
+    }
+  };
+
+  useEffect(() => {
+    firebaseService
+      .setDummyReference(item.ref, {lotes: [], notes: []})
+      .then(() => {
+        setLote({});
+        retrieveDetails();
+      });
+  }, []);
+
   useFocusEffect(
     React.useCallback(() => {
       setLote({});
-      item.ref.onSnapshot(doc => console.log('Snapshot', doc));
-      item.ref.update({description: 'Actualizada'});
-      async function retrieveDetails() {
-        let data;
-        try {
-          const json = await item.ref.get();
-          console.log('json', json);
-          data = json.data();
-        } catch {
-          console.log('Error');
-        } finally {
-          setLotes(data?.lotes.reverse() || []);
-          setSession({docRef: item.ref, data});
-        }
-      }
       retrieveDetails();
       return () => {};
     }, [itemId, refresh]),

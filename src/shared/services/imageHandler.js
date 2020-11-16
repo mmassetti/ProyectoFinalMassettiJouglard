@@ -1,5 +1,6 @@
 //@ts-check
 import {ImagePickerService} from './imagePickerService';
+import firestore from '@react-native-firebase/firestore';
 import {ImageProcessor} from './imageProcessor';
 import {FirebaseService} from './firebaseService';
 import {CloudinaryService} from './cloudinaryService';
@@ -197,7 +198,7 @@ class InnerImageHandler {
         obj.data['average' + type],
         add / (Math.abs(add) || 1),
       ),
-      ['totalImages' + type]: obj.data['totalImages' + type] + add,
+      ['totalImages' + type]: firestore.FieldValue.increment(add),
     };
   }
 
