@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   switchContainer: {
+    paddingTop: 15,
     width: '100%',
     flex: 1,
     justifyContent: 'flex-end',
