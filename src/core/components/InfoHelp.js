@@ -6,12 +6,10 @@ import {Container, Content, Icon, Accordion, Text, View} from 'native-base';
 import HyperLink from 'react-native-hyperlink';
 const dataArray = [
   {
-    title: '¿Cúal es la página web para ver la info de la app?',
+    title: '¿Cúal es la página web para ver la info de la app (en modo test)?',
     content: (
       <HyperLink linkDefault={true} linkStyle={{color: 'blue'}}>
-        <Text>
-          La web para realizar pruebas es: https://cgsweb-test.vercel.app
-        </Text>
+        <Text>https://cgsweb-test.vercel.app</Text>
       </HyperLink>
     ),
   },
