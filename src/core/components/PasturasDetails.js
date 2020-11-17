@@ -65,6 +65,7 @@ function InnerPasturasDetails({
                 '¡Atención! Se eliminará esta pastura y toda la información asociada a ella. ',
               )
               .then(() => {
+                imageHandler.deletePasturaPercentageFromLote(item);
                 firebaseService.deletePastura(item);
                 navigation.goBack();
               });
