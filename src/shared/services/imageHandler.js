@@ -114,11 +114,16 @@ class InnerImageHandler {
     return Promise.all([]);
   }
 
-  recalculateNewPercentages(percentages, type, add = 1) {
+  recalculateNewPercentages(
+    percentages,
+    type,
+    add = 1,
+    isDeletePastura = false,
+  ) {
     const {session, lote, pastura} = store.getState();
 
     let batch;
-    if (pastura.data) {
+    if (pastura.data && !isDeletePastura) {
       const updatedPastura = this.generateSpecificAverage(
         pastura,
         type,
@@ -267,11 +272,13 @@ class InnerImageHandler {
       this.buildObj(pasturaItem.averageBefore),
       'Before',
       -pasturaItem.totalImagesBefore,
+      true,
     ).commit();
     const removeAfter = this.recalculateNewPercentages(
       this.buildObj(pasturaItem.averageAfter),
       'After',
       -pasturaItem.totalImagesAfter,
+      true,
     ).commit();
     return Promise.all([removeBefore, removeAfter]);
   }
